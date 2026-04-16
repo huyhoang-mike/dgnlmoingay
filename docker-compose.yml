@@ -1,0 +1,92 @@
+# ============================================
+# ĐGNL Mỗi Ngày - Docker Compose
+# Production-ready for Hetzner VPS + Cloudflare
+# Domain: dgnlmoingay.edu.vn
+# ============================================
+
+services:
+  # ── PostgreSQL Database ──────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: dgnl_db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # ports:
+    #   - "5432:5432"        # ⚠️ Chỉ bật khi dev local cần truy cập DB trực tiếp
+    networks:
+      - dgnl_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── FastAPI Backend ──────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dgnl_backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+    # ports:
+    #   - "8000:8000"        # ⚠️ Chỉ bật khi dev local cần bypass Nginx
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - dgnl_network
+    # volumes:
+    #   - ./backend/app:/app/app  # ⚠️ Chỉ bật khi dev local cần hot-reload
+
+  # ── React Frontend ──────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+        VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID}
+    container_name: dgnl_frontend
+    restart: unless-stopped
+    networks:
+      - dgnl_network
+    depends_on:
+      - backend
+
+  # ── Nginx Reverse Proxy ─────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: dgnl_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - dgnl_network
+
+# ── Shared Network ─────────────────────────────
+networks:
+  dgnl_network:
+    driver: bridge
+
+# ── Persistent Volumes ─────────────────────────
+volumes:
+  postgres_data:

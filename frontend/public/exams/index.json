@@ -1,0 +1,20 @@
+[
+    {
+      "id": "vactdot1-2026",
+      "title": "VACT Đợt 1 — 2026",
+      "description": "Đề thi chính thức V-ACT Đợt 1 năm 2026 — ĐHQG TP.HCM",
+      "file": "/exams/vactdot1-2026.json",
+      "totalQuestions": 120,
+      "timeMinutes": 150,
+      "maxScore": 1200,
+      "pointsPerQuestion": 10,
+      "isFree": true,
+      "tags": ["V-ACT", "2026", "Đợt 1", "Chính thức"],
+      "sections": {
+        "Tiếng Việt": { "count": 25, "label": "Sử dụng Ngôn ngữ" },
+        "Tiếng Anh": { "count": 25, "label": "Sử dụng Ngôn ngữ" },
+        "Toán": { "count": 30, "label": "Toán học" },
+        "Tư duy khoa học": { "count": 40, "label": "Tư duy Khoa học" }
+      }
+    }
+]
