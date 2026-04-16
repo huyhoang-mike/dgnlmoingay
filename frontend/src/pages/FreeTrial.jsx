@@ -123,7 +123,7 @@ export default function FreeTrial() {
         {/* CTA */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-gray-100 dark:border-slate-700 text-center">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-            Muốn truy cập đầy đủ?
+            Truy cập đầy đủ tất cả tài liệu, bài giảng và học mọi lúc mọi nơi?
           </h3>
           <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
             Đăng ký khóa học để truy cập tất cả bài giảng, tài liệu, và video bài giải chi tiết.

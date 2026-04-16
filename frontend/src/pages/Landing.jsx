@@ -38,7 +38,7 @@ const SUBJECTS = [
 const BENEFITS = [
   { icon: HiOutlineChatAlt2, title: 'Hỗ trợ trực tiếp', desc: 'Giải đáp câu hỏi và vấn đề liên quan đến ĐGNL' },
   { icon: HiOutlineUserGroup, title: 'Tổng ôn qua Google Meet', desc: 'Ôn kiến thức và kỹ năng làm bài trực tiếp' },
-  { icon: HiOutlineDocumentText, title: 'Kho tài liệu đa dạng', desc: 'Đề thi chính thức ĐHQG-HCM qua nhiều năm' },
+  { icon: HiOutlineDocumentText, title: 'Kho tài liệu đa dạng', desc: 'Tài liệu chuyên đề và nâng cao được tích lũy qua nhiều năm' },
   { icon: HiOutlineLightningBolt, title: 'Tư vấn học tập', desc: 'Hỗ trợ về học tập, du học, chọn ngành' },
   { icon: HiOutlineClipboardCheck, title: 'Đề thi thử hàng tuần', desc: 'Kiểm tra kết quả và theo dõi tiến độ' },
   { icon: HiOutlineGlobe, title: 'Cộng đồng ôn thi', desc: 'Kết nối với các bạn học sinh cùng mục tiêu' },
@@ -68,7 +68,7 @@ export default function Landing() {
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm text-white/90 mb-6">
               <HiOutlineStar className="h-4 w-4 text-yellow-300" />
-              Khóa học ĐGNL 2026 — Đợt 2 đang mở đăng ký
+              Khóa học Đánh Giá Năng Lực V-ACT 2026 - Đợt 2 đang mở đăng ký
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
@@ -120,7 +120,7 @@ export default function Landing() {
               Cấu trúc khóa học
             </h2>
             <p className="mt-3 text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-              Khóa học gồm 2 giai đoạn được thiết kế để đưa bạn từ nền tảng đến thực chiến.
+              Khóa học gồm 2 giai đoạn được thiết kế để giúp học sinh ôn tập từ nền tảng đến thực chiến luyện đề.
             </p>
           </div>
 
@@ -132,7 +132,7 @@ export default function Landing() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Nền tảng</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Trang bị kiến thức nền tảng, dạng bài thường gặp, và thủ thuật giải nhanh qua 10 môn học.
+                Trang bị kiến thức nền tảng, những dạng bài thường gặp, và phương pháp giải nhanh cho từng môn học.
               </p>
               <div className="grid grid-cols-2 gap-2">
                 {SUBJECTS.map((s) => (
@@ -158,10 +158,10 @@ export default function Landing() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Luyện đề</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Luyện đề với kho đề lớn, quản lý thời gian, kiểm tra lỗ hổng kiến thức. Mỗi đề có video bài giải chi tiết.
+                Luyện tập với kho 100+ đề thi thử chuẩn cấu trúc, quản lý thời gian, kiểm tra lỗ hổng kiến thức. Mỗi đề sẽ đi kèm hướng dẫn giải dễ hiểu và video giải thích chi tiết.
               </p>
               <ul className="space-y-2">
-                {['Đề thi V-ACT 2025 — Cấu trúc mới', 'Đề chính thức ĐHQG-HCM các năm', '8 đề theo cấu trúc mới 2025', 'Ebook luyện đề bổ trợ'].map((item) => (
+                {['Đề chính thức và minh học ĐHQG-HCM các năm', '100+ đề theo cấu trúc mới 2026', 'Ebook luyện đề bổ trợ'].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
                     <HiOutlineCheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
                     {item}
@@ -208,7 +208,7 @@ export default function Landing() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              Lịch ôn tập Đợt 2 — 2026
+              Lịch ôn tập Đợt 2 - 2026
             </h2>
           </div>
 
@@ -241,15 +241,15 @@ export default function Landing() {
             <div className="prose prose-gray dark:prose-invert max-w-none">
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 Hiện tại anh đang theo học chuyên ngành <strong>Applied Artificial Intelligence</strong> tại Đức.
-                Anh đã có hơn <strong>5 năm kinh nghiệm</strong> giảng dạy ĐGNL cho các thế hệ học sinh.
+                Anh đã có hơn <strong>6 năm kinh nghiệm</strong> giảng dạy Đánh Giá Năng Lực HCM cho các thế hệ học sinh.
               </p>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 Sau khi có được kết quả tốt trong kỳ thi ĐGNL năm 2021 và đậu vào <strong>Đại học Bách Khoa TP.HCM</strong>,
                 anh đã bắt đầu dạy một nhóm nhỏ học sinh và các bạn đã gặt hái được kết quả khá tốt.
               </p>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                Với mong muốn phát triển một chương trình ôn luyện ĐGNL toàn diện và hiệu quả hơn,
-                anh đã lập ra website này nhằm giúp các bạn học sinh thế hệ sau.
+                Sau đó anh đã lên ý tưởng phát triển một nền tảng ôn luyện ĐGNL toàn diện. Với website này, học viên có thể 
+                xem bài giảng, tải tài liệu, luyện đề và xem hướng dẫn chi tiết tại một nơi duy nhất.
               </p>
             </div>
           </div>
@@ -260,10 +260,10 @@ export default function Landing() {
       <section className="py-20 bg-gray-50 dark:bg-slate-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Bắt đầu hành trình ĐGNL ngay hôm nay
+            Ôn tập và đạt 900+ ĐGNL ngay hôm nay!
           </h2>
           <p className="text-lg text-gray-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">
-            Đầu tư cho tương lai với khóa học toàn diện được thiết kế bởi người đã từng vượt qua kỳ thi.
+            Tham gia ngay một trong những Khóa học qua website toàn diện nhất tại Hồ Chí Minh.
           </p>
 
           <div className="inline-flex flex-col items-center bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-slate-700">
@@ -272,7 +272,7 @@ export default function Landing() {
               599,000 <span className="text-lg font-normal text-gray-500 dark:text-gray-400">VNĐ</span>
             </p>
             <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-1 mb-6">
-              ⭐ Ưu đãi Đợt 2 — đến hết tháng 4/2026
+              ⭐ Ưu đãi Đợt 2 - đến hết tháng 4/2026
             </p>
             <Link
               to="/dang-ky"

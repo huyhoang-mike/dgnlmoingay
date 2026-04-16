@@ -58,7 +58,7 @@ export default function Practice() {
             Khóa học Luyện đề 2026
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Luyện đề để quản lý thời gian và kiểm tra lỗ hổng kiến thức. Mỗi đề có bài giải chi tiết.
+            Luyện tập với kho 100+ đề thi thử chuẩn cấu trúc, quản lý thời gian, kiểm tra lỗ hổng kiến thức. Mỗi đề sẽ đi kèm hướng dẫn giải dễ hiểu và video giải thích chi tiết.
           </p>
         </div>
       </div>

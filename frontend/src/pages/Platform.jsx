@@ -56,7 +56,7 @@ export default function Platform() {
             Khóa học Nền tảng 2026
           </h1>
           <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Mỗi môn học gồm bài giảng video và tài liệu đi kèm. Đọc tài liệu trước, sau đó xem bài giảng để tiếp thu hiệu quả hơn.
+            Mỗi môn học gồm bài giảng video và tài liệu đi kèm. Các bạn nên đọc tài liệu trước, sau đó xem bài giảng để tiếp thu hiệu quả hơn.
           </p>
         </div>
       </div>

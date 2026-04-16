@@ -21,7 +21,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs">
-              Hệ thống ôn tập Đánh giá Năng lực toàn diện. Học mỗi ngày, tiến bộ mỗi ngày.
+              Ôn tập Đánh Giá Năng Lực V-ACT toàn diện chuẩn cấu trúc đề mới.
             </p>
           </div>
 
