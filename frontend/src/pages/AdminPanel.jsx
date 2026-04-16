@@ -25,12 +25,14 @@ import {
   HiOutlineDocumentText,
   HiOutlineEyeOff,
   HiOutlineStar,
+  HiOutlinePlus,
+  HiOutlineUpload,
 } from 'react-icons/hi';
 import { useAuth } from '../contexts/AuthContext';
 import {
   listUsers, enrollUser, unenrollUser, toggleAdmin,
   getExamSettings, updateExamSetting,
-  getLessons, updateLesson,
+  getLessons, updateLesson, createLesson, importLessons,
 } from '../api/client';
 
 // ── Tab definition ───────────────────────────
@@ -74,6 +76,15 @@ export default function AdminPanel() {
   const [lessonCategory, setLessonCategory] = useState('all');
   const [lessonSearch, setLessonSearch] = useState('');
   const [lessonActionLoading, setLessonActionLoading] = useState(null);
+
+  // ── Add Lesson state ─────────────────────
+  const [showAddLesson, setShowAddLesson] = useState(false); // 'form' | 'csv' | false
+  const [addLessonLoading, setAddLessonLoading] = useState(false);
+  const [newLesson, setNewLesson] = useState({
+    title: '', description: '', order: 0, category: 'nentang', subject: '',
+    video_drive_id: '', pdf_drive_id: '', is_published: false, is_free: false,
+  });
+  const [csvMode, setCsvMode] = useState('skip');
 
   // ── Redirect non-admins ──────────────────
   useEffect(() => {
@@ -219,6 +230,50 @@ export default function AdminPanel() {
       showToast(err?.response?.data?.detail || 'Lỗi cập nhật', 'error');
     } finally {
       setLessonActionLoading(null);
+    }
+  };
+
+  const handleCreateLesson = async (e) => {
+    e.preventDefault();
+    if (!newLesson.title.trim()) {
+      showToast('Tiêu đề bài giảng là bắt buộc', 'error');
+      return;
+    }
+    try {
+      setAddLessonLoading(true);
+      const payload = {
+        ...newLesson,
+        subject: newLesson.subject || null,
+        description: newLesson.description || null,
+        video_drive_id: newLesson.video_drive_id || null,
+        pdf_drive_id: newLesson.pdf_drive_id || null,
+      };
+      await createLesson(payload);
+      showToast('✅ Đã tạo bài giảng mới');
+      setNewLesson({ title: '', description: '', order: 0, category: 'nentang', subject: '', video_drive_id: '', pdf_drive_id: '', is_published: false, is_free: false });
+      setShowAddLesson(false);
+      fetchLessons();
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi tạo bài giảng', 'error');
+    } finally {
+      setAddLessonLoading(false);
+    }
+  };
+
+  const handleImportCSV = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setAddLessonLoading(true);
+      const res = await importLessons(file, csvMode);
+      showToast(`✅ ${res.data.message}`);
+      setShowAddLesson(false);
+      fetchLessons();
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi import file', 'error');
+    } finally {
+      setAddLessonLoading(false);
+      e.target.value = '';
     }
   };
 
@@ -623,13 +678,136 @@ export default function AdminPanel() {
               </div>
             </div>
 
+            {/* Add Lesson Buttons */}
+            <div className="flex gap-3 mb-6">
+              <button onClick={() => setShowAddLesson(showAddLesson === 'form' ? false : 'form')}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${showAddLesson === 'form' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700'}`}>
+                <HiOutlinePlus className="h-4 w-4" /> Thêm bài giảng
+              </button>
+              <button onClick={() => setShowAddLesson(showAddLesson === 'csv' ? false : 'csv')}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${showAddLesson === 'csv' ? 'bg-primary-600 text-white' : 'bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700'}`}>
+                <HiOutlineUpload className="h-4 w-4" /> Import CSV/XLSX
+              </button>
+            </div>
+
+            {/* Add Lesson Form */}
+            {showAddLesson === 'form' && (
+              <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 p-6 mb-6">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4">📝 Thêm bài giảng mới</h3>
+                <form onSubmit={handleCreateLesson} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Tiêu đề *</label>
+                      <input type="text" value={newLesson.title} onChange={(e) => setNewLesson({ ...newLesson, title: e.target.value })} required
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Tên bài giảng" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Mô tả</label>
+                      <input type="text" value={newLesson.description} onChange={(e) => setNewLesson({ ...newLesson, description: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Mô tả ngắn" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Phân loại</label>
+                      <select value={newLesson.category} onChange={(e) => setNewLesson({ ...newLesson, category: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                        <option value="nentang">Nền tảng</option>
+                        <option value="luyende">Luyện đề</option>
+                        <option value="thucchien">Thực chiến</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Môn học</label>
+                      <input type="text" value={newLesson.subject} onChange={(e) => setNewLesson({ ...newLesson, subject: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="vd: toan, ly, hoa, tieng_viet" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Video Drive ID</label>
+                      <input type="text" value={newLesson.video_drive_id} onChange={(e) => setNewLesson({ ...newLesson, video_drive_id: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Google Drive file ID hoặc URL" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">PDF Drive ID</label>
+                      <input type="text" value={newLesson.pdf_drive_id} onChange={(e) => setNewLesson({ ...newLesson, pdf_drive_id: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Google Drive file ID hoặc URL" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Thứ tự</label>
+                      <input type="number" value={newLesson.order} onChange={(e) => setNewLesson({ ...newLesson, order: parseInt(e.target.value) || 0 })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
+                    </div>
+                    <div className="flex items-end gap-6">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={newLesson.is_published} onChange={(e) => setNewLesson({ ...newLesson, is_published: e.target.checked })}
+                          className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Xuất bản</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={newLesson.is_free} onChange={(e) => setNewLesson({ ...newLesson, is_free: e.target.checked })}
+                          className="w-4 h-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Miễn phí</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 pt-2">
+                    <button type="submit" disabled={addLessonLoading}
+                      className="px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors disabled:opacity-50">
+                      {addLessonLoading ? 'Đang tạo...' : 'Tạo bài giảng'}
+                    </button>
+                    <button type="button" onClick={() => setShowAddLesson(false)}
+                      className="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                      Hủy
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* CSV Import Panel */}
+            {showAddLesson === 'csv' && (
+              <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 p-6 mb-6">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2">📁 Import bài giảng từ CSV/XLSX</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                  File cần có các cột: <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">title</code> (bắt buộc),{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">description</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">order</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">category</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">subject</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">video_drive_id</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">pdf_drive_id</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">is_published</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">is_free</code>
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 items-start">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Chế độ import</label>
+                    <select value={csvMode} onChange={(e) => setCsvMode(e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                      <option value="skip">Bỏ qua trùng</option>
+                      <option value="overwrite">Ghi đè trùng</option>
+                      <option value="append">Luôn tạo mới</option>
+                    </select>
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Chọn file</label>
+                    <input type="file" accept=".csv,.xlsx" onChange={handleImportCSV} disabled={addLessonLoading}
+                      className="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50 dark:file:bg-primary-900/20 file:text-primary-700 dark:file:text-primary-400 hover:file:bg-primary-100 dark:hover:file:bg-primary-900/30 file:cursor-pointer disabled:opacity-50" />
+                  </div>
+                  {addLessonLoading && <div className="flex items-end pb-1"><div className="w-5 h-5 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin" /></div>}
+                </div>
+                <button type="button" onClick={() => setShowAddLesson(false)}
+                  className="mt-4 px-4 py-2 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                  Đóng
+                </button>
+              </div>
+            )}
+
             {lessonsLoading ? (
               <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-primary-200 dark:border-primary-900 border-t-primary-600 rounded-full animate-spin" /></div>
             ) : filteredLessons.length === 0 ? (
               <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700">
                 <HiOutlineBookOpen className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-500 dark:text-gray-400 mb-2">{lessonSearch ? 'Không tìm thấy bài giảng' : 'Chưa có bài giảng nào'}</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500">Tạo bài giảng qua API: POST /api/lessons/</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">Nhấn "Thêm bài giảng" hoặc "Import CSV/XLSX" ở trên để bắt đầu</p>
               </div>
             ) : (
               <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">

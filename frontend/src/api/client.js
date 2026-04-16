@@ -45,6 +45,13 @@ export const getLesson = (id) => client.get(`/lessons/${id}`);
 export const createLesson = (data) => client.post('/lessons/', data);
 export const updateLesson = (id, data) => client.put(`/lessons/${id}`, data);
 export const deleteLesson = (id) => client.delete(`/lessons/${id}`);
+export const importLessons = (file, mode = 'skip') => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return client.post(`/lessons/import?mode=${mode}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
 
 // ── User Progress ────────────────────────────
 export const getUserProgress = (userId) => client.get(`/progress/user/${userId}`);
