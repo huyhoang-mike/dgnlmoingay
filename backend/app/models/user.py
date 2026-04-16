@@ -23,6 +23,14 @@ class User(Base):
         String(255), unique=True, nullable=False
     )
 
+    # Student info
+    enrollment_year: Mapped[int | None] = mapped_column(
+        Integer, nullable=True
+    )  # Năm nhập học (vd: 2026)
+    course_type: Mapped[str | None] = mapped_column(
+        String(50), nullable=True
+    )  # Loại khóa học: "tu_luyen" | "co_ban" | "nang_cao"
+
     # Access control
     is_enrolled: Mapped[bool] = mapped_column(Boolean, default=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)

@@ -15,6 +15,8 @@ class UserOut(BaseModel):
     email: str
     name: str
     picture: str | None = None
+    enrollment_year: int | None = None
+    course_type: str | None = None
     is_enrolled: bool = False
     is_admin: bool = False
     created_at: datetime

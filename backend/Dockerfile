@@ -21,6 +21,7 @@ COPY . .
 
 EXPOSE 8000
 
-# Production: dùng multiple workers (công thức: 2 * CPU_cores + 1)
-# Development: đổi thành --reload nếu cần hot-reload
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+# Run migrations then start server
+# alembic upgrade head: áp dụng tất cả migration chưa chạy
+# uvicorn: khởi động FastAPI với multiple workers
+CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4"]

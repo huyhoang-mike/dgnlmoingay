@@ -7,168 +7,226 @@
 ```
 PostgreSQL 16 (Docker container: dgnl_db)
   └── Database: dgnl_db
-        ├── Table: users
-        ├── Table: lessons
-        ├── Table: progress
-        └── Table: exam_settings
+        ├── Table: users           ← Học sinh + Admin
+        ├── Table: lessons         ← Bài học (nền tảng / luyện đề / thực chiến)
+        ├── Table: user_progress   ← Tiến độ học của từng học sinh
+        └── Table: exam_settings   ← Cấu hình đề thi
 ```
 
-Hiện tại, khi Docker khởi động, FastAPI tự động tạo tất cả các bảng từ SQLAlchemy models thông qua đoạn code trong `main.py`:
+### Schema bảng `users`
 
-```python
-# backend/app/main.py
-async with engine.begin() as conn:
-    await conn.run_sync(Base.metadata.create_all)
-```
-
-`create_all` chỉ **tạo bảng nếu chưa tồn tại**. Nó **không bao giờ sửa hay xóa** bảng/cột đã có. Điều này có cả ưu và nhược điểm quan trọng cần hiểu.
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| `id` | Integer (PK) | ID tự tăng |
+| `email` | String (unique) | Email Google |
+| `name` | String | Tên hiển thị |
+| `picture` | String (nullable) | URL ảnh đại diện |
+| `google_id` | String (unique) | Google sub ID |
+| `enrollment_year` | Integer (nullable) | Năm nhập học (vd: 2026) |
+| `course_type` | String (nullable) | Loại khóa: `tu_luyen`, `co_ban`, `nang_cao` |
+| `is_enrolled` | Boolean | Đã cấp quyền truy cập |
+| `is_admin` | Boolean | Quyền quản trị |
+| `created_at` | DateTime | Ngày tạo tài khoản |
+| `last_login` | DateTime | Lần đăng nhập gần nhất |
 
 ---
 
-## 2. Bạn có nên dùng Alembic (Database Migration) không?
+## 2. Alembic — Database Migration
 
-**Ngắn gọn: Có, trong tương lai gần.**
+Alembic quản lý mọi thay đổi schema database một cách an toàn. Khi backend Docker container khởi động, nó **tự động chạy `alembic upgrade head`** trước khi khởi động FastAPI.
 
-Dưới đây là so sánh để bạn quyết định thời điểm phù hợp:
+### Cấu trúc file Alembic
 
-### Không dùng Alembic (Hiện tại)
+```
+backend/
+├── alembic.ini                          ← File cấu hình
+└── alembic/
+    ├── env.py                           ← Kết nối DB + load models
+    ├── script.py.mako                   ← Template cho migration file
+    └── versions/
+        └── 001_initial_schema.py        ← Migration đầu tiên
+```
 
-**✅ Ưu điểm:**
-- Đơn giản, không cần cấu hình thêm.
-- Phù hợp giai đoạn đầu khi schema còn thay đổi nhiều.
-- Dữ liệu sẽ không bị mất vì `create_all` không đụng vào bảng đã có.
-
-**❌ Nhược điểm:**
-- **Không thể thêm/sửa/xóa cột tự động.** Nếu bạn thêm cột `thumbnail_url` vào model `Lesson`, bảng trong database sẽ không có cột đó → Backend sẽ báo lỗi.
-- Mọi thay đổi schema phải làm **thủ công** bằng câu lệnh SQL.
-- Không có lịch sử thay đổi schema.
-
-### Dùng Alembic (Khuyến nghị khi sắp có học sinh thật)
-
-**✅ Ưu điểm:**
-- Thêm/sửa/xóa cột tự động và an toàn.
-- Có thể rollback (quay lại phiên bản schema cũ).
-- Lịch sử thay đổi schema được lưu dưới dạng code (trong `git`).
-
-**❌ Nhược điểm:**
-- Cần thêm bước `alembic upgrade head` trong quy trình deploy.
-- Cần học thêm cú pháp Alembic.
-
-### Kết luận
-
-| Giai đoạn | Khuyến nghị |
-|-----------|-------------|
-| Đang phát triển, chưa có dữ liệu thật | `create_all` (hiện tại) — Xóa DB và tạo lại khi cần |
-| **Chuẩn bị ra mắt / đã có học sinh đăng ký** | **Chuyển sang Alembic** |
-
----
-
-## 3. Xử lý thay đổi Schema khi KHÔNG dùng Alembic
-
-Đây là cách thực tế nhất cho giai đoạn hiện tại.
-
-### Trường hợp A: Thêm cột mới vào bảng
-
-Bạn thêm `thumbnail_url` vào `models/lesson.py`. Để database cập nhật:
+### Quy trình thay đổi schema
 
 ```bash
-# SSH vào VPS
+# 1. Sửa model Python (vd: thêm cột phone vào user.py)
+#    phone: Mapped[str | None] = mapped_column(String(20), nullable=True)
+
+# 2. Tạo migration file mới (chạy trên máy local hoặc VPS)
+cd backend
+DATABASE_URL="postgresql+asyncpg://dgnl_user:password@localhost:5432/dgnl_db" \
+  alembic revision --autogenerate -m "add_phone_to_users"
+
+# 3. Kiểm tra file migration vừa tạo trong alembic/versions/
+#    Đọc kỹ upgrade() và downgrade() để đảm bảo đúng ý
+
+# 4. Commit + push → VPS tự chạy migration khi docker compose up --build
+git add .
+git commit -m "feat: add phone field to users"
+git push
+```
+
+> **Lưu ý:** Trên VPS, migration được chạy tự động trong Dockerfile:
+> ```dockerfile
+> CMD ["sh", "-c", "alembic upgrade head && uvicorn ..."]
+> ```
+
+### Viết migration thủ công (không cần autogenerate)
+
+```bash
+cd backend
+alembic revision -m "add_phone_to_users"
+```
+
+Mở file vừa tạo trong `alembic/versions/` và viết:
+
+```python
+def upgrade() -> None:
+    op.add_column("users", sa.Column("phone", sa.String(20), nullable=True))
+
+def downgrade() -> None:
+    op.drop_column("users", "phone")
+```
+
+### Lệnh Alembic hữu ích
+
+```bash
+# Xem migration hiện tại
+alembic current
+
+# Xem lịch sử migration
+alembic history
+
+# Áp dụng tất cả migration
+alembic upgrade head
+
+# Rollback 1 migration
+alembic downgrade -1
+
+# Rollback về trạng thái ban đầu (xóa tất cả bảng!)
+alembic downgrade base
+```
+
+---
+
+## 3. Quản lý Database trên VPS
+
+### Truy cập PostgreSQL shell
+
+```bash
 ssh mike@<VPS_IP>
 cd ~/dgnlmoingay
 
-# Chạy lệnh SQL trực tiếp vào PostgreSQL trong Docker
-docker compose exec db psql -U dgnl_user -d dgnl_db -c \
-  "ALTER TABLE lessons ADD COLUMN thumbnail_url VARCHAR(500);"
-```
-
-Sau đó deploy code mới bình thường (backend sẽ tự dùng cột mới).
-
-### Trường hợp B: Đổi tên hoặc xóa cột
-
-```bash
-# Đổi tên cột
-docker compose exec db psql -U dgnl_user -d dgnl_db -c \
-  "ALTER TABLE lessons RENAME COLUMN pdf_drive_id TO pdf_id;"
-
-# Xóa cột (cẩn thận! Không thể hoàn tác)
-docker compose exec db psql -U dgnl_user -d dgnl_db -c \
-  "ALTER TABLE lessons DROP COLUMN old_column_name;"
-```
-
-### Trường hợp C: Xóa toàn bộ và tạo lại (chỉ khi chưa có dữ liệu)
-
-```bash
-# ⚠️ Cẩn thận: xóa toàn bộ dữ liệu!
-docker compose down
-docker volume rm dgnlmoingay_postgres_data
-docker compose up --build -d
-# FastAPI sẽ tự tạo lại tất cả các bảng theo model mới
-```
-
----
-
-## 4. Các lệnh PostgreSQL thường dùng
-
-### Truy cập PostgreSQL shell (psql)
-
-```bash
-# Trên VPS
+# Mở psql shell
 docker compose exec db psql -U dgnl_user -d dgnl_db
-
-# Trên máy local (nếu đã mở port 5432)
-psql -h localhost -U dgnl_user -d dgnl_db
 ```
 
-### Các lệnh trong psql shell
+### Lệnh psql thường dùng
 
 ```sql
 -- Xem danh sách bảng
 \dt
 
 -- Xem cấu trúc một bảng
-\d lessons
 \d users
+\d lessons
 
 -- Thoát psql
 \q
 ```
 
-### Các lệnh SQL thường dùng
+### SQL thường dùng
 
 ```sql
--- Xem tất cả bài học
-SELECT id, title, category, subject, is_published, is_free FROM lessons ORDER BY id;
+-- Xem tất cả học sinh
+SELECT id, email, name, enrollment_year, course_type, is_enrolled, is_admin
+FROM users ORDER BY created_at DESC;
 
--- Xem tất cả users
-SELECT id, email, is_admin, is_enrolled, created_at FROM users ORDER BY created_at DESC;
+-- Xem tất cả bài học
+SELECT id, title, category, subject, is_published, is_free
+FROM lessons ORDER BY category, subject, "order";
 
 -- Cấp quyền admin cho một user
-UPDATE users SET is_admin = true, is_enrolled = true WHERE email = 'your@email.com';
+UPDATE users SET is_admin = true, is_enrolled = true
+WHERE email = 'your@email.com';
 
--- Thu hồi quyền enrolled
-UPDATE users SET is_enrolled = false WHERE email = 'student@email.com';
+-- Cấp quyền enrolled + thông tin khóa học
+UPDATE users SET is_enrolled = true, enrollment_year = 2026, course_type = 'nang_cao'
+WHERE email = 'student@email.com';
+
+-- Đếm học sinh theo năm nhập học
+SELECT enrollment_year, COUNT(*) as total
+FROM users WHERE is_enrolled = true
+GROUP BY enrollment_year ORDER BY enrollment_year;
+
+-- Đếm học sinh theo loại khóa học
+SELECT course_type, COUNT(*) as total
+FROM users WHERE is_enrolled = true
+GROUP BY course_type;
 
 -- Đếm số bài học theo category
 SELECT category, COUNT(*) as total FROM lessons GROUP BY category;
-
--- Xóa một bài học theo ID
-DELETE FROM lessons WHERE id = 5;
-
--- Xóa toàn bộ bài học (giữ lại bảng)
-TRUNCATE TABLE lessons RESTART IDENTITY;
 ```
 
 ---
 
-## 5. Backup & Restore Database
+## 4. Xóa Database cũ và bắt đầu mới (Fresh Start)
+
+### Cách 1: Xóa toàn bộ volume (nhanh nhất, xóa sạch hoàn toàn)
+
+```bash
+ssh mike@<VPS_IP>
+cd ~/dgnlmoingay
+
+# Dừng tất cả containers
+docker compose down
+
+# Xóa volume chứa PostgreSQL data
+docker volume rm dgnlmoingay_postgres_data
+
+# Khởi động lại — Alembic sẽ tự tạo lại tất cả bảng
+docker compose up --build -d
+
+# Kiểm tra log backend
+docker compose logs backend --tail 20
+# Phải thấy: "Running upgrade  -> 001_initial, initial schema with all tables"
+```
+
+### Cách 2: Xóa dữ liệu nhưng giữ bảng
+
+```bash
+docker compose exec db psql -U dgnl_user -d dgnl_db -c "
+  TRUNCATE TABLE user_progress RESTART IDENTITY CASCADE;
+  TRUNCATE TABLE exam_settings RESTART IDENTITY CASCADE;
+  TRUNCATE TABLE lessons RESTART IDENTITY CASCADE;
+  TRUNCATE TABLE users RESTART IDENTITY CASCADE;
+"
+```
+
+### Cách 3: Chỉ xóa dữ liệu test, giữ admin
+
+```bash
+# Xóa tất cả user KHÔNG phải admin
+docker compose exec db psql -U dgnl_user -d dgnl_db -c "
+  DELETE FROM user_progress WHERE user_id IN (SELECT id FROM users WHERE is_admin = false);
+  DELETE FROM users WHERE is_admin = false;
+"
+```
+
+---
+
+## 5. Backup & Restore
 
 ### Backup (nên làm trước mỗi lần deploy lớn)
 
 ```bash
+cd ~/dgnlmoingay
+
 # Tạo file backup
 docker compose exec db pg_dump -U dgnl_user dgnl_db > backup_$(date +%Y%m%d_%H%M%S).sql
 
-# Nén lại để tiết kiệm dung lượng
+# Nén lại
 docker compose exec db pg_dump -U dgnl_user dgnl_db | gzip > backup_$(date +%Y%m%d).sql.gz
 ```
 
@@ -182,81 +240,22 @@ docker compose exec -T db psql -U dgnl_user -d dgnl_db < backup_20260416.sql
 gunzip -c backup_20260416.sql.gz | docker compose exec -T db psql -U dgnl_user -d dgnl_db
 ```
 
----
-
-## 6. Thiết lập Alembic (khi sẵn sàng)
-
-Alembic đã có trong `requirements.txt`. Khi bạn quyết định dùng, làm theo các bước sau:
-
-### Bước 1: Khởi tạo Alembic (chỉ làm một lần)
+### Backup tự động (cron job)
 
 ```bash
-# Trên máy local, trong thư mục backend/
-cd backend
-alembic init alembic
-```
+# Tạo thư mục backup
+mkdir -p ~/backups
 
-Lệnh này tạo ra:
-```
-backend/
-  alembic/
-    env.py          ← Cần chỉnh sửa
-    versions/       ← Các file migration sẽ nằm ở đây
-  alembic.ini       ← File cấu hình
-```
+# Mở crontab
+crontab -e
 
-### Bước 2: Cấu hình `alembic/env.py`
-
-```python
-# Thêm vào đầu file env.py
-import asyncio
-from app.database import Base
-from app.models import lesson, user, progress, exam_setting  # import để detect models
-from app.config import settings
-
-# Cập nhật dòng target_metadata
-target_metadata = Base.metadata
-
-# Cập nhật dòng config url
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
-```
-
-### Bước 3: Tạo migration file đầu tiên
-
-```bash
-# Tạo migration từ các model hiện tại
-alembic revision --autogenerate -m "initial_schema"
-# → Tạo file alembic/versions/xxxx_initial_schema.py
-```
-
-### Bước 4: Chạy migration
-
-```bash
-# Áp dụng tất cả migration chưa chạy
-alembic upgrade head
-
-# Trên VPS (chạy bên trong container backend)
-docker compose exec backend alembic upgrade head
-```
-
-### Quy trình khi thay đổi schema (sau khi dùng Alembic)
-
-```bash
-# 1. Sửa model trong Python (vd: thêm cột thumbnail_url vào lesson.py)
-
-# 2. Tạo file migration mới
-alembic revision --autogenerate -m "add_thumbnail_to_lessons"
-
-# 3. Kiểm tra file migration vừa tạo trong alembic/versions/
-# Đọc kỹ để đảm bảo đúng ý
-
-# 4. Chạy migration trên production
-docker compose exec backend alembic upgrade head
+# Thêm dòng: backup mỗi ngày lúc 3:00 sáng, giữ 30 ngày
+0 3 * * * cd ~/dgnlmoingay && docker compose exec -T db pg_dump -U dgnl_user dgnl_db | gzip > ~/backups/dgnl_$(date +\%Y\%m\%d).sql.gz && find ~/backups -name "dgnl_*.sql.gz" -mtime +30 -delete
 ```
 
 ---
 
-## 7. Giám sát & Kiểm tra sức khỏe Database
+## 6. Giám sát Database
 
 ```bash
 # Xem dung lượng database
@@ -265,13 +264,41 @@ docker compose exec db psql -U dgnl_user -d dgnl_db -c \
 
 # Xem dung lượng từng bảng
 docker compose exec db psql -U dgnl_user -d dgnl_db -c \
-  "SELECT relname AS table, pg_size_pretty(pg_total_relation_size(relid)) AS size
+  "SELECT relname AS table_name, pg_size_pretty(pg_total_relation_size(relid)) AS size
    FROM pg_catalog.pg_statio_user_tables ORDER BY pg_total_relation_size(relid) DESC;"
 
-# Kiểm tra kết nối hiện tại
+# Xem số lượng record từng bảng
 docker compose exec db psql -U dgnl_user -d dgnl_db -c \
-  "SELECT count(*) FROM pg_stat_activity WHERE datname = 'dgnl_db';"
+  "SELECT 'users' AS tbl, COUNT(*) FROM users
+   UNION ALL SELECT 'lessons', COUNT(*) FROM lessons
+   UNION ALL SELECT 'user_progress', COUNT(*) FROM user_progress
+   UNION ALL SELECT 'exam_settings', COUNT(*) FROM exam_settings;"
 
-# Xem Docker volume
-docker volume inspect dgnlmoingay_postgres_data
+# Xem migration hiện tại trên VPS
+docker compose exec backend alembic current
+```
+
+---
+
+## 7. Troubleshooting
+
+### Lỗi: "relation already exists" khi chạy migration lần đầu
+
+Nếu VPS đã có database cũ (tạo bởi `create_all` trước khi dùng Alembic), các bảng đã tồn tại nên migration sẽ báo lỗi. Giải pháp:
+
+```bash
+# Đánh dấu migration đầu tiên là "đã chạy" mà không thực sự chạy SQL
+docker compose exec backend alembic stamp 001_initial
+
+# Sau đó, các migration tiếp theo sẽ hoạt động bình thường
+```
+
+### Lỗi: Backend không khởi động vì migration fail
+
+```bash
+# Xem log chi tiết
+docker compose logs backend --tail 50
+
+# Nếu cần, chạy migration thủ công
+docker compose exec backend alembic upgrade head
 ```

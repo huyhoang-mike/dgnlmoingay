@@ -7,18 +7,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.database import engine, Base
 from app.routers import auth, lessons, progress, exams, import_lessons
 
 # ── Production: tắt Swagger docs ─────────────
 _is_production = os.getenv("ENVIRONMENT", "development") == "production"
 
 
-# ── Lifespan: create tables on startup ────────
+# ── Lifespan ──────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # Alembic handles migrations now (alembic upgrade head)
+    # No more Base.metadata.create_all
     yield
 
 
