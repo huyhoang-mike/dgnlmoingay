@@ -5,6 +5,7 @@ Import lessons from CSV/XLSX files for initial content setup.
 
 import csv
 import io
+import re
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
@@ -57,6 +58,48 @@ def _clean_str(value) -> Optional[str]:
     return s if s else None
 
 
+# Regex patterns for Google Drive URLs
+_DRIVE_PATTERNS = [
+    # https://drive.google.com/file/d/FILE_ID/view
+    re.compile(r"drive\.google\.com/file/d/([a-zA-Z0-9_-]+)"),
+    # https://drive.google.com/open?id=FILE_ID
+    re.compile(r"drive\.google\.com/open\?id=([a-zA-Z0-9_-]+)"),
+    # https://docs.google.com/document/d/FILE_ID/edit
+    re.compile(r"docs\.google\.com/\w+/d/([a-zA-Z0-9_-]+)"),
+    # https://drive.google.com/uc?id=FILE_ID&export=download
+    re.compile(r"drive\.google\.com/uc\?id=([a-zA-Z0-9_-]+)"),
+]
+
+
+def _extract_drive_id(value: Optional[str]) -> Optional[str]:
+    """
+    Extract Google Drive file ID from a URL or return as-is if already an ID.
+
+    Accepts:
+    - Full URL: https://drive.google.com/file/d/1aBcDeFg/view
+    - Short URL: https://drive.google.com/open?id=1aBcDeFg
+    - Plain ID:  1aBcDeFg
+    - Empty/None → None
+    """
+    if not value:
+        return None
+    value = value.strip()
+    if not value:
+        return None
+
+    # If it looks like a URL, try to extract the ID
+    if "google.com" in value:
+        for pattern in _DRIVE_PATTERNS:
+            match = pattern.search(value)
+            if match:
+                return match.group(1)
+        # URL but no match — return as-is (user might know what they're doing)
+        return value
+
+    # Already a plain ID
+    return value
+
+
 def _parse_rows(rows: list[dict]) -> list[dict]:
     """Parse raw CSV/XLSX rows into lesson data dicts."""
     lessons = []
@@ -74,8 +117,8 @@ def _parse_rows(rows: list[dict]) -> list[dict]:
             "order": _parse_int(row.get("order"), default=i),
             "category": _clean_str(row.get("category")) or "nentang",
             "subject": _clean_str(row.get("subject")),
-            "video_drive_id": _clean_str(row.get("video_drive_id")),
-            "pdf_drive_id": _clean_str(row.get("pdf_drive_id")),
+            "video_drive_id": _extract_drive_id(row.get("video_drive_id")),
+            "pdf_drive_id": _extract_drive_id(row.get("pdf_drive_id")),
             "content": _clean_str(row.get("content")),
             "is_published": _parse_bool(row.get("is_published", "")),
             "is_free": _parse_bool(row.get("is_free", "")),

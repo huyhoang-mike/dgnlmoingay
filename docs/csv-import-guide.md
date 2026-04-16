@@ -15,8 +15,8 @@ Tài liệu này mô tả cách tạo file CSV để nhập hàng loạt bài h�
 | `order` | Không | Số nguyên | Thứ tự hiển thị trong danh sách (mặc định: số thứ tự hàng trong file). |
 | `category` | Không | Enum | Danh mục: `nentang`, `luyende`, hoặc `thucchien` (mặc định: `nentang`). |
 | `subject` | Không | Text | Môn học (vd: `toan`, `tieng_viet`, `vat_ly`, `hoa_hoc`, `sinh_hoc`). |
-| `video_drive_id` | Không | Text | ID file video trên Google Drive. Để trống nếu không có video. |
-| `pdf_drive_id` | Không | Text | ID file PDF trên Google Drive. Để trống nếu không có tài liệu. |
+| `video_drive_id` | Không | Text | Google Drive video link hoặc ID. Để trống nếu không có video. |
+| `pdf_drive_id` | Không | Text | Google Drive PDF link hoặc ID. Để trống nếu không có tài liệu. |
 | `content` | Không | Text | Nội dung bài học (HTML hoặc Markdown). Có thể để trống. |
 | `is_published` | Không | Boolean | `true` để hiển thị, `false` để ẩn (mặc định: `false`). |
 | `is_free` | Không | Boolean | `true` nếu học sinh chưa đăng ký vẫn xem được (mặc định: `false`). |
@@ -30,14 +30,19 @@ Hệ thống chấp nhận các giá trị sau (không phân biệt hoa thườn
 | TRUE | `true`, `1`, `yes`, `có`, `x` |
 | FALSE | `false`, `0`, `no`, `không`, *(để trống)* |
 
-### Lấy Google Drive File ID
+### Google Drive: Paste link hoặc ID đều được
 
-URL file trên Drive thường có dạng:
-```
-https://drive.google.com/file/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/view
-                                  ↑ Đây là Drive File ID
-```
-Copy phần `1aBcDeFgHiJkLmNoPqRsTuVwXyZ` và dán vào cột `video_drive_id` hoặc `pdf_drive_id`.
+Hệ thống **tự động tách ID** từ link Google Drive. Bạn có thể paste bất kỳ định dạng nào sau đây:
+
+| Định dạng | Ví dụ |
+|-----------|-------|
+| **Full link** (khuyến nghị) | `https://drive.google.com/file/d/1aBcDeFgHiJkLmN/view?usp=sharing` |
+| Open link | `https://drive.google.com/open?id=1aBcDeFgHiJkLmN` |
+| Download link | `https://drive.google.com/uc?id=1aBcDeFgHiJkLmN&export=download` |
+| Google Docs link | `https://docs.google.com/document/d/1aBcDeFgHiJkLmN/edit` |
+| **Chỉ ID** | `1aBcDeFgHiJkLmN` |
+
+Tất cả đều được tự động chuyển thành ID `1aBcDeFgHiJkLmN`.
 
 ---
 
@@ -46,12 +51,14 @@ Copy phần `1aBcDeFgHiJkLmNoPqRsTuVwXyZ` và dán vào cột `video_drive_id` h
 ```csv
 title,description,order,category,subject,video_drive_id,pdf_drive_id,is_published,is_free
 Tổng quan về ĐGNL,Giới thiệu cấu trúc bài thi,1,nentang,,,,true,true
-Kỹ năng đọc hiểu cơ bản,Phân tích văn bản ngắn,2,nentang,tieng_viet,1aBcDeFgHiJkLmN,2xYzAbCdEfGhIj,true,false
-Kỹ năng đọc hiểu nâng cao,Văn bản dài và câu hỏi suy luận,3,nentang,tieng_viet,3kLmNoPqRsTuVw,,true,false
+Kỹ năng đọc hiểu cơ bản,Phân tích văn bản ngắn,2,nentang,tieng_viet,https://drive.google.com/file/d/1aBcDeFgHiJkLmN/view,https://drive.google.com/file/d/2xYzAbCdEfGhIj/view,true,false
+Kỹ năng đọc hiểu nâng cao,Văn bản dài và câu hỏi suy luận,3,nentang,tieng_viet,https://drive.google.com/file/d/3kLmNoPqRsTuVw/view,,true,false
 Toán đại số cơ bản,Hàm số và phương trình bậc nhất,1,nentang,toan,4xYzAbCdEfGhIj,5kLmNoPqRsTuVw,true,false
-Luyện đề Tiếng Việt số 1,,1,luyende,tieng_viet,6aBcDeFgHiJkLm,,true,false
+Luyện đề Tiếng Việt số 1,,1,luyende,tieng_viet,https://drive.google.com/file/d/6aBcDeFgHiJkLm/view,,true,false
 Luyện đề Toán số 1,,1,luyende,toan,,,false,false
 ```
+
+> **Lưu ý:** Cột `video_drive_id` và `pdf_drive_id` chấp nhận cả link đầy đủ lẫn ID thuần. Hệ thống tự động tách ID.
 
 ---
 
