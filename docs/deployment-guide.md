@@ -1,6 +1,6 @@
 # 🚀 Hướng dẫn Triển khai — ĐGNL Mỗi Ngày
 
-> **Domain:** `dgnlmoingay.edu.vn`
+> **Domain:** `dgnlmoingay.com`
 > **VPS:** Hetzner Cloud (Falkenstein/Nuremberg, Đức)
 > **CDN/SSL:** Cloudflare (tăng tốc cho học sinh Việt Nam)
 > **Stack:** Docker Compose — PostgreSQL + FastAPI + React + Nginx
@@ -25,7 +25,7 @@ Học sinh (Việt Nam)
 Cloudflare CDN (PoP tại Việt Nam — cache + SSL + DDoS protection)
         │
         ▼ (HTTPS → HTTP, header CF-Connecting-IP)
-Hetzner VPS (Đức — dgnlmoingay.edu.vn)
+Hetzner VPS (Đức — dgnlmoingay.com)
         │
         ▼
 ┌─── Docker Compose ──────────────────────────────┐
@@ -131,7 +131,7 @@ DATABASE_URL=postgresql+asyncpg://dgnl_user:a1b2c3d4e5f6789012345678abcdef90@db:
 
 # ── Security ─────────────────────────────────
 SECRET_KEY=e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8
-ALLOWED_ORIGINS=https://dgnlmoingay.edu.vn,https://www.dgnlmoingay.edu.vn
+ALLOWED_ORIGINS=https://dgnlmoingay.com,https://www.dgnlmoingay.com
 
 # ── Google OAuth ─────────────────────────────
 GOOGLE_CLIENT_ID=your-real-client-id.apps.googleusercontent.com
@@ -180,7 +180,7 @@ Sau khi tạo `.env` trên VPS, **lưu lại mật khẩu** ở nơi an toàn:
 
 ### Ứng dụng (Application)
 
-- [ ] **CORS** — `ALLOWED_ORIGINS` chỉ chứa `https://dgnlmoingay.edu.vn`
+- [ ] **CORS** — `ALLOWED_ORIGINS` chỉ chứa `https://dgnlmoingay.com`
 - [ ] **JWT Secret** — Random ≥ 64 chars ✅
 - [ ] **Rate Limiting** — Nginx đã cấu hình 10 req/s cho API ✅
 - [ ] **Security Headers** — Nginx đã thêm ✅

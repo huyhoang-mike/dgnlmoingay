@@ -1,7 +1,7 @@
 # ☁️ Thiết lập Cloudflare CDN + SSL — ĐGNL Mỗi Ngày
 
 > Hướng dẫn cấu hình **Cloudflare** để tăng tốc website cho học sinh Việt Nam khi VPS đặt tại Hetzner (Đức).
-> Domain: `dgnlmoingay.edu.vn`
+> Domain: `dgnlmoingay.com`
 
 ---
 
@@ -70,7 +70,7 @@ Có Cloudflare:
 ### Bước 3.1: Add site
 
 1. Trong Cloudflare Dashboard, click **"Add a site"** (hoặc **"+ Add site"**)
-2. Nhập: `dgnlmoingay.edu.vn`
+2. Nhập: `dgnlmoingay.com`
 3. Click **"Add site"**
 4. Chọn **Free plan** → **Continue**
 
@@ -115,7 +115,7 @@ leah.ns.cloudflare.com
 
 - Thường mất **5 phút — 24 giờ**
 - Cloudflare sẽ gửi email khi nameserver đã active
-- Có thể kiểm tra: `nslookup -type=NS dgnlmoingay.edu.vn`
+- Có thể kiểm tra: `nslookup -type=NS dgnlmoingay.com`
 
 > 💡 Trong thời gian đợi, tiếp tục cấu hình các bước tiếp theo.
 
@@ -246,7 +246,7 @@ Vào **Rules** → **Page Rules**:
 **Rule 1: Không cache API**
 
 ```
-URL: dgnlmoingay.edu.vn/api/*
+URL: dgnlmoingay.com/api/*
 Setting: Cache Level = Bypass
 ```
 
@@ -295,7 +295,7 @@ Nếu website bị DDoS/spam:
 
 ```bash
 # Từ máy local
-nslookup dgnlmoingay.edu.vn
+nslookup dgnlmoingay.com
 
 # Kết quả nên là IP Cloudflare (104.21.x.x hoặc 172.67.x.x)
 # KHÔNG phải IP VPS trực tiếp
@@ -303,7 +303,7 @@ nslookup dgnlmoingay.edu.vn
 
 ### Bước 9.2: Kiểm tra HTTPS
 
-Truy cập `https://dgnlmoingay.edu.vn` trên browser:
+Truy cập `https://dgnlmoingay.com` trên browser:
 
 - ✅ 🔒 trên thanh URL
 - ✅ Certificate issued by: Cloudflare (hoặc Google Trust Services)
@@ -313,22 +313,22 @@ Truy cập `https://dgnlmoingay.edu.vn` trên browser:
 
 ```bash
 # HTTP tự redirect sang HTTPS
-curl -I http://dgnlmoingay.edu.vn
+curl -I http://dgnlmoingay.com
 # HTTP/1.1 301 Moved Permanently
-# Location: https://dgnlmoingay.edu.vn/
+# Location: https://dgnlmoingay.com/
 ```
 
 ### Bước 9.4: Kiểm tra API
 
 ```bash
-curl https://dgnlmoingay.edu.vn/api/health
+curl https://dgnlmoingay.com/api/health
 # {"status":"healthy","app":"ĐGNL Mỗi Ngày"}
 ```
 
 ### Bước 9.5: Kiểm tra tốc độ
 
 1. Truy cập [https://tools.pingdom.com/](https://tools.pingdom.com/)
-2. Nhập `https://dgnlmoingay.edu.vn`
+2. Nhập `https://dgnlmoingay.com`
 3. Chọn location: **Asia - Tokyo** (gần VN nhất)
 4. Kết quả nên < 2 giây load time
 
@@ -380,11 +380,11 @@ Trong Cloudflare Dashboard → **Analytics**:
 **A:** Cần cập nhật Google Cloud Console:
 1. Vào **APIs & Services** → **Credentials**
 2. Thêm vào **Authorized JavaScript origins**:
-   - `https://dgnlmoingay.edu.vn`
-   - `https://www.dgnlmoingay.edu.vn`
+   - `https://dgnlmoingay.com`
+   - `https://www.dgnlmoingay.com`
 3. Thêm vào **Authorized redirect URIs**:
-   - `https://dgnlmoingay.edu.vn`
-   - `https://www.dgnlmoingay.edu.vn`
+   - `https://dgnlmoingay.com`
+   - `https://www.dgnlmoingay.com`
 
 ### Q: Tôi muốn truy cập VPS trực tiếp (bypass Cloudflare)?
 
@@ -394,7 +394,7 @@ Trong Cloudflare Dashboard → **Analytics**:
 
 **A:** Kiểm tra:
 ```bash
-curl -I https://dgnlmoingay.edu.vn
+curl -I https://dgnlmoingay.com
 # Tìm header: cf-ray: xxxxx-HAN (Hà Nội) hoặc xxxxx-SGN (HCM)
 ```
 

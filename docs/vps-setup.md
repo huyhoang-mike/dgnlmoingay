@@ -1,7 +1,7 @@
 # 📋 Hướng dẫn Cài đặt VPS Hetzner — ĐGNL Mỗi Ngày
 
 > Hướng dẫn chi tiết từng bước để triển khai ứng dụng trên **Hetzner Cloud VPS**.
-> Domain: `dgnlmoingay.edu.vn` | CDN/SSL: Cloudflare
+> Domain: `dgnlmoingay.com` | CDN/SSL: Cloudflare
 
 ---
 
@@ -250,7 +250,7 @@ DATABASE_URL=postgresql+asyncpg://dgnl_user:<paste-DB_PASS-ở-trên>@db:5432/dg
 
 # ── Security ─────────────────────────────────
 SECRET_KEY=<paste-SECRET-ở-trên>
-ALLOWED_ORIGINS=https://dgnlmoingay.edu.vn,https://www.dgnlmoingay.edu.vn
+ALLOWED_ORIGINS=https://dgnlmoingay.com,https://www.dgnlmoingay.com
 
 # ── Google OAuth ─────────────────────────────
 GOOGLE_CLIENT_ID=your-real-client-id.apps.googleusercontent.com
@@ -306,7 +306,7 @@ docker compose logs -f nginx --tail 50
 ### Bước 5.5: Thiết lập Cloudflare
 
 > Tiếp tục theo hướng dẫn tại [cloudflare-setup.md](cloudflare-setup.md) để:
-> - Trỏ domain `dgnlmoingay.edu.vn` về IP VPS
+> - Trỏ domain `dgnlmoingay.com` về IP VPS
 > - Bật SSL/HTTPS tự động
 > - Bật CDN cache cho học sinh Việt Nam
 
@@ -318,7 +318,7 @@ Sau khi deploy và Cloudflare hoạt động:
 
 ### Bước 6.1: Đăng nhập Google trên website
 
-1. Truy cập `https://dgnlmoingay.edu.vn`
+1. Truy cập `https://dgnlmoingay.com`
 2. Click **"Đăng nhập bằng Google"**
 3. Đăng nhập bằng tài khoản Google của admin
 4. Tài khoản được tạo tự động trong database
@@ -346,7 +346,7 @@ SELECT email, is_admin, is_enrolled FROM users;
 
 1. Refresh trang web
 2. Click avatar → phải thấy menu **"Quản lý học viên"**
-3. Truy cập `https://dgnlmoingay.edu.vn/admin` → Admin Panel
+3. Truy cập `https://dgnlmoingay.com/admin` → Admin Panel
 
 ---
 
@@ -417,7 +417,7 @@ docker compose up --build -d
 
 # Kiểm tra
 docker compose ps
-curl https://dgnlmoingay.edu.vn/api/health
+curl https://dgnlmoingay.com/api/health
 ```
 
 ### Cập nhật chỉ backend
@@ -447,7 +447,7 @@ docker compose restart nginx
 docker compose ps
 
 # Health check API
-curl -s https://dgnlmoingay.edu.vn/api/health | python3 -m json.tool
+curl -s https://dgnlmoingay.com/api/health | python3 -m json.tool
 
 # RAM & CPU
 docker stats --no-stream

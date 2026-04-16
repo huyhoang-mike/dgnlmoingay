@@ -1,7 +1,7 @@
 # ============================================
 # ĐGNL Mỗi Ngày - Docker Compose
 # Production-ready for Hetzner VPS + Cloudflare
-# Domain: dgnlmoingay.edu.vn
+# Domain: dgnlmoingay.com
 # ============================================
 
 services:

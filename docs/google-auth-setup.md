@@ -87,15 +87,15 @@ Frontend lưu JWT → Gửi kèm mọi request
      ```
      http://localhost
      http://localhost:3000
-     https://dgnlmoingay.edu.vn
-     https://www.dgnlmoingay.edu.vn
+     https://dgnlmoingay.com
+     https://www.dgnlmoingay.com
      ```
    - **Authorized redirect URIs**:
      ```
      http://localhost
      http://localhost:3000
-     https://dgnlmoingay.edu.vn
-     https://www.dgnlmoingay.edu.vn
+     https://dgnlmoingay.com
+     https://www.dgnlmoingay.com
      ```
    - Click **Create**
 
@@ -127,7 +127,7 @@ POSTGRES_PASSWORD=dgnl_secret_password_change_me
 POSTGRES_DB=dgnl_db
 
 SECRET_KEY=your-super-secret-key-change-me
-ALLOWED_ORIGINS=http://localhost,http://localhost:3000,https://dgnlmoingay.edu.vn
+ALLOWED_ORIGINS=http://localhost,http://localhost:3000,https://dgnlmoingay.com
 VITE_API_URL=/api
 ```
 
@@ -165,7 +165,7 @@ VITE_API_URL=http://localhost:8000/api
 
 ### Giao diện quản lý học viên (Admin Panel)
 
-Truy cập tại: `https://dgnlmoingay.edu.vn/admin` (hoặc `http://localhost:80/admin` khi dev local — yêu cầu đăng nhập admin)
+Truy cập tại: `https://dgnlmoingay.com/admin` (hoặc `http://localhost:80/admin` khi dev local — yêu cầu đăng nhập admin)
 
 **Cách mở:** Click vào ảnh đại diện (góc phải trên) → chọn **"Quản lý học viên"**
 
@@ -437,8 +437,8 @@ share_folder_with_email('YOUR_FOLDER_ID', 'student@gmail.com')
 ### Q: Làm sao deploy lên production?
 **A:** Cập nhật trong Google Cloud Console:
 1. Thêm production domain vào Authorized JavaScript origins:
-   - `https://dgnlmoingay.edu.vn`
-   - `https://www.dgnlmoingay.edu.vn`
+   - `https://dgnlmoingay.com`
+   - `https://www.dgnlmoingay.com`
 2. Thêm production domain vào Authorized redirect URIs (tương tự)
 3. Submit OAuth consent screen cho Google review
 4. Cập nhật `.env` trên server với production values

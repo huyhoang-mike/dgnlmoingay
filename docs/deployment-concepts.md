@@ -64,12 +64,12 @@
 
 ### Tên miền là gì?
 
-Tên thân thiện thay cho địa chỉ IP: `dgnlmoingay.edu.vn` thay vì `65.109.xxx.xxx`.
+Tên thân thiện thay cho địa chỉ IP: `dgnlmoingay.com` thay vì `65.109.xxx.xxx`.
 
 ### Cấu trúc tên miền
 
 ```
-dgnlmoingay.edu.vn
+dgnlmoingay.com
 │           │   │
 │           │   └── ccTLD: .vn (Việt Nam)
 │           └── SLD: .edu (giáo dục)
@@ -80,12 +80,12 @@ dgnlmoingay.edu.vn
 
 | Loại | Ví dụ | Ghi chú |
 |------|-------|---------|
-| `.com` | google.com | Phổ biến nhất, quốc tế |
+| `.com` | dgnlmoingay.com | Phổ biến nhất, quốc tế |
 | `.vn` | example.vn | Việt Nam, cần CCCD |
-| `.edu.vn` | dgnlmoingay.edu.vn | Giáo dục Việt Nam, uy tín cao |
+| `.edu.vn` | example.edu.vn | Giáo dục VN, cần doanh nghiệp |
 | `.io` | example.io | Phổ biến cho tech |
 
-> Domain `.edu.vn` rất phù hợp cho dự án giáo dục — tăng uy tín với phụ huynh và học sinh.
+> Domain `.com` phổ biến nhất, đăng ký dễ dàng, phù hợp cho mọi loại dự án.
 
 ---
 
@@ -93,15 +93,15 @@ dgnlmoingay.edu.vn
 
 ### DNS là gì?
 
-**DNS (Domain Name System)** — "Danh bạ điện thoại" của internet. Khi bạn gõ `dgnlmoingay.edu.vn`, DNS dịch thành IP `65.109.xxx.xxx` để browser biết kết nối tới đâu.
+**DNS (Domain Name System)** — "Danh bạ điện thoại" của internet. Khi bạn gõ `dgnlmoingay.com`, DNS dịch thành IP `65.109.xxx.xxx` để browser biết kết nối tới đâu.
 
 ### Cách hoạt động (đơn giản)
 
 ```
-Browser gõ: dgnlmoingay.edu.vn
+Browser gõ: dgnlmoingay.com
         │
         ▼
-DNS Server: "dgnlmoingay.edu.vn = 65.109.xxx.xxx"
+DNS Server: "dgnlmoingay.com = 65.109.xxx.xxx"
         │
         ▼
 Browser kết nối tới 65.109.xxx.xxx
@@ -114,10 +114,10 @@ VPS trả về trang web
 
 | Loại | Mục đích | Ví dụ trong dự án |
 |------|----------|-------------------|
-| **A Record** | Trỏ domain → IPv4 | `dgnlmoingay.edu.vn → 65.109.xxx.xxx` |
-| **AAAA Record** | Trỏ domain → IPv6 | `dgnlmoingay.edu.vn → 2a01:4f8::1` |
-| **CNAME** | Alias (bí danh) | `www.dgnlmoingay.edu.vn → dgnlmoingay.edu.vn` |
-| **MX** | Mail server | Nếu cần email @dgnlmoingay.edu.vn |
+| **A Record** | Trỏ domain → IPv4 | `dgnlmoingay.com → 65.109.xxx.xxx` |
+| **AAAA Record** | Trỏ domain → IPv6 | `dgnlmoingay.com → 2a01:4f8::1` |
+| **CNAME** | Alias (bí danh) | `www.dgnlmoingay.com → dgnlmoingay.com` |
+| **MX** | Mail server | Nếu cần email @dgnlmoingay.com |
 | **TXT** | Xác minh ownership | Google Search Console verification |
 | **NS** | Nameserver | Trỏ về Cloudflare khi dùng CDN |
 
@@ -128,9 +128,9 @@ Sau khi thay đổi DNS record, cần đợi **5 phút — 48 giờ** để thay
 Kiểm tra DNS đã cập nhật chưa:
 ```bash
 # Trên terminal
-nslookup dgnlmoingay.edu.vn
+nslookup dgnlmoingay.com
 # Hoặc
-dig dgnlmoingay.edu.vn
+dig dgnlmoingay.com
 ```
 
 ---
@@ -366,11 +366,11 @@ Có CDN (Cloudflare):
 
 ```
 Trước khi dùng Cloudflare:
-  DNS: dgnlmoingay.edu.vn → 65.109.xxx.xxx (IP thật của VPS)
+  DNS: dgnlmoingay.com → 65.109.xxx.xxx (IP thật của VPS)
   Browser → VPS trực tiếp
 
 Sau khi dùng Cloudflare:
-  DNS: dgnlmoingay.edu.vn → 104.21.xxx.xxx (IP của Cloudflare)
+  DNS: dgnlmoingay.com → 104.21.xxx.xxx (IP của Cloudflare)
   Browser → Cloudflare → VPS
   Cloudflare đứng giữa, xử lý cache/SSL/bảo mật
 ```
@@ -388,6 +388,6 @@ Cloudflare có **Points of Presence (PoP)** tại:
 - **Hà Nội** (HAN)
 - **TP. Hồ Chí Minh** (SGN)
 
-→ Học sinh truy cập `dgnlmoingay.edu.vn` sẽ kết nối tới PoP gần nhất (~10-30ms) thay vì trực tiếp Hetzner Đức (~200ms).
+→ Học sinh truy cập `dgnlmoingay.com` sẽ kết nối tới PoP gần nhất (~10-30ms) thay vì trực tiếp Hetzner Đức (~200ms).
 
 > 📖 Hướng dẫn cài đặt chi tiết: [cloudflare-setup.md](cloudflare-setup.md)

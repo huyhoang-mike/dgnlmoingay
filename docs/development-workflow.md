@@ -505,7 +505,7 @@ npm run preview  # Preview bản build
 3. Clone code + tạo .env production
 4. docker compose up --build -d
 5. Thiết lập Cloudflare (DNS + SSL + CDN)
-6. Cập nhật Google OAuth cho domain dgnlmoingay.edu.vn
+6. Cập nhật Google OAuth cho domain dgnlmoingay.com
 7. Tạo admin đầu tiên
 8. Thiết lập backup tự động
 ```
@@ -513,10 +513,10 @@ npm run preview  # Preview bản build
 ### Checklist trước khi deploy production
 
 - [ ] Tạo mật khẩu mạnh cho `POSTGRES_PASSWORD` và `SECRET_KEY`
-- [ ] `ALLOWED_ORIGINS` = `https://dgnlmoingay.edu.vn`
+- [ ] `ALLOWED_ORIGINS` = `https://dgnlmoingay.com`
 - [ ] `ENVIRONMENT` = `production` (tắt Swagger docs)
 - [ ] Cloudflare SSL mode = Full
-- [ ] Google OAuth: thêm `https://dgnlmoingay.edu.vn` vào Authorized Origins
+- [ ] Google OAuth: thêm `https://dgnlmoingay.com` vào Authorized Origins
 - [ ] Firewall: chỉ mở port 22, 80, 443
 - [ ] Test tất cả routes
 - [ ] Backup database plan
