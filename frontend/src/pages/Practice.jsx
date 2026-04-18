@@ -14,17 +14,18 @@ import { useAuth } from '../contexts/AuthContext';
 
 const EXAM_SECTIONS = [
   {
-    group: 'Đề thi mới V-ACT 2025 — ĐHQG TP.HCM',
+    group: 'Đề thi mới V-ACT 2026 - ĐHQG TP.HCM',
     badge: 'CẤU TRÚC MỚI',
     badgeColor: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
     items: [
+      { key: 'vact_mh_2026', name: 'Đề minh họa ĐHQG 2026', hasVideo: true },
       { key: 'vact_ct2_2025', name: 'Đề chính thức Đợt 2 — 2025', hasVideo: true },
       { key: 'vact_ct1_2025', name: 'Đề chính thức Đợt 1 — 2025', hasVideo: true },
       { key: 'vact_mh_2025', name: 'Đề minh họa ĐHQG 2025', hasVideo: true },
     ],
   },
   {
-    group: '8 Đề V-ACT theo cấu trúc mới 2025',
+    group: 'Đề V-ACT Chính thức theo cấu trúc cũ trước 2025',
     badge: 'VIDEO CHI TIẾT',
     badgeColor: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
     items: [
