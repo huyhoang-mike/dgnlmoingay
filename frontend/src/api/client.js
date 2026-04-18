@@ -63,6 +63,9 @@ export const updateProgress = (userId, lessonId, data) =>
 
 // ── Admin ────────────────────────────────────
 export const listUsers = () => client.get('/auth/users');
+export const createUser = (data) => client.post('/auth/users', data);
+export const updateUser = (userId, data) => client.patch(`/auth/users/${userId}`, data);
+export const deleteUser = (userId) => client.delete(`/auth/users/${userId}`);
 export const enrollUser = (userId) => client.put(`/auth/users/${userId}/enroll`);
 export const unenrollUser = (userId) => client.put(`/auth/users/${userId}/unenroll`);
 export const toggleAdmin = (userId) => client.put(`/auth/users/${userId}/toggle-admin`);
@@ -70,5 +73,13 @@ export const toggleAdmin = (userId) => client.put(`/auth/users/${userId}/toggle-
 // ── Exam Settings ────────────────────────────
 export const getExamSettings = () => client.get('/exams/settings');
 export const updateExamSetting = (examId, data) => client.put(`/exams/settings/${examId}`, data);
+
+// ── Exam Attempts (enrolled students) ───────
+export const submitExamAttempt = (data) => client.post('/exams/attempts', data);
+export const listMyExamAttempts = (examId) =>
+  client.get('/exams/attempts/me', { params: examId ? { exam_id: examId } : {} });
+export const getExamAttempt = (attemptId) => client.get(`/exams/attempts/${attemptId}`);
+export const listUserExamAttempts = (userId) =>
+  client.get(`/exams/attempts/user/${userId}`);
 
 export default client;

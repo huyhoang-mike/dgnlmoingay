@@ -19,8 +19,10 @@ class User(Base):
     )
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     picture: Mapped[str | None] = mapped_column(String(500), nullable=True)
-    google_id: Mapped[str] = mapped_column(
-        String(255), unique=True, nullable=False
+    # Nullable so admins can pre-register a student by email before they
+    # actually sign in via Google. Set on first successful Google login.
+    google_id: Mapped[str | None] = mapped_column(
+        String(255), unique=True, nullable=True
     )
 
     # Student info
@@ -41,3 +43,10 @@ class User(Base):
     last_login: Mapped[datetime.datetime] = mapped_column(
         DateTime, default=datetime.datetime.utcnow
     )
+
+    @property
+    def has_logged_in(self) -> bool:
+        """True once the student has actually authenticated via Google
+        (i.e. ``google_id`` has been populated). False for accounts
+        created in advance by an admin via /api/auth/users."""
+        return self.google_id is not None

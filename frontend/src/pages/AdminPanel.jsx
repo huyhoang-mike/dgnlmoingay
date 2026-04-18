@@ -27,13 +27,32 @@ import {
   HiOutlineStar,
   HiOutlinePlus,
   HiOutlineUpload,
+  HiOutlinePencil,
+  HiOutlineTrash,
+  HiOutlineUserAdd,
+  HiOutlineAcademicCap,
 } from 'react-icons/hi';
 import { useAuth } from '../contexts/AuthContext';
 import {
-  listUsers, enrollUser, unenrollUser, toggleAdmin,
+  listUsers, createUser, updateUser, deleteUser,
+  enrollUser, unenrollUser, toggleAdmin,
   getExamSettings, updateExamSetting,
   getLessons, updateLesson, createLesson, importLessons,
+  listUserExamAttempts,
 } from '../api/client';
+
+const COURSE_TYPE_OPTIONS = [
+  { value: '', label: '— Chưa chọn —' },
+  { value: 'tu_luyen', label: 'Tự luyện' },
+  { value: 'co_ban', label: 'Cơ bản' },
+  { value: 'nang_cao', label: 'Nâng cao' },
+];
+
+const COURSE_TYPE_LABEL = {
+  tu_luyen: 'Tự luyện',
+  co_ban: 'Cơ bản',
+  nang_cao: 'Nâng cao',
+};
 
 // ── Tab definition ───────────────────────────
 const TABS = [
@@ -63,6 +82,23 @@ export default function AdminPanel() {
   const [userSearch, setUserSearch] = useState('');
   const [userFilter, setUserFilter] = useState('all');
   const [actionLoading, setActionLoading] = useState(null);
+
+  // Add-student form
+  const [showAddUser, setShowAddUser] = useState(false);
+  const [addUserLoading, setAddUserLoading] = useState(false);
+  const [newUser, setNewUser] = useState({
+    email: '', name: '', enrollment_year: new Date().getFullYear(),
+    course_type: '', is_enrolled: true, is_admin: false,
+  });
+
+  // Edit-student modal
+  const [editingUser, setEditingUser] = useState(null);
+  const [editLoading, setEditLoading] = useState(false);
+
+  // Attempts viewer modal
+  const [attemptsUser, setAttemptsUser] = useState(null);
+  const [attemptsList, setAttemptsList] = useState([]);
+  const [attemptsLoading, setAttemptsLoading] = useState(false);
 
   // ── Exams state ──────────────────────────
   const [exams, setExams] = useState([]);
@@ -159,6 +195,102 @@ export default function AdminPanel() {
       showToast(err?.response?.data?.detail || 'Lỗi', 'error');
     } finally {
       setActionLoading(null);
+    }
+  };
+
+  // ── Pre-register a student by email ──
+  const handleAddUser = async (e) => {
+    e.preventDefault();
+    const email = newUser.email.trim().toLowerCase();
+    if (!email || !email.includes('@')) {
+      showToast('Vui lòng nhập email hợp lệ', 'error');
+      return;
+    }
+    try {
+      setAddUserLoading(true);
+      const payload = {
+        email,
+        name: newUser.name.trim() || null,
+        enrollment_year: newUser.enrollment_year || null,
+        course_type: newUser.course_type || null,
+        is_enrolled: !!newUser.is_enrolled,
+        is_admin: !!newUser.is_admin,
+      };
+      const res = await createUser(payload);
+      // Replace existing or prepend
+      setUsers((prev) => {
+        const idx = prev.findIndex((u) => u.id === res.data.id);
+        if (idx >= 0) {
+          const copy = [...prev]; copy[idx] = res.data; return copy;
+        }
+        return [res.data, ...prev];
+      });
+      showToast(`✅ Đã thêm/cập nhật ${res.data.email}`);
+      setNewUser({
+        email: '', name: '', enrollment_year: new Date().getFullYear(),
+        course_type: '', is_enrolled: true, is_admin: false,
+      });
+      setShowAddUser(false);
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi thêm học viên', 'error');
+    } finally {
+      setAddUserLoading(false);
+    }
+  };
+
+  // ── Edit student (modal) ──
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+    if (!editingUser) return;
+    try {
+      setEditLoading(true);
+      const payload = {
+        name: editingUser.name?.trim() || null,
+        enrollment_year: editingUser.enrollment_year || null,
+        course_type: editingUser.course_type || null,
+        is_enrolled: !!editingUser.is_enrolled,
+      };
+      const res = await updateUser(editingUser.id, payload);
+      setUsers((prev) => prev.map((u) => (u.id === res.data.id ? res.data : u)));
+      showToast('✅ Đã cập nhật học viên');
+      setEditingUser(null);
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi cập nhật', 'error');
+    } finally {
+      setEditLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async (u) => {
+    if (u.id === currentUser?.id) {
+      showToast('Không thể xoá chính mình', 'error');
+      return;
+    }
+    if (!window.confirm(`Xoá tài khoản ${u.email}? Hành động này không thể hoàn tác.`)) return;
+    try {
+      setActionLoading(u.id);
+      await deleteUser(u.id);
+      setUsers((prev) => prev.filter((x) => x.id !== u.id));
+      showToast(`🗑️ Đã xoá ${u.email}`);
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi xoá', 'error');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  // ── View attempts (modal) ──
+  const handleViewAttempts = async (u) => {
+    setAttemptsUser(u);
+    setAttemptsLoading(true);
+    setAttemptsList([]);
+    try {
+      const res = await listUserExamAttempts(u.id);
+      setAttemptsList(res.data);
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi tải lịch sử', 'error');
+    } finally {
+      setAttemptsLoading(false);
     }
   };
 
@@ -287,6 +419,7 @@ export default function AdminPanel() {
       userFilter === 'all' ||
       (userFilter === 'enrolled' && u.is_enrolled) ||
       (userFilter === 'unenrolled' && !u.is_enrolled) ||
+      (userFilter === 'pending' && !u.has_logged_in) ||
       (userFilter === 'admin' && u.is_admin);
     return matchesSearch && matchesFilter;
   });
@@ -405,19 +538,91 @@ export default function AdminPanel() {
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
                 </div>
                 <div className="flex gap-1 bg-gray-100 dark:bg-slate-700 rounded-lg p-1">
-                  {[{ key: 'all', label: 'Tất cả' }, { key: 'enrolled', label: 'Đã ĐK' }, { key: 'unenrolled', label: 'Chưa ĐK' }, { key: 'admin', label: 'Admin' }].map((f) => (
+                  {[{ key: 'all', label: 'Tất cả' }, { key: 'enrolled', label: 'Đã ĐK' }, { key: 'unenrolled', label: 'Chưa ĐK' }, { key: 'pending', label: 'Chờ đăng nhập' }, { key: 'admin', label: 'Admin' }].map((f) => (
                     <button key={f.key} onClick={() => setUserFilter(f.key)}
                       className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${userFilter === f.key ? 'bg-white dark:bg-slate-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}>
                       {f.label}
                     </button>
                   ))}
                 </div>
+                <button onClick={() => setShowAddUser((s) => !s)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${showAddUser ? 'bg-primary-600 text-white' : 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/30'}`}>
+                  <HiOutlineUserAdd className="h-4 w-4" /> Thêm học viên
+                </button>
                 <button onClick={fetchUsers} disabled={usersLoading}
                   className="p-2.5 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors" title="Tải lại">
                   <HiOutlineRefresh className={`h-4 w-4 ${usersLoading ? 'animate-spin' : ''}`} />
                 </button>
               </div>
             </div>
+
+            {/* Add Student Form */}
+            {showAddUser && (
+              <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 p-6 mb-6">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-2">
+                  <HiOutlineUserAdd className="h-4 w-4 text-primary-600" /> Thêm học viên bằng email
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                  Tài khoản sẽ được tạo trước — các thông tin như tên và ảnh đại diện sẽ tự động được cập nhật khi học viên lần đầu đăng nhập bằng Google. Nếu email đã tồn tại, hệ thống sẽ cập nhật bản ghi hiện tại.
+                </p>
+                <form onSubmit={handleAddUser} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Email *</label>
+                      <input type="email" required value={newUser.email}
+                        onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                        placeholder="hocvien@gmail.com"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Họ tên (tùy chọn)</label>
+                      <input type="text" value={newUser.name}
+                        onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                        placeholder="Để trống để lấy tại thời điểm đăng nhập Google"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Năm nhập học</label>
+                      <input type="number" min="2024" max="2030" value={newUser.enrollment_year}
+                        onChange={(e) => setNewUser({ ...newUser, enrollment_year: parseInt(e.target.value) || null })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Loại khóa học</label>
+                      <select value={newUser.course_type}
+                        onChange={(e) => setNewUser({ ...newUser, course_type: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                        {COURSE_TYPE_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-6">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" checked={newUser.is_enrolled}
+                        onChange={(e) => setNewUser({ ...newUser, is_enrolled: e.target.checked })}
+                        className="w-4 h-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Cấp quyền truy cập ngay (đã đăng ký)</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" checked={newUser.is_admin}
+                        onChange={(e) => setNewUser({ ...newUser, is_admin: e.target.checked })}
+                        className="w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">Là quản trị viên</span>
+                    </label>
+                  </div>
+                  <div className="flex gap-3 pt-2">
+                    <button type="submit" disabled={addUserLoading}
+                      className="px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors disabled:opacity-50">
+                      {addUserLoading ? 'Đang lưu...' : 'Tạo tài khoản'}
+                    </button>
+                    <button type="button" onClick={() => setShowAddUser(false)}
+                      className="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                      Hủy
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
 
             {usersError && (
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl mb-6 text-sm">{usersError}</div>
@@ -439,6 +644,7 @@ export default function AdminPanel() {
                       <tr className="border-b border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-700/50">
                         <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Người dùng</th>
                         <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Trạng thái</th>
+                        <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Khóa học</th>
                         <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Đăng nhập gần nhất</th>
                         <th className="text-right px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hành động</th>
                       </tr>
@@ -473,6 +679,17 @@ export default function AdminPanel() {
                               ) : (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 dark:bg-slate-600 text-gray-500 dark:text-gray-400"><HiOutlineX className="h-3 w-3" /> Chưa đăng ký</span>
                               )}
+                              {!u.has_logged_in && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400" title="Học viên chưa đăng nhập Google lần nào"><HiOutlineClock className="h-3 w-3" /> Chờ đăng nhập</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-5 py-4">
+                            <div className="text-xs text-gray-600 dark:text-gray-300">
+                              {u.course_type ? (
+                                <span className="inline-flex items-center gap-1"><HiOutlineAcademicCap className="h-3.5 w-3.5" />{COURSE_TYPE_LABEL[u.course_type] || u.course_type}</span>
+                              ) : <span className="text-gray-300 dark:text-gray-600">—</span>}
+                              {u.enrollment_year && <div className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">Năm {u.enrollment_year}</div>}
                             </div>
                           </td>
                           <td className="px-5 py-4">
@@ -483,6 +700,14 @@ export default function AdminPanel() {
                           </td>
                           <td className="px-5 py-4 text-right">
                             <div className="flex items-center justify-end gap-2">
+                              <button onClick={() => handleViewAttempts(u)}
+                                className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors" title="Lịch sử thi">
+                                <HiOutlineDocumentText className="h-4 w-4" />
+                              </button>
+                              <button onClick={() => setEditingUser({ ...u, course_type: u.course_type || '' })}
+                                className="p-1.5 rounded-lg text-gray-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors" title="Chỉnh sửa">
+                                <HiOutlinePencil className="h-4 w-4" />
+                              </button>
                               {u.is_enrolled ? (
                                 <button onClick={() => handleUnenroll(u.id, u.name)} disabled={actionLoading === u.id}
                                   className="px-3 py-1.5 rounded-lg text-xs font-medium border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50">
@@ -499,6 +724,11 @@ export default function AdminPanel() {
                                 className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors disabled:opacity-50 ${u.is_admin ? 'border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20' : 'border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-700'}`}
                                 title={u.id === currentUser?.id ? 'Không thể thay đổi quyền admin của chính mình' : ''}>
                                 {u.is_admin ? 'Gỡ Admin' : 'Cấp Admin'}
+                              </button>
+                              <button onClick={() => handleDeleteUser(u)}
+                                disabled={actionLoading === u.id || u.id === currentUser?.id}
+                                className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-30" title="Xoá">
+                                <HiOutlineTrash className="h-4 w-4" />
                               </button>
                             </div>
                           </td>
@@ -524,10 +754,14 @@ export default function AdminPanel() {
                           <div className="flex flex-wrap gap-1.5 mt-1.5">
                             {u.is_admin && <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400">Admin</span>}
                             <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ${u.is_enrolled ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-gray-100 dark:bg-slate-600 text-gray-500 dark:text-gray-400'}`}>{u.is_enrolled ? 'Đã ĐK' : 'Chưa ĐK'}</span>
+                            {!u.has_logged_in && <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">Chờ đăng nhập</span>}
+                            {u.course_type && <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">{COURSE_TYPE_LABEL[u.course_type] || u.course_type}</span>}
                           </div>
                         </div>
                       </div>
                       <div className="flex gap-2 ml-13">
+                        <button onClick={() => setEditingUser({ ...u, course_type: u.course_type || '' })}
+                          className="flex-1 px-3 py-2 rounded-lg text-xs font-medium border border-gray-200 dark:border-slate-600 text-gray-600 dark:text-gray-300 text-center">Sửa</button>
                         {u.is_enrolled ? (
                           <button onClick={() => handleUnenroll(u.id, u.name)} disabled={actionLoading === u.id} className="flex-1 px-3 py-2 rounded-lg text-xs font-medium border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-center disabled:opacity-50">Thu hồi</button>
                         ) : (
@@ -902,6 +1136,145 @@ export default function AdminPanel() {
           </>
         )}
       </div>
+
+      {/* ══════════════════════════════════════ */}
+      {/* MODAL: Edit student                   */}
+      {/* ══════════════════════════════════════ */}
+      {editingUser && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => !editLoading && setEditingUser(null)} />
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="px-6 py-4 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
+              <h3 className="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <HiOutlinePencil className="h-4 w-4 text-primary-600" /> Cập nhật học viên
+              </h3>
+              <button onClick={() => !editLoading && setEditingUser(null)} className="p-1 text-gray-400 hover:text-gray-600">
+                <HiOutlineX className="h-5 w-5" />
+              </button>
+            </div>
+            <form onSubmit={handleSaveEdit} className="p-6 space-y-4">
+              <div className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-700/50 rounded-lg px-3 py-2 flex items-center gap-2">
+                <HiOutlineMail className="h-3.5 w-3.5" />
+                <span className="font-mono">{editingUser.email}</span>
+                {!editingUser.has_logged_in && (
+                  <span className="ml-auto inline-flex items-center gap-1 text-yellow-700 dark:text-yellow-400">
+                    <HiOutlineClock className="h-3 w-3" /> Chờ đăng nhập
+                  </span>
+                )}
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Họ tên</label>
+                <input type="text" value={editingUser.name || ''}
+                  onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Năm nhập học</label>
+                  <input type="number" min="2024" max="2030" value={editingUser.enrollment_year || ''}
+                    onChange={(e) => setEditingUser({ ...editingUser, enrollment_year: parseInt(e.target.value) || null })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Loại khóa học</label>
+                  <select value={editingUser.course_type || ''}
+                    onChange={(e) => setEditingUser({ ...editingUser, course_type: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                    {COURSE_TYPE_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                  </select>
+                </div>
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={!!editingUser.is_enrolled}
+                  onChange={(e) => setEditingUser({ ...editingUser, is_enrolled: e.target.checked })}
+                  className="w-4 h-4 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+                <span className="text-sm text-gray-700 dark:text-gray-300">Đã đăng ký khóa học (có quyền truy cập đầy đủ)</span>
+              </label>
+              <div className="flex gap-3 pt-2">
+                <button type="submit" disabled={editLoading}
+                  className="flex-1 px-4 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors disabled:opacity-50">
+                  {editLoading ? 'Đang lưu...' : 'Lưu thay đổi'}
+                </button>
+                <button type="button" onClick={() => setEditingUser(null)} disabled={editLoading}
+                  className="px-4 py-2.5 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════ */}
+      {/* MODAL: View exam attempts             */}
+      {/* ══════════════════════════════════════ */}
+      {attemptsUser && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setAttemptsUser(null)} />
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="px-6 py-4 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-800 z-10">
+              <div>
+                <h3 className="text-base font-bold text-gray-900 dark:text-white">📊 Lịch sử thi thực chiến</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{attemptsUser.name} · {attemptsUser.email}</p>
+              </div>
+              <button onClick={() => setAttemptsUser(null)} className="p-1 text-gray-400 hover:text-gray-600">
+                <HiOutlineX className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              {attemptsLoading ? (
+                <div className="flex justify-center py-10"><div className="w-8 h-8 border-4 border-primary-200 dark:border-primary-900 border-t-primary-600 rounded-full animate-spin" /></div>
+              ) : attemptsList.length === 0 ? (
+                <div className="text-center py-10">
+                  <HiOutlineDocumentText className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Học viên chưa nộp bài thi nào</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {attemptsList.map((a) => {
+                    const pct = a.max_score > 0 ? Math.round((a.score / a.max_score) * 100) : 0;
+                    return (
+                      <div key={a.id} className="rounded-xl border border-gray-100 dark:border-slate-700 p-4 bg-gray-50 dark:bg-slate-700/30">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{a.exam_title || a.exam_id}</p>
+                            <p className="text-[11px] text-gray-400 dark:text-gray-500 font-mono">{a.exam_id}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold text-primary-600 dark:text-primary-400">{a.score}<span className="text-xs text-gray-400">/{a.max_score}</span></p>
+                            <p className="text-[10px] text-gray-400">{pct}%</p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2 text-center text-[11px]">
+                          <div className="bg-green-50 dark:bg-green-900/20 rounded px-1 py-1.5">
+                            <p className="font-bold text-green-600 dark:text-green-400">{a.correct_count}</p>
+                            <p className="text-gray-500">Đúng</p>
+                          </div>
+                          <div className="bg-red-50 dark:bg-red-900/20 rounded px-1 py-1.5">
+                            <p className="font-bold text-red-600 dark:text-red-400">{a.wrong_count}</p>
+                            <p className="text-gray-500">Sai</p>
+                          </div>
+                          <div className="bg-gray-100 dark:bg-slate-600/50 rounded px-1 py-1.5">
+                            <p className="font-bold text-gray-600 dark:text-gray-300">{a.unanswered_count}</p>
+                            <p className="text-gray-500">Trống</p>
+                          </div>
+                          <div className="bg-blue-50 dark:bg-blue-900/20 rounded px-1 py-1.5">
+                            <p className="font-bold text-blue-600 dark:text-blue-400">{Math.floor(a.time_spent_seconds / 60)}'</p>
+                            <p className="text-gray-500">Thời gian</p>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2 text-right">
+                          {new Date(a.submitted_at).toLocaleString('vi-VN')}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

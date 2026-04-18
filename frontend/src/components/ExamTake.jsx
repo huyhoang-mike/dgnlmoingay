@@ -17,7 +17,10 @@ import {
   HiOutlinePlay,
   HiOutlineRefresh,
   HiOutlineEye,
+  HiOutlineCloudUpload,
 } from 'react-icons/hi';
+import { submitExamAttempt } from '../api/client';
+import { useAuth } from '../contexts/AuthContext';
 
 // ── Flatten questions from mixed single/passage format ──
 function flattenQuestions(rawData) {
@@ -83,7 +86,8 @@ const SUBJECT_COLORS = {
 
 const getSubjectColor = (subject) => SUBJECT_COLORS[subject] || SUBJECT_COLORS['Toán'];
 
-export default function ExamTake({ examData, examMeta, onBack }) {
+export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved }) {
+  const { isEnrolled } = useAuth();
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [currentQ, setCurrentQ] = useState(0);
@@ -92,8 +96,12 @@ export default function ExamTake({ examData, examMeta, onBack }) {
   const [phase, setPhase] = useState('setup'); // setup | running | submitted
   const [customMinutes, setCustomMinutes] = useState(examMeta?.timeMinutes || 150);
   const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [startedAt, setStartedAt] = useState(null);
   const [showMap, setShowMap] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  // Persistence: 'idle' | 'saving' | 'saved' | 'error' | 'skipped'
+  const [saveStatus, setSaveStatus] = useState('idle');
+  const [saveError, setSaveError] = useState(null);
 
   const timerRef = useRef(null);
   const questionRefs = useRef({});
@@ -141,6 +149,7 @@ export default function ExamTake({ examData, examMeta, onBack }) {
   const startExam = () => {
     const mins = Math.max(1, Math.min(customMinutes, 300));
     setRemainingSeconds(mins * 60);
+    setStartedAt(Date.now());
     setPhase('running');
   };
 
@@ -159,6 +168,9 @@ export default function ExamTake({ examData, examMeta, onBack }) {
     setCurrentQ(0);
     setPhase('setup');
     setRemainingSeconds(0);
+    setStartedAt(null);
+    setSaveStatus('idle');
+    setSaveError(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -201,6 +213,54 @@ export default function ExamTake({ examData, examMeta, onBack }) {
 
   const timerWarning = remainingSeconds > 0 && remainingSeconds < 300;
   const timerDanger = remainingSeconds > 0 && remainingSeconds < 60;
+
+  // ── Persist attempt to backend after submit (enrolled users only) ──
+  useEffect(() => {
+    if (phase !== 'submitted' || !results) return;
+    if (saveStatus !== 'idle') return; // already done
+
+    if (!isEnrolled) {
+      setSaveStatus('skipped');
+      return;
+    }
+    const examId = examMeta?.id;
+    if (!examId) {
+      setSaveStatus('skipped');
+      return;
+    }
+
+    const timeSpent = startedAt
+      ? Math.max(0, Math.round((Date.now() - startedAt) / 1000))
+      : 0;
+
+    const payload = {
+      exam_id: examId,
+      exam_title: examMeta?.title || null,
+      score: results.score,
+      max_score: maxScore,
+      correct_count: results.correct,
+      wrong_count: results.wrong,
+      unanswered_count: results.unanswered,
+      total_questions: totalQuestions,
+      time_spent_seconds: timeSpent,
+      // JSON keys must be strings
+      answers: Object.fromEntries(
+        Object.entries(answers).map(([k, v]) => [String(k), v])
+      ),
+      meta: { bySubject: results.bySubject },
+    };
+
+    setSaveStatus('saving');
+    submitExamAttempt(payload)
+      .then((res) => {
+        setSaveStatus('saved');
+        if (typeof onAttemptSaved === 'function') onAttemptSaved(res.data);
+      })
+      .catch((err) => {
+        setSaveStatus('error');
+        setSaveError(err?.response?.data?.detail || 'Không thể lưu kết quả');
+      });
+  }, [phase, results, isEnrolled, examMeta, maxScore, totalQuestions, answers, startedAt, saveStatus, onAttemptSaved]);
 
   // ── Group questions by subject for sections ──
   const subjectGroups = useMemo(() => {
@@ -317,6 +377,30 @@ export default function ExamTake({ examData, examMeta, onBack }) {
             {phase === 'submitted' && results && (
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 mb-6 shadow-sm border border-gray-100 dark:border-slate-700">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">📊 Kết quả</h2>
+
+                {/* Save status banner (only shown for enrolled users / errors) */}
+                {saveStatus === 'saving' && (
+                  <div className="mb-4 flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                    <div className="w-3 h-3 border-2 border-primary-300 border-t-primary-600 rounded-full animate-spin" />
+                    Đang lưu kết quả...
+                  </div>
+                )}
+                {saveStatus === 'saved' && (
+                  <div className="mb-4 flex items-center justify-center gap-2 text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-lg py-2">
+                    <HiOutlineCloudUpload className="h-4 w-4" />
+                    Đã lưu vào hồ sơ học viên — bạn có thể xem lại sau
+                  </div>
+                )}
+                {saveStatus === 'error' && (
+                  <div className="mb-4 px-3 py-2 bg-red-50 dark:bg-red-900/20 rounded-lg text-xs text-red-700 dark:text-red-300 text-center">
+                    ⚠️ {saveError}
+                  </div>
+                )}
+                {saveStatus === 'skipped' && !isEnrolled && (
+                  <div className="mb-4 px-3 py-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg text-xs text-yellow-700 dark:text-yellow-300 text-center">
+                    💡 Đăng ký khóa học để lưu kết quả và xem lại đáp án sau này.
+                  </div>
+                )}
 
                 {/* Score circle */}
                 <div className="flex justify-center mb-6">

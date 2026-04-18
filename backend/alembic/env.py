@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 # ── Import all models so Alembic can detect them ──
 from app.database import Base
-from app.models import Lesson, UserProgress, User, ExamSetting  # noqa: F401
+from app.models import Lesson, UserProgress, User, ExamSetting, ExamAttempt  # noqa: F401
 
 # ── Alembic Config ────────────────────────────
 config = context.config
