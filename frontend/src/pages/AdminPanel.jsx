@@ -37,7 +37,7 @@ import {
   listUsers, createUser, updateUser, deleteUser,
   enrollUser, unenrollUser, toggleAdmin,
   getExamSettings, updateExamSetting,
-  getLessons, updateLesson, createLesson, importLessons,
+  getLessons, updateLesson, createLesson, importLessons, deleteLesson,
   listUserExamAttempts,
 } from '../api/client';
 
@@ -360,6 +360,23 @@ export default function AdminPanel() {
       showToast(`✅ Đã cập nhật bài giảng`);
     } catch (err) {
       showToast(err?.response?.data?.detail || 'Lỗi cập nhật', 'error');
+    } finally {
+      setLessonActionLoading(null);
+    }
+  };
+
+  const handleDeleteLesson = async (lesson) => {
+    const ok = window.confirm(
+      `Bạn có chắc muốn xóa bài giảng "${lesson.title}" (ID: ${lesson.id})? Hành động này không thể hoàn tác.`
+    );
+    if (!ok) return;
+    try {
+      setLessonActionLoading(lesson.id);
+      await deleteLesson(lesson.id);
+      setLessons((prev) => prev.filter((l) => l.id !== lesson.id));
+      showToast('🗑️ Đã xóa bài giảng');
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi xóa bài giảng', 'error');
     } finally {
       setLessonActionLoading(null);
     }
@@ -1054,6 +1071,7 @@ export default function AdminPanel() {
                         <th className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tài nguyên</th>
                         <th className="text-center px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Miễn phí</th>
                         <th className="text-center px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Xuất bản</th>
+                        <th className="text-center px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Xóa</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50 dark:divide-slate-700/50">
@@ -1094,6 +1112,16 @@ export default function AdminPanel() {
                               <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${l.is_published ? 'translate-x-4' : 'translate-x-0'}`} />
                             </button>
                           </td>
+                          <td className="px-5 py-4 text-center">
+                            <button
+                              onClick={() => handleDeleteLesson(l)}
+                              disabled={lessonActionLoading === l.id}
+                              className="inline-flex items-center justify-center p-2 rounded-lg border border-red-200 dark:border-red-900/40 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                              title="Xóa bài giảng"
+                            >
+                              <HiOutlineTrash className="h-4 w-4" />
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -1124,6 +1152,14 @@ export default function AdminPanel() {
                             <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${l.is_published ? 'translate-x-4' : 'translate-x-0'}`} />
                           </button>
                         </div>
+                        <button
+                          onClick={() => handleDeleteLesson(l)}
+                          disabled={lessonActionLoading === l.id}
+                          className="inline-flex items-center justify-center p-2 rounded-lg border border-red-200 dark:border-red-900/40 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                          title="Xóa bài giảng"
+                        >
+                          <HiOutlineTrash className="h-4 w-4" />
+                        </button>
                       </div>
                     </div>
                   ))}

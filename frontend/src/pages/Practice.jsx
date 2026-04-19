@@ -18,10 +18,19 @@ const EXAM_SECTIONS = [
     badge: 'CẤU TRÚC MỚI',
     badgeColor: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
     items: [
+      { key: 'vact_ct1_2026', name: 'Đề chính thức Đợt 1 — 2026', hasVideo: true },
       { key: 'vact_mh_2026', name: 'Đề minh họa ĐHQG 2026', hasVideo: true },
       { key: 'vact_ct2_2025', name: 'Đề chính thức Đợt 2 — 2025', hasVideo: true },
       { key: 'vact_ct1_2025', name: 'Đề chính thức Đợt 1 — 2025', hasVideo: true },
       { key: 'vact_mh_2025', name: 'Đề minh họa ĐHQG 2025', hasVideo: true },
+    ],
+  },
+  {
+    group: 'Records - Tổng ôn Toàn diện 2026',
+    items: [
+      { key: 'tong_on_2026_ta', name: 'Tổng ôn Tiếng Anh', hasVideo: true },
+      { key: 'tong_on_2026_toan', name: 'Tổng ôn Toán Phổ Thông', hasVideo: true },
+      { key: 'tong_on_2026_tv', name: 'Tổng ôn Tiếng Việt', hasVideo: true },
     ],
   },
   {

@@ -202,11 +202,36 @@ curl -X PUT http://localhost/api/lessons/1 \
 
 ## 5. Xoá bài học
 
+### Cách 1: Xóa trực tiếp trên Admin Dashboard (khuyến nghị)
+
+1. Vào trang `Admin` → tab `Nội dung`.
+2. Tìm bài giảng cần xóa.
+3. Nhấn icon thùng rác ở cột `Xóa` (desktop) hoặc nút thùng rác trong card (mobile).
+4. Xác nhận popup.
+
+Sau khi xác nhận, bài giảng sẽ bị xóa ngay khỏi database và khỏi danh sách hiển thị.
+
+> ⚠️ Lưu ý: thao tác này không thể hoàn tác từ UI.
+
+### Cách 2: Xóa qua API
+
 ```bash
 curl -X DELETE http://localhost/api/lessons/3
 ```
 
+### Cách 3: Xóa qua SQL (khi cần dọn dữ liệu trùng)
+
+```sql
+-- Xóa bài giảng theo ID
+DELETE FROM lessons WHERE id = 3;
+
+-- Xóa nhiều bài cùng lúc
+DELETE FROM lessons WHERE id IN (3, 7, 12);
+```
+
 > ⚠️ **Cảnh báo:** Thao tác này không thể hoàn tác. Hãy chắc chắn trước khi xoá.
+
+Để xử lý các bài giảng trùng link Drive (khác tên nhưng cùng video/PDF), xem thêm phần SQL nâng cao trong tài liệu `docs/database-guide.md`.
 
 ---
 

@@ -167,6 +167,37 @@ GROUP BY course_type;
 
 -- Đếm số bài học theo category
 SELECT category, COUNT(*) as total FROM lessons GROUP BY category;
+
+-- Tìm các lesson trùng video_drive_id (khác tên nhưng cùng link/video)
+SELECT video_drive_id, COUNT(*) AS total, array_agg(id ORDER BY id) AS lesson_ids
+FROM lessons
+WHERE video_drive_id IS NOT NULL AND video_drive_id <> ''
+GROUP BY video_drive_id
+HAVING COUNT(*) > 1;
+
+-- Tìm các lesson trùng pdf_drive_id
+SELECT pdf_drive_id, COUNT(*) AS total, array_agg(id ORDER BY id) AS lesson_ids
+FROM lessons
+WHERE pdf_drive_id IS NOT NULL AND pdf_drive_id <> ''
+GROUP BY pdf_drive_id
+HAVING COUNT(*) > 1;
+
+-- Xem chi tiết nhóm lesson trùng trước khi xóa
+SELECT id, title, category, subject, "order", is_published, is_free, video_drive_id, pdf_drive_id
+FROM lessons
+WHERE video_drive_id = 'YOUR_VIDEO_ID'
+ORDER BY id;
+
+-- Xóa lesson theo ID (ví dụ giữ id=12, xóa các id còn lại)
+DELETE FROM lessons WHERE id IN (25, 31);
+
+-- Xóa an toàn theo transaction (có thể rollback nếu kiểm tra thấy sai)
+BEGIN;
+DELETE FROM lessons WHERE id IN (25, 31);
+-- Kiểm tra lại dữ liệu
+SELECT id, title FROM lessons WHERE video_drive_id = 'YOUR_VIDEO_ID' ORDER BY id;
+COMMIT;
+-- Nếu muốn hủy thay đổi thay vì COMMIT thì dùng: ROLLBACK;
 ```
 
 ---

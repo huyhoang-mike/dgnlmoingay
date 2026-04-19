@@ -138,3 +138,5 @@ async def delete_lesson(
     if not lesson:
         raise HTTPException(status_code=404, detail="Lesson not found")
     await db.delete(lesson)
+    await db.flush()
+    return None
