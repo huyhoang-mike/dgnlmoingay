@@ -113,7 +113,7 @@ user = User(
 #### Bước 6 — Backend tạo JWT của riêng ứng dụng
 - Tạo JWT mới, ký bằng **SECRET_KEY** riêng của ứng dụng
 - JWT này **khác với** Google ID Token — nó là token nội bộ
-- Chứa: email, user_id, thời gian hết hạn (60 phút mặc định)
+- Chứa: email, user_id, thời gian hết hạn (30 ngày mặc định)
 
 ```python
 token = create_access_token(data={"sub": user.email, "user_id": user.id})
@@ -134,7 +134,7 @@ token = create_access_token(data={"sub": user.email, "user_id": user.id})
 |---------|------------|
 | **Không lưu mật khẩu** | Ứng dụng **không bao giờ** nhận hoặc lưu mật khẩu Google của bạn |
 | **Chỉ đọc thông tin công khai** | Chỉ lấy: email, tên, ảnh đại diện — không truy cập Gmail, Drive, v.v. |
-| **Token có thời hạn** | Google ID Token hết hạn sau ~1 giờ; JWT ứng dụng hết hạn sau 60 phút |
+| **Token có thời hạn** | Google ID Token hết hạn sau ~1 giờ; JWT ứng dụng hết hạn sau 30 ngày |
 | **Xác minh phía server** | Token được verify bằng Google's public keys — không thể giả mạo |
 | **Không lưu token Google** | Backend chỉ verify rồi bỏ; chỉ giữ JWT nội bộ |
 | **Bạn có thể thu hồi** | Vào [Google Account → Security → Third-party apps](https://myaccount.google.com/permissions) để gỡ quyền bất kỳ lúc nào |

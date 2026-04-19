@@ -8,21 +8,7 @@
 
 export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
   if (!driveFileId) {
-    return (
-      <div className="relative w-full overflow-hidden rounded-2xl bg-gray-900 dark:bg-slate-800 shadow-lg"
-           style={{ paddingBottom: '56.25%' }}>
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
-          <svg className="w-16 h-16 mb-3 opacity-50" fill="none" stroke="currentColor"
-               viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p className="text-sm font-medium">No video available</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const embedUrl = `https://drive.google.com/file/d/${driveFileId}/preview`;

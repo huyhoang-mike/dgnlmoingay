@@ -59,6 +59,8 @@ export default function LessonView() {
 
   const currentId = parseInt(lessonId);
   const isLocked = lesson.is_locked;
+  const hasVideo = !isLocked && !!lesson.video_drive_id;
+  const hasPdf = !isLocked && !!lesson.pdf_drive_id;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10">
@@ -132,16 +134,22 @@ export default function LessonView() {
       )}
 
       {/* Video Section */}
-      {!isLocked && (
+      {hasVideo && (
         <section className="mb-8">
           <VideoPlayer driveFileId={lesson.video_drive_id} title={lesson.title} />
         </section>
       )}
 
+      {!hasVideo && hasPdf && (
+        <section className="mb-8">
+          <PDFMaterial driveFileId={lesson.pdf_drive_id} title="Tài liệu bài học" preview />
+        </section>
+      )}
+
       {/* Two-Column: Content + PDF */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className={`grid grid-cols-1 gap-8 ${hasVideo ? 'lg:grid-cols-3' : ''}`}>
         {/* Main Content */}
-        <div className="lg:col-span-2">
+        <div className={hasVideo ? 'lg:col-span-2' : ''}>
           {!isLocked && lesson.content ? (
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-slate-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -159,7 +167,7 @@ export default function LessonView() {
         </div>
 
         {/* Sidebar: PDF + Actions */}
-        {!isLocked && (
+        {hasVideo && !isLocked && (
           <div className="space-y-6">
             <PDFMaterial driveFileId={lesson.pdf_drive_id} title="Tài liệu bài học" />
 
@@ -175,6 +183,19 @@ export default function LessonView() {
           </div>
         )}
       </div>
+
+      {!isLocked && !hasVideo && (
+        <div className="mt-6">
+          <button
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-3
+                       rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold
+                       hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+          >
+            <HiOutlineCheckCircle className="h-5 w-5" />
+            Đánh dấu hoàn thành
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # Security
     SECRET_KEY: str = "change-me-in-production"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 30
 
     # Google OAuth
     GOOGLE_CLIENT_ID: str = "your-google-client-id.apps.googleusercontent.com"

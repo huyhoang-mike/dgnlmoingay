@@ -423,10 +423,10 @@ share_folder_with_email('YOUR_FOLDER_ID', 'student@gmail.com')
 **A:** Dùng API `GET /api/auth/users` (cần admin token) để xem danh sách tất cả users.
 
 ### Q: Token hết hạn sau bao lâu?
-**A:** Mặc định 60 phút. Thay đổi trong `config.py` → `ACCESS_TOKEN_EXPIRE_MINUTES`.
+**A:** Mặc định 30 ngày. Thay đổi trong `config.py` → `ACCESS_TOKEN_EXPIRE_MINUTES` nếu bạn muốn rút ngắn hoặc kéo dài thêm.
 
 ### Q: Làm sao thay đổi thời gian hết hạn token?
-**A:** Thêm biến môi trường `ACCESS_TOKEN_EXPIRE_MINUTES=1440` (24h) vào `.env`.
+**A:** Thêm biến môi trường `ACCESS_TOKEN_EXPIRE_MINUTES=43200` (30 ngày) vào `.env`, hoặc đặt giá trị khác theo nhu cầu.
 
 ### Q: Video không hiển thị cho user đã enroll?
 **A:** Kiểm tra:

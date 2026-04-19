@@ -14,7 +14,7 @@
 
 import { HiOutlineDocumentText, HiOutlineDownload, HiOutlineExternalLink } from 'react-icons/hi';
 
-export default function PDFMaterial({ driveFileId, title = 'Tài liệu bài học' }) {
+export default function PDFMaterial({ driveFileId, title = 'Tài liệu bài học', preview = false }) {
   if (!driveFileId) {
     return (
       <div className="rounded-xl border-2 border-dashed border-gray-200 dark:border-slate-700 p-6 text-center">
@@ -26,6 +26,58 @@ export default function PDFMaterial({ driveFileId, title = 'Tài liệu bài h�
 
   const viewUrl = `https://drive.google.com/file/d/${driveFileId}/view`;
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${driveFileId}`;
+  const previewUrl = `https://drive.google.com/file/d/${driveFileId}/preview`;
+
+  if (preview) {
+    return (
+      <div className="rounded-2xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
+            <HiOutlineDocumentText className="h-6 w-6 text-red-500 dark:text-red-400" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 truncate">{title}</h4>
+            <p className="text-xs text-gray-400 dark:text-gray-500">
+              PDF Preview iframe · Xem nhanh ngay trên trang
+            </p>
+          </div>
+        </div>
+
+        <div
+          className="relative w-full overflow-hidden rounded-xl bg-gray-100 dark:bg-slate-900 ring-1 ring-gray-200 dark:ring-slate-700"
+          style={{ paddingBottom: '78%' }}
+        >
+          <iframe
+            src={previewUrl}
+            title={title}
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay"
+            loading="lazy"
+            style={{ border: 'none' }}
+          />
+        </div>
+
+        <div className="mt-4 flex flex-col sm:flex-row gap-3">
+          <a
+            href={viewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-slate-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+          >
+            <HiOutlineExternalLink className="h-4 w-4" />
+            Mở trong Drive
+          </a>
+          <a
+            href={downloadUrl}
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary-600 text-sm font-medium text-white hover:bg-primary-700 transition-colors shadow-sm"
+          >
+            <HiOutlineDownload className="h-4 w-4" />
+            Tải xuống
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm">
