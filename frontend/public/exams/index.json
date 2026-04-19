@@ -52,5 +52,23 @@
       "Toán": { "count": 30, "label": "Toán học" },
       "Tư duy khoa học": { "count": 30, "label": "Tư duy Khoa học" }
     }
+    },
+    {
+    "id": "vact_thithu1",
+    "title": "VACT Dự đoán đợt 2 — 2026",
+    "description": "Đề thi dự đoán V-ACT Đợt 2 năm 2026",
+    "file": "/exams/vact_thithu1.json",
+    "totalQuestions": 120,
+    "timeMinutes": 150,
+    "maxScore": 1200,
+    "pointsPerQuestion": 10,
+    "isFree": false,
+    "tags": ["V-ACT", "2026", "Đợt 2", "Dự đoán"],
+    "sections": {
+      "Tiếng Việt": { "count": 30, "label": "Sử dụng Ngôn ngữ" },
+      "Tiếng Anh": { "count": 30, "label": "Sử dụng Ngôn ngữ" },
+      "Toán": { "count": 30, "label": "Toán học" },
+      "Tư duy khoa học": { "count": 30, "label": "Tư duy Khoa học" }
+    }
     }
 ]
