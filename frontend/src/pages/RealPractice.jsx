@@ -34,7 +34,7 @@ export default function RealPractice() {
     const load = async () => {
       try {
         const [indexRes, settingsRes] = await Promise.all([
-          fetch('/exams/index.json').then((r) => r.json()),
+          fetch('/exams/index.json', { cache: 'no-store' }).then((r) => r.json()),
           getExamSettings().then((r) => r.data).catch(() => []),
         ]);
 

@@ -45,7 +45,7 @@ export default function ExamPage() {
     async function load() {
       try {
         const [idxRes, settingsRes] = await Promise.all([
-          fetch('/exams/index.json'),
+          fetch('/exams/index.json', { cache: 'no-store' }),
           getExamSettings().then((r) => r.data).catch(() => []),
         ]);
         if (!idxRes.ok) throw new Error('Không tải được danh sách đề');
