@@ -34,21 +34,23 @@ const EXAM_SECTIONS = [
     ],
   },
   {
-    group: 'Đề V-ACT Chính thức theo cấu trúc cũ trước 2025',
+    group: 'Đề V-ACT Chính thức trước 2025',
     badge: 'VIDEO CHI TIẾT',
     badgeColor: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
     items: [
-      { key: 'vact_2019_d1', name: 'Đề chính thức 2019 — Đợt 1', hasVideo: true },
-      { key: 'vact_2021_d1', name: 'Đề chính thức 2021 — Đợt 1', hasVideo: true },
-      { key: 'vact_2022_d1', name: 'Đề chính thức 2022 — Đợt 1', hasVideo: true },
-      { key: 'vact_2022_d2', name: 'Đề chính thức 2022 — Đợt 2', hasVideo: true },
       { key: 'vact_2023_d1', name: 'Đề chính thức 2023 — Đợt 1', hasVideo: true },
+      { key: 'vact_2022_d2', name: 'Đề chính thức 2022 — Đợt 2', hasVideo: true },
+      { key: 'vact_2022_d1', name: 'Đề chính thức 2022 — Đợt 1', hasVideo: true },
+      { key: 'vact_2021_d1', name: 'Đề chính thức 2021 — Đợt 1', hasVideo: true },
+      { key: 'vact_2019_d1', name: 'Đề chính thức 2019 — Đợt 1', hasVideo: true },
     ],
   },
   {
     group: 'Đề chính thức các năm khác',
     items: [
-      { key: 'ct_2020_d1', name: 'Đề chính thức 2020 — Đợt 1', hasVideo: false },
+      { key: 'vact_2024_d1', name: 'Đề chính thức 2024 — Đợt 1', hasVideo: false },
+      { key: 'vact_2023_d2', name: 'Đề chính thức 2023 — Đợt 2', hasVideo: false },
+      { key: 'vact_2020_d1', name: 'Đề chính thức 2020 — Đợt 1', hasVideo: false },
     ],
   },
 ];
