@@ -84,11 +84,11 @@ export default function Register() {
           <div className="max-w-sm mx-auto space-y-4">
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Ngân hàng</span>
-              <span className="font-semibold text-gray-900 dark:text-white">VIETCOMBANK</span>
+              <span className="font-semibold text-gray-900 dark:text-white">TP BANK</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Số tài khoản</span>
-              <span className="font-mono font-semibold text-gray-900 dark:text-white">1031 543 928</span>
+              <span className="font-mono font-semibold text-gray-900 dark:text-white">0435 1047 435</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Chủ tài khoản</span>
