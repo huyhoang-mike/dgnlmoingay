@@ -65,9 +65,11 @@ Trong repo có file `.env.example` — đây là **template** với giá trị g
 | `POSTGRES_PASSWORD` | 🔴 **Cực kỳ nhạy cảm** | Mật khẩu truy cập database — lộ = mất toàn bộ dữ liệu |
 | `SECRET_KEY` | 🔴 **Cực kỳ nhạy cảm** | Khóa ký JWT token — lộ = giả mạo được token của bất kỳ ai |
 | `DATABASE_URL` | 🔴 **Cực kỳ nhạy cảm** | Chứa password bên trong chuỗi kết nối |
+| `SEPAY_WEBHOOK_SECRET` | 🔴 **Cực kỳ nhạy cảm** | Secret xác minh webhook SePay — lộ = có thể giả webhook thanh toán |
 | `GOOGLE_CLIENT_ID` | 🟢 **Public** | Google thiết kế để public, không phải secret |
 | `VITE_GOOGLE_CLIENT_ID` | 🟢 **Public** | Nằm trong JS bundle, ai cũng thấy được |
 | `VITE_API_URL` | 🟢 **Public** | Chỉ là URL path `/api` |
+| `BANK_ACCOUNT_NUMBER` | 🟡 **Ít nhạy cảm** | Dùng để nhận tiền, có thể công khai trên trang thanh toán |
 | `ALLOWED_ORIGINS` | 🟡 **Ít nhạy cảm** | Nhưng phải đúng domain để chặn CORS attack |
 
 ### 2.3 Cách tạo mật khẩu mạnh
@@ -140,6 +142,25 @@ VITE_GOOGLE_CLIENT_ID=your-real-client-id.apps.googleusercontent.com
 # ── Frontend ─────────────────────────────────
 VITE_API_URL=/api
 
+# ── Payments (SePay) ─────────────────────────
+PAYMENT_PROVIDER=sepay
+PAYMENT_ORDER_PREFIX=DGNL
+PAYMENT_ORDER_EXPIRY_MINUTES=60
+COURSE_PRICE_VND=599000
+SEPAY_WEBHOOK_HEADER=x-sepay-token
+SEPAY_WEBHOOK_SECRET=replace-with-long-random-secret
+
+# ── Bank Receive Info (VietQR) ───────────────
+BANK_NAME=TP BANK
+BANK_BIN=970423
+BANK_ACCOUNT_NUMBER=04351047435
+BANK_ACCOUNT_NAME=NGUYEN HUY HOANG
+
+# ── Post-payment Links ───────────────────────
+COURSE_ZALO_GROUP_URL=https://zalo.me/g/your-real-group-link
+COURSE_YOUTUBE_GUIDE_URL=https://www.youtube.com/watch?v=your-real-video
+SUPPORT_ZALO_URL=https://zalo.me/0355912940
+
 # ── Environment ──────────────────────────────
 ENVIRONMENT=production
 ```
@@ -185,6 +206,7 @@ Sau khi tạo `.env` trên VPS, **lưu lại mật khẩu** ở nơi an toàn:
 - [ ] **Rate Limiting** — Nginx đã cấu hình 10 req/s cho API ✅
 - [ ] **Security Headers** — Nginx đã thêm ✅
 - [ ] **Swagger docs tắt** — `ENVIRONMENT=production` tự tắt ✅
+- [ ] **Webhook Secret** — `SEPAY_WEBHOOK_SECRET` đủ mạnh, không để trống
 - [ ] **Input Validation** — Pydantic schemas ✅ có sẵn
 - [ ] **SQL Injection** — SQLAlchemy ORM ✅ có sẵn
 - [ ] **XSS** — React tự escape ✅ có sẵn
@@ -205,5 +227,6 @@ Sau khi tạo `.env` trên VPS, **lưu lại mật khẩu** ở nơi an toàn:
 | ☁️ [cloudflare-setup.md](cloudflare-setup.md) | **Thiết lập Cloudflare CDN + SSL** — tăng tốc cho học sinh VN |
 | 📖 [deployment-concepts.md](deployment-concepts.md) | **Giải thích các khái niệm** — VPS, DNS, SSL, Docker, Firewall |
 | 🔐 [google-auth-setup.md](google-auth-setup.md) | Thiết lập Google OAuth, quản lý quyền truy cập |
+| 💳 [sepay-payment-system.md](sepay-payment-system.md) | Kiến trúc thanh toán tự động SePay + runbook vận hành |
 | 🛠️ [development-workflow.md](development-workflow.md) | Quy trình phát triển local |
 | 📚 [content-management.md](content-management.md) | Quản lý video, PDF, bài học |

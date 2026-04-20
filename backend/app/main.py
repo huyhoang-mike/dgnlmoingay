@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import auth, lessons, progress, exams, import_lessons
+from app.routers import auth, lessons, progress, exams, import_lessons, payments
 
 # ── Production: tắt Swagger docs ─────────────
 _is_production = os.getenv("ENVIRONMENT", "development") == "production"
@@ -48,6 +48,7 @@ app.include_router(lessons.router, prefix="/api/lessons", tags=["Lessons"])
 app.include_router(progress.router, prefix="/api/progress", tags=["User Progress"])
 app.include_router(exams.router, prefix="/api/exams", tags=["Exam Settings"])
 app.include_router(import_lessons.router, prefix="/api/lessons", tags=["Lesson Import"])
+app.include_router(payments.router, prefix="/api/payments", tags=["Payments"])
 
 
 # ── Health Check ──────────────────────────────

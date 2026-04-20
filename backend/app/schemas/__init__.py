@@ -7,6 +7,9 @@ from app.schemas.exam_setting import ExamSettingOut, ExamSettingUpdate
 from app.schemas.exam_attempt import (
     ExamAttemptCreate, ExamAttemptOut, ExamAttemptSummary,
 )
+from app.schemas.payment import (
+    PaymentOrderCreate, PaymentOrderBindEmail, PaymentOrderOut, PaymentWebhookAck,
+)
 
 __all__ = [
     "LessonCreate", "LessonUpdate", "LessonOut",
@@ -14,4 +17,6 @@ __all__ = [
     "GoogleLoginRequest", "UserOut", "TokenResponse", "UserCreate", "UserUpdate",
     "ExamSettingOut", "ExamSettingUpdate",
     "ExamAttemptCreate", "ExamAttemptOut", "ExamAttemptSummary",
+    "PaymentOrderCreate", "PaymentOrderBindEmail", "PaymentOrderOut",
+    "PaymentWebhookAck",
 ]

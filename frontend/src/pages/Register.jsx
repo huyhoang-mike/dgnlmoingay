@@ -1,40 +1,275 @@
 /**
  * Register Page
- * Registration steps and payment information.
+ * SePay registration flow with dynamic QR, payment polling, and auto-enrollment.
  */
 
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  HiOutlineCheckCircle,
+  HiOutlineClock,
+  HiOutlineClipboard,
   HiOutlineCreditCard,
+  HiOutlineExclamationCircle,
   HiOutlineMail,
+  HiOutlineRefresh,
   HiOutlineUserGroup,
-  HiOutlineArrowRight,
   HiOutlinePhone,
 } from 'react-icons/hi';
+import {
+  bindPaymentOrderEmail,
+  createPaymentOrder,
+  getPaymentOrderStatus,
+} from '../api/client';
+import { useAuth } from '../contexts/AuthContext';
 
 const STEPS = [
   {
     icon: HiOutlineCreditCard,
     step: 1,
-    title: 'Chuyển khoản học phí',
-    desc: 'Chuyển khoản với nội dung "Họ và Tên - Email" theo thông tin bên dưới.',
-    note: 'Ví dụ: Nguyễn Huy Hoàng - huyhoang.mike@gmail.com',
+    title: 'Tạo mã QR chuyển khoản',
+    desc: 'Nhập email Google, hệ thống tạo QR và mã chuyển khoản tự động theo đơn của bạn.',
   },
   {
     icon: HiOutlineMail,
     step: 2,
-    title: 'Nhận email kích hoạt',
-    desc: 'Nếu học phí và email hợp lệ, bạn sẽ nhận được email thông báo kèm hướng dẫn sử dụng khóa học trong vòng 24h.',
+    title: 'SePay xác nhận thanh toán',
+    desc: 'Sau khi chuyển khoản thành công, hệ thống tự động nhận webhook từ SePay và cập nhật trạng thái ngay trên trang.',
   },
   {
     icon: HiOutlineUserGroup,
     step: 3,
-    title: 'Tham gia cộng đồng',
-    desc: 'Kết nối với anh để nhận hỗ trợ, thông tin cập nhật về ĐGNL và tài liệu bổ trợ qua group Messenger.',
+    title: 'Mở quyền học ngay lập tức',
+    desc: 'Quyền truy cập khóa học được cấp tự động theo email Google, đồng thời hiện link Zalo nhóm học và video hướng dẫn.',
   },
 ];
 
+const STATUS_META = {
+  pending: {
+    title: 'Đang chờ thanh toán',
+    desc: 'Hệ thống đang đợi giao dịch chuyển khoản khớp số tiền và nội dung.',
+    icon: HiOutlineClock,
+    className: 'text-amber-600 dark:text-amber-400',
+    boxClass: 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800/40',
+  },
+  partial: {
+    title: 'Thanh toán chưa đủ',
+    desc: 'Hệ thống đã nhận giao dịch nhưng số tiền nhỏ hơn mức học phí yêu cầu.',
+    icon: HiOutlineExclamationCircle,
+    className: 'text-orange-600 dark:text-orange-400',
+    boxClass: 'bg-orange-50 border-orange-200 dark:bg-orange-900/20 dark:border-orange-800/40',
+  },
+  paid_waiting_email: {
+    title: 'Đã nhận tiền, đang chờ email Google',
+    desc: 'Vui lòng nhập email Google để hệ thống cấp quyền học vào tài khoản đúng.',
+    icon: HiOutlineMail,
+    className: 'text-cyan-600 dark:text-cyan-400',
+    boxClass: 'bg-cyan-50 border-cyan-200 dark:bg-cyan-900/20 dark:border-cyan-800/40',
+  },
+  paid: {
+    title: 'Thanh toán thành công',
+    desc: 'Tài khoản của bạn đã được mở quyền truy cập khóa học ngay lập tức.',
+    icon: HiOutlineCheckCircle,
+    className: 'text-green-600 dark:text-green-400',
+    boxClass: 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800/40',
+  },
+  expired: {
+    title: 'Mã thanh toán đã hết hạn',
+    desc: 'Bạn có thể tạo lại mã QR mới trong vài giây.',
+    icon: HiOutlineExclamationCircle,
+    className: 'text-red-600 dark:text-red-400',
+    boxClass: 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800/40',
+  },
+  failed: {
+    title: 'Có lỗi xác nhận thanh toán',
+    desc: 'Vui lòng liên hệ hỗ trợ Zalo để được kiểm tra nhanh.',
+    icon: HiOutlineExclamationCircle,
+    className: 'text-red-600 dark:text-red-400',
+    boxClass: 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800/40',
+  },
+};
+
+const DEFAULT_BANK_INFO = {
+  bank_name: 'TP BANK',
+  bank_account_number: '04351047435',
+  bank_account_name: 'NGUYEN HUY HOANG',
+  expected_amount: 599000,
+};
+
+const POLL_INTERVAL_MS = 6000;
+
+function formatVnd(amount) {
+  return `${new Intl.NumberFormat('vi-VN').format(amount || 0)}đ`;
+}
+
 export default function Register() {
+  const { user, refreshUser } = useAuth();
+
+  const [googleEmail, setGoogleEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [order, setOrder] = useState(null);
+  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [loadingBindEmail, setLoadingBindEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [infoMessage, setInfoMessage] = useState('');
+  const [copiedTransfer, setCopiedTransfer] = useState(false);
+
+  useEffect(() => {
+    if (user?.email && !googleEmail) {
+      setGoogleEmail(user.email);
+    }
+    if (user?.name && !fullName) {
+      setFullName(user.name);
+    }
+  }, [user?.email, user?.name, googleEmail, fullName]);
+
+  useEffect(() => {
+    if (!order?.order_code) {
+      return undefined;
+    }
+
+    let isMounted = true;
+
+    const syncStatus = async () => {
+      try {
+        const response = await getPaymentOrderStatus(order.order_code);
+        if (!isMounted) {
+          return;
+        }
+
+        setOrder(response.data);
+        setErrorMessage('');
+
+        if (response.data.status === 'paid') {
+          refreshUser?.().catch(() => null);
+        }
+      } catch (err) {
+        if (!isMounted) {
+          return;
+        }
+        setErrorMessage(err.response?.data?.detail || 'Không thể đồng bộ trạng thái thanh toán.');
+      }
+    };
+
+    syncStatus();
+
+    if (['paid', 'expired', 'failed'].includes(order.status)) {
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    const timerId = window.setInterval(syncStatus, POLL_INTERVAL_MS);
+    return () => {
+      isMounted = false;
+      window.clearInterval(timerId);
+    };
+  }, [order?.order_code, order?.status, refreshUser]);
+
+  const handleCreateOrder = async (event) => {
+    event.preventDefault();
+    setLoadingCreate(true);
+    setErrorMessage('');
+    setInfoMessage('');
+
+    try {
+      const payload = {};
+      if (googleEmail.trim()) {
+        payload.google_email = googleEmail.trim();
+      }
+      if (fullName.trim()) {
+        payload.full_name = fullName.trim();
+      }
+
+      const response = await createPaymentOrder(payload);
+      setOrder(response.data);
+      setInfoMessage('Đã tạo mã thanh toán mới. Vui lòng chuyển khoản đúng nội dung để hệ thống tự đối soát.');
+
+      if (response.data.google_email) {
+        setGoogleEmail(response.data.google_email);
+      }
+    } catch (err) {
+      setErrorMessage(err.response?.data?.detail || 'Không thể tạo mã thanh toán. Vui lòng thử lại.');
+    } finally {
+      setLoadingCreate(false);
+    }
+  };
+
+  const handleBindEmail = async () => {
+    if (!order?.order_code) {
+      return;
+    }
+    if (!googleEmail.trim()) {
+      setErrorMessage('Vui lòng nhập email Google để cấp quyền học.');
+      return;
+    }
+
+    setLoadingBindEmail(true);
+    setErrorMessage('');
+    setInfoMessage('');
+
+    try {
+      await bindPaymentOrderEmail(order.order_code, {
+        google_email: googleEmail.trim(),
+      });
+
+      const refreshed = await getPaymentOrderStatus(order.order_code);
+      setOrder(refreshed.data);
+      setInfoMessage('Đã cập nhật email Google thành công.');
+
+      if (refreshed.data.status === 'paid') {
+        refreshUser?.().catch(() => null);
+      }
+    } catch (err) {
+      setErrorMessage(err.response?.data?.detail || 'Không thể cập nhật email cho đơn thanh toán.');
+    } finally {
+      setLoadingBindEmail(false);
+    }
+  };
+
+  const handleRefreshStatus = async () => {
+    if (!order?.order_code) {
+      return;
+    }
+    setErrorMessage('');
+
+    try {
+      const response = await getPaymentOrderStatus(order.order_code);
+      setOrder(response.data);
+      if (response.data.status === 'paid') {
+        refreshUser?.().catch(() => null);
+      }
+    } catch (err) {
+      setErrorMessage(err.response?.data?.detail || 'Không thể làm mới trạng thái thanh toán.');
+    }
+  };
+
+  const handleCopyTransfer = async () => {
+    if (!order?.transfer_content) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(order.transfer_content);
+      setCopiedTransfer(true);
+      window.setTimeout(() => setCopiedTransfer(false), 1800);
+    } catch {
+      setErrorMessage('Không thể sao chép nội dung chuyển khoản. Vui lòng sao chép thủ công.');
+    }
+  };
+
+  const status = order?.status || 'pending';
+  const statusMeta = STATUS_META[status] || STATUS_META.pending;
+  const StatusIcon = statusMeta.icon;
+
+  const showPostPaymentLinks = order?.status === 'paid';
+  const needsEmail = order?.status === 'paid_waiting_email';
+  const bankInfo = {
+    ...DEFAULT_BANK_INFO,
+    ...(order || {}),
+  };
+  const supportZaloUrl = order?.support_zalo_url || 'https://zalo.me/0355912940';
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
       {/* Hero */}
@@ -68,41 +303,230 @@ export default function Register() {
                   {s.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{s.desc}</p>
-                {s.note && (
-                  <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 italic">{s.note}</p>
-                )}
               </div>
             </div>
           ))}
         </div>
+
+        {/* Create payment order */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-5 text-center">
+            Tạo mã QR chuyển khoản tự động
+          </h2>
+          <form onSubmit={handleCreateOrder} className="space-y-4 max-w-xl mx-auto">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" htmlFor="google-email">
+                Email Google cấp quyền
+              </label>
+              <input
+                id="google-email"
+                type="email"
+                value={googleEmail}
+                onChange={(e) => setGoogleEmail(e.target.value)}
+                placeholder="youremail@gmail.com"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+              <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                Bạn có thể nhập email trước hoặc sau khi thanh toán. Nên dùng đúng email Google sẽ đăng nhập khóa học.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" htmlFor="full-name">
+                Họ và tên (không bắt buộc)
+              </label>
+              <input
+                id="full-name"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Nguyen Van A"
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loadingCreate}
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium transition-colors"
+            >
+              {loadingCreate ? 'Đang tạo mã...' : 'Tạo QR thanh toán'}
+            </button>
+
+            {infoMessage && (
+              <p className="text-sm text-green-600 dark:text-green-400">{infoMessage}</p>
+            )}
+            {errorMessage && (
+              <p className="text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
+            )}
+          </form>
+        </div>
+
+        {order && (
+          <div className={`mb-8 rounded-2xl border p-6 ${statusMeta.boxClass}`}>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="flex items-start gap-3">
+                <StatusIcon className={`h-6 w-6 mt-0.5 ${statusMeta.className}`} />
+                <div>
+                  <h3 className={`text-base font-semibold ${statusMeta.className}`}>{statusMeta.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{statusMeta.desc}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleRefreshStatus}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-slate-500 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-white/70 dark:hover:bg-slate-700 transition-colors"
+              >
+                <HiOutlineRefresh className="h-4 w-4" />
+                Làm mới
+              </button>
+            </div>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+              <div className="rounded-xl bg-white/70 dark:bg-slate-800/50 border border-white/80 dark:border-slate-700 p-3">
+                <p className="text-gray-500 dark:text-gray-400 text-xs">Mã đơn thanh toán</p>
+                <p className="font-semibold text-gray-900 dark:text-white mt-1 break-all">{order.order_code}</p>
+              </div>
+              <div className="rounded-xl bg-white/70 dark:bg-slate-800/50 border border-white/80 dark:border-slate-700 p-3">
+                <p className="text-gray-500 dark:text-gray-400 text-xs">Số tiền cần chuyển</p>
+                <p className="font-semibold text-gray-900 dark:text-white mt-1">{formatVnd(order.expected_amount)}</p>
+              </div>
+            </div>
+
+            <div className="mt-3 rounded-xl bg-white/70 dark:bg-slate-800/50 border border-white/80 dark:border-slate-700 p-3">
+              <p className="text-gray-500 dark:text-gray-400 text-xs">Nội dung chuyển khoản</p>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                <p className="font-mono text-sm font-semibold text-gray-900 dark:text-white break-all">{order.transfer_content}</p>
+                <button
+                  type="button"
+                  onClick={handleCopyTransfer}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs bg-gray-800 text-white dark:bg-slate-200 dark:text-slate-900 hover:opacity-90"
+                >
+                  <HiOutlineClipboard className="h-3.5 w-3.5" />
+                  {copiedTransfer ? 'Đã sao chép' : 'Sao chép'}
+                </button>
+              </div>
+            </div>
+
+            {order.status !== 'paid' && (
+              <div className="mt-3 rounded-xl bg-white/70 dark:bg-slate-800/50 border border-white/80 dark:border-slate-700 p-3">
+                <p className="text-gray-500 dark:text-gray-400 text-xs">Email Google gắn với đơn</p>
+                <div className="mt-1 flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white break-all">
+                    {order.google_email || 'Chưa cập nhật email'}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleBindEmail}
+                    disabled={loadingBindEmail}
+                    className="px-3 py-1.5 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-xs font-medium"
+                  >
+                    {loadingBindEmail ? 'Đang cập nhật...' : 'Cập nhật email cho đơn'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Bank Info */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
             Thông tin chuyển khoản
           </h2>
+          {order?.qr_image_url && (
+            <div className="mb-6 flex justify-center">
+              <img
+                src={order.qr_image_url}
+                alt={`QR thanh toán ${order.order_code}`}
+                className="w-64 h-64 rounded-2xl border border-gray-200 dark:border-slate-600 bg-white p-3"
+              />
+            </div>
+          )}
+
           <div className="max-w-sm mx-auto space-y-4">
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Ngân hàng</span>
-              <span className="font-semibold text-gray-900 dark:text-white">TP BANK</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{bankInfo.bank_name}</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Số tài khoản</span>
-              <span className="font-mono font-semibold text-gray-900 dark:text-white">0435 1047 435</span>
+              <span className="font-mono font-semibold text-gray-900 dark:text-white">{bankInfo.bank_account_number}</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
               <span className="text-sm text-gray-500 dark:text-gray-400">Chủ tài khoản</span>
-              <span className="font-semibold text-gray-900 dark:text-white">NGUYỄN HUY HOÀNG</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{bankInfo.bank_account_name}</span>
             </div>
             <div className="flex justify-between items-center py-2">
               <span className="text-sm text-gray-500 dark:text-gray-400">Học phí</span>
               <div className="text-right">
-                <span className="text-sm text-gray-400 line-through mr-2">699,000₫</span>
-                <span className="font-bold text-green-600 dark:text-green-400">599,000₫</span>
+                <span className="font-bold text-green-600 dark:text-green-400">{formatVnd(bankInfo.expected_amount)}</span>
               </div>
             </div>
           </div>
+
+          {needsEmail && (
+            <div className="mt-6 max-w-sm mx-auto">
+              <p className="text-sm text-gray-700 dark:text-gray-200 mb-2">
+                Hệ thống đã nhận tiền. Nhập email Google để cấp quyền học ngay:
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="email"
+                  value={googleEmail}
+                  onChange={(e) => setGoogleEmail(e.target.value)}
+                  placeholder="youremail@gmail.com"
+                  className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+                <button
+                  type="button"
+                  onClick={handleBindEmail}
+                  disabled={loadingBindEmail}
+                  className="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white text-sm font-medium"
+                >
+                  {loadingBindEmail ? 'Đang cập nhật...' : 'Xác nhận email'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
+
+        {showPostPaymentLinks && (
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-green-200 dark:border-green-800/40 mb-8">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 text-center">
+              Truy cập khóa học của bạn
+            </h3>
+
+            <div className="flex flex-wrap justify-center gap-4">
+              {order?.zalo_group_url && (
+                <a
+                  href={order.zalo_group_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors"
+                >
+                  Vào group Zalo khóa học
+                </a>
+              )}
+              {order?.youtube_guide_url && (
+                <a
+                  href={order.youtube_guide_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-rose-600 text-white text-sm font-medium rounded-xl hover:bg-rose-700 transition-colors"
+                >
+                  Xem video hướng dẫn
+                </a>
+              )}
+            </div>
+
+            {!order?.zalo_group_url && !order?.youtube_guide_url && (
+              <p className="text-center text-sm text-amber-700 dark:text-amber-300 mt-2">
+                Quản trị viên chưa cấu hình link nhóm học/video hướng dẫn. Vui lòng liên hệ hỗ trợ để nhận link truy cập.
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Contact */}
         <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-800/50 rounded-2xl p-8 border border-gray-200 dark:border-slate-700 text-center">
@@ -110,17 +534,13 @@ export default function Register() {
             Liên hệ để được hỗ trợ
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"
-               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition-colors">
-              Facebook
-            </a>
-            <a href="https://zalo.me" target="_blank" rel="noopener noreferrer"
-               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white text-sm font-medium rounded-xl hover:bg-blue-600 transition-colors">
-              Zalo
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-700 text-white text-sm font-medium rounded-xl hover:bg-blue-800 transition-colors">
-              LinkedIn
+            <a
+              href={supportZaloUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white text-sm font-medium rounded-xl hover:bg-blue-600 transition-colors"
+            >
+              Zalo hỗ trợ sự cố
             </a>
           </div>
           <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -128,7 +548,7 @@ export default function Register() {
             <span>Hotline: 0355 912 940</span>
           </div>
           <p className="mt-3 text-xs text-gray-400 dark:text-gray-500">
-            Trong trường hợp không nhận được email kích hoạt sau 24h, hãy liên hệ qua hotline.
+            Nếu thanh toán thành công nhưng chưa mở quyền trong 1-2 phút, hãy gửi mã đơn thanh toán cho Zalo hỗ trợ.
           </p>
         </div>
 

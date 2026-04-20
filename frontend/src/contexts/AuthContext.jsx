@@ -13,6 +13,16 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('dgnl-token'));
   const [loading, setLoading] = useState(true);
 
+  const refreshUser = useCallback(async () => {
+    if (!token) {
+      setUser(null);
+      return null;
+    }
+    const response = await getMe(token);
+    setUser(response.data);
+    return response.data;
+  }, [token]);
+
   // Verify stored token on mount
   useEffect(() => {
     const verifyToken = async () => {
@@ -21,8 +31,7 @@ export function AuthProvider({ children }) {
         return;
       }
       try {
-        const response = await getMe(token);
-        setUser(response.data);
+        await refreshUser();
       } catch {
         localStorage.removeItem('dgnl-token');
         setToken(null);
@@ -32,7 +41,7 @@ export function AuthProvider({ children }) {
       }
     };
     verifyToken();
-  }, [token]);
+  }, [token, refreshUser]);
 
   const login = useCallback(async (credential) => {
     const response = await apiGoogleLogin(credential);
@@ -57,6 +66,7 @@ export function AuthProvider({ children }) {
         loading,
         login,
         logout,
+        refreshUser,
         isAuthenticated: !!user,
         isEnrolled: user?.is_enrolled || user?.is_admin || false,
         isAdmin: user?.is_admin || false,

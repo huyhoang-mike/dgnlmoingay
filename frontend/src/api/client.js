@@ -82,4 +82,11 @@ export const getExamAttempt = (attemptId) => client.get(`/exams/attempts/${attem
 export const listUserExamAttempts = (userId) =>
   client.get(`/exams/attempts/user/${userId}`);
 
+// ── Payments (SePay) ───────────────────────
+export const createPaymentOrder = (data) => client.post('/payments/orders', data);
+export const getPaymentOrderStatus = (orderCode) =>
+  client.get(`/payments/orders/${orderCode}`);
+export const bindPaymentOrderEmail = (orderCode, data) =>
+  client.patch(`/payments/orders/${orderCode}/email`, data);
+
 export default client;
