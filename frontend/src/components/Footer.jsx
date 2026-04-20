@@ -4,6 +4,13 @@
  */
 
 import { HiOutlineAcademicCap } from 'react-icons/hi';
+import {
+  FaComments,
+  FaFacebookF,
+  FaLinkedinIn,
+  FaPhoneAlt,
+  FaYoutube,
+} from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -55,36 +62,51 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li>
                 <a
-                  href="https://www.facebook.com"
+                  href="https://www.facebook.com/huyhoang.mike/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
+                  <FaFacebookF className="h-3.5 w-3.5" />
                   Facebook
                 </a>
               </li>
               <li>
                 <a
-                  href="https://zalo.me"
+                  href="https://zalo.me/0355912940"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
+                  <FaComments className="h-3.5 w-3.5" />
                   Zalo
                 </a>
               </li>
               <li>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.youtube.com/@dgnlmoingay"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
-                  LinkedIn
+                  <FaYoutube className="h-3.5 w-3.5" />
+                  YouTube
                 </a>
               </li>
-              <li className="text-sm text-gray-500 dark:text-gray-400">
-                📞 0355 912 940
+              <li className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <FaPhoneAlt className="h-3.5 w-3.5" />
+                0355 912 940
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/huyhoang-mike/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  <FaLinkedinIn className="h-3.5 w-3.5" />
+                  LinkedIn
+                </a>
               </li>
             </ul>
           </div>
