@@ -169,7 +169,7 @@ Base path: `/api/payments`
 ### 5.4 Webhook SePay
 
 - `POST /sepay/webhook`
-- Yêu cầu header secret theo `SEPAY_WEBHOOK_HEADER` hoặc `Authorization: Bearer <secret>`.
+- Yêu cầu header secret theo `SEPAY_WEBHOOK_HEADER`, `Authorization: Bearer <secret>` hoặc `Authorization: Apikey <secret>`.
 
 ---
 
@@ -235,7 +235,7 @@ Thông thường request có cấu trúc như sau:
 ```http
 POST /api/payments/sepay/webhook
 Content-Type: application/json
-x-sepay-token: <SEPAY_WEBHOOK_SECRET>
+Authorization: Apikey <SEPAY_WEBHOOK_SECRET>
 ```
 
 ```json
@@ -256,10 +256,13 @@ Lưu ý: Tên field thực tế có thể khác giữa các cấu hình/provider
 
 ### 7.4 Header bảo mật
 
-Thiết lập tại SePay một header bí mật, ví dụ:
+Với form webhook hiện tại của SePay, hãy chọn kiểu chứng thực `API Key` và `application/json`.
+SePay sẽ gửi:
 
-- Header: `x-sepay-token`
-- Value: giống `SEPAY_WEBHOOK_SECRET` trong `.env`
+- Header: `Authorization`
+- Value: `Apikey <SEPAY_WEBHOOK_SECRET>`
+
+Backend hiện đã hỗ trợ trực tiếp định dạng này.
 
 ### 7.5 Yêu cầu payload
 
@@ -276,11 +279,12 @@ Mục tiêu là chống fail khi SePay thay đổi nhẹ format.
 1. Vào màn hình quản lý Webhook/IPN trong SePay.
 2. Khai báo URL callback: `https://dgnlmoingay.com/api/payments/sepay/webhook`.
 3. Chọn method `POST`, format `application/json` (nếu có tùy chọn).
-4. Khai báo header bảo mật:
-    - Name: `x-sepay-token` (hoặc header cố định theo SePay)
-    - Value: trùng `SEPAY_WEBHOOK_SECRET` trong `.env`
-5. Lưu cấu hình và bấm gửi test webhook (nếu SePay có nút test).
-6. Kiểm tra log backend để xác nhận webhook đã vào đúng endpoint.
+4. Chọn chứng thực `API Key`.
+5. Chọn `Request Content Type = application/json`.
+6. Nhập API key có giá trị trùng `SEPAY_WEBHOOK_SECRET` trong `.env`.
+7. SePay sẽ tự gửi header `Authorization: Apikey <API_KEY>`.
+8. Lưu cấu hình và bấm gửi test webhook (nếu SePay có nút test).
+9. Kiểm tra log backend để xác nhận webhook đã vào đúng endpoint.
 
 ### 7.7 Tôi có thể test với domain https://dgnlmoingay.com không?
 
@@ -301,7 +305,7 @@ Bạn có thể test theo 2 cách:
 ```bash
 curl -X POST https://dgnlmoingay.com/api/payments/sepay/webhook \
    -H "Content-Type: application/json" \
-   -H "x-sepay-token: <SEPAY_WEBHOOK_SECRET>" \
+   -H "Authorization: Apikey <SEPAY_WEBHOOK_SECRET>" \
    -d '{
       "content": "DK DGNL260420120000ABCD",
       "amount": 599000,
@@ -311,7 +315,7 @@ curl -X POST https://dgnlmoingay.com/api/payments/sepay/webhook \
 
 ### 7.8 Tôi có xem BANK_BIN và SEPAY_WEBHOOK_HEADER ở SePay không?
 
-- `SEPAY_WEBHOOK_HEADER`: có thể xem/cấu hình ngay trong phần webhook của SePay nếu SePay hỗ trợ custom header; nếu không hỗ trợ, xem tài liệu SePay để biết header cố định họ gửi.
+- `SEPAY_WEBHOOK_HEADER`: có thể để trống nếu SePay dùng sẵn `Authorization: Apikey <API_KEY>`; chỉ cần set khi provider gửi custom header riêng.
 - `BANK_BIN`: thường là mã ngân hàng theo NAPAS/VietQR. Có thể tra từ danh sách ngân hàng VietQR/NAPAS; một số giao diện SePay cũng hiển thị mã này khi chọn ngân hàng nhận tiền.
 
 Nguyên tắc thực tế: cấu hình `.env` phải bám đúng dữ liệu thật mà SePay đang gửi và đúng mã BIN của ngân hàng nhận tiền bạn đang dùng.

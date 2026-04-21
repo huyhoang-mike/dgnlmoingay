@@ -186,6 +186,8 @@ def _extract_webhook_secret(request: Request) -> Optional[str]:
     token = token.strip()
     if token.lower().startswith("bearer "):
         token = token[7:].strip()
+    elif token.lower().startswith("apikey "):
+        token = token[7:].strip()
     return token or None
 
 
