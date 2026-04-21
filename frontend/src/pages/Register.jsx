@@ -15,6 +15,7 @@ import {
   HiOutlineRefresh,
   HiOutlineUserGroup,
   HiOutlinePhone,
+  HiX,
 } from 'react-icons/hi';
 import {
   bindPaymentOrderEmail,
@@ -28,13 +29,13 @@ const STEPS = [
     icon: HiOutlineCreditCard,
     step: 1,
     title: 'Tạo mã QR chuyển khoản',
-    desc: 'Nhập email Google, hệ thống tạo QR và mã chuyển khoản tự động theo đơn của bạn.',
+    desc: 'Nhập email Google, hệ thống tạo QR và mã chuyển khoản tự động',
   },
   {
     icon: HiOutlineMail,
     step: 2,
-    title: 'SePay xác nhận thanh toán',
-    desc: 'Sau khi chuyển khoản thành công, hệ thống tự động nhận webhook từ SePay và cập nhật trạng thái ngay trên trang.',
+    title: 'Xác nhận thanh toán tự động',
+    desc: 'Sau khi chuyển khoản thành công, hệ thống sẽ xác nhận ngay trên trang.',
   },
   {
     icon: HiOutlineUserGroup,
@@ -68,7 +69,7 @@ const STATUS_META = {
   },
   paid: {
     title: 'Thanh toán thành công',
-    desc: 'Tài khoản của bạn đã được mở quyền truy cập khóa học ngay lập tức.',
+    desc: 'Tài khoản của bạn đã được cấp quyền truy cập khóa học.',
     icon: HiOutlineCheckCircle,
     className: 'text-green-600 dark:text-green-400',
     boxClass: 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800/40',
@@ -113,6 +114,8 @@ export default function Register() {
   const [errorMessage, setErrorMessage] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
   const [copiedTransfer, setCopiedTransfer] = useState(false);
+  const [isStatusPopupOpen, setIsStatusPopupOpen] = useState(false);
+  const [lastPopupKey, setLastPopupKey] = useState('');
 
   useEffect(() => {
     if (user?.email && !googleEmail) {
@@ -166,6 +169,18 @@ export default function Register() {
     };
   }, [order?.order_code, order?.status, refreshUser]);
 
+  useEffect(() => {
+    if (!order?.order_code || !order?.status) {
+      return;
+    }
+
+    const popupKey = `${order.order_code}:${order.status}`;
+    if (order.status !== 'pending' && popupKey !== lastPopupKey) {
+      setIsStatusPopupOpen(true);
+      setLastPopupKey(popupKey);
+    }
+  }, [order?.order_code, order?.status, lastPopupKey]);
+
   const handleCreateOrder = async (event) => {
     event.preventDefault();
     setLoadingCreate(true);
@@ -183,7 +198,7 @@ export default function Register() {
 
       const response = await createPaymentOrder(payload);
       setOrder(response.data);
-      setInfoMessage('Đã tạo mã thanh toán mới. Vui lòng chuyển khoản đúng nội dung để hệ thống tự đối soát.');
+      setInfoMessage('Đã tạo mã thanh toán mới. Vui lòng chuyển khoản đúng nội dung bên dưới để yêu cầu được tự động xác nhận.');
 
       if (response.data.google_email) {
         setGoogleEmail(response.data.google_email);
@@ -323,7 +338,7 @@ export default function Register() {
                 type="email"
                 value={googleEmail}
                 onChange={(e) => setGoogleEmail(e.target.value)}
-                placeholder="youremail@gmail.com"
+                placeholder="abcd@gmail.com"
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
@@ -333,14 +348,14 @@ export default function Register() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" htmlFor="full-name">
-                Họ và tên (không bắt buộc)
+                Họ và tên
               </label>
               <input
                 id="full-name"
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                placeholder="Nguyen Van A"
+                placeholder="Nguyễn Huy Hoàng"
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
@@ -372,14 +387,23 @@ export default function Register() {
                   <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{statusMeta.desc}</p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={handleRefreshStatus}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-slate-500 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-white/70 dark:hover:bg-slate-700 transition-colors"
-              >
-                <HiOutlineRefresh className="h-4 w-4" />
-                Làm mới
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsStatusPopupOpen(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-primary-300 dark:border-primary-600 text-xs font-medium text-primary-700 dark:text-primary-300 hover:bg-white/70 dark:hover:bg-slate-700 transition-colors"
+                >
+                  Xem popup trạng thái
+                </button>
+                <button
+                  type="button"
+                  onClick={handleRefreshStatus}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-slate-500 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-white/70 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <HiOutlineRefresh className="h-4 w-4" />
+                  Làm mới
+                </button>
+              </div>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
@@ -434,33 +458,41 @@ export default function Register() {
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
             Thông tin chuyển khoản
           </h2>
-          {order?.qr_image_url && (
-            <div className="mb-6 flex justify-center">
-              <img
-                src={order.qr_image_url}
-                alt={`QR thanh toán ${order.order_code}`}
-                className="w-64 h-64 rounded-2xl border border-gray-200 dark:border-slate-600 bg-white p-3"
-              />
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
+            <div className="flex justify-center lg:justify-start">
+              {order?.qr_image_url ? (
+                <img
+                  src={order.qr_image_url}
+                  alt={`QR thanh toán ${order.order_code}`}
+                  className="w-full max-w-[420px] aspect-square object-contain rounded-2xl border border-gray-200 dark:border-slate-600 bg-white p-4"
+                />
+              ) : (
+                <div className="w-full max-w-[420px] aspect-square rounded-2xl border border-dashed border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 flex items-center justify-center p-6 text-center">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    QR sẽ hiển thị tại đây sau khi bạn tạo mã thanh toán.
+                  </p>
+                </div>
+              )}
             </div>
-          )}
 
-          <div className="max-w-sm mx-auto space-y-4">
-            <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Ngân hàng</span>
-              <span className="font-semibold text-gray-900 dark:text-white">{bankInfo.bank_name}</span>
-            </div>
-            <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Số tài khoản</span>
-              <span className="font-mono font-semibold text-gray-900 dark:text-white">{bankInfo.bank_account_number}</span>
-            </div>
-            <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Chủ tài khoản</span>
-              <span className="font-semibold text-gray-900 dark:text-white">{bankInfo.bank_account_name}</span>
-            </div>
-            <div className="flex justify-between items-center py-2">
-              <span className="text-sm text-gray-500 dark:text-gray-400">Học phí</span>
-              <div className="text-right">
-                <span className="font-bold text-green-600 dark:text-green-400">{formatVnd(bankInfo.expected_amount)}</span>
+            <div className="max-w-sm lg:max-w-none mx-auto w-full space-y-4">
+              <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Ngân hàng</span>
+                <span className="font-semibold text-gray-900 dark:text-white">{bankInfo.bank_name}</span>
+              </div>
+              <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Số tài khoản</span>
+                <span className="font-mono font-semibold text-gray-900 dark:text-white">{bankInfo.bank_account_number}</span>
+              </div>
+              <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-slate-700">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Chủ tài khoản</span>
+                <span className="font-semibold text-gray-900 dark:text-white">{bankInfo.bank_account_name}</span>
+              </div>
+              <div className="flex justify-between items-center py-2">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Học phí</span>
+                <div className="text-right">
+                  <span className="font-bold text-green-600 dark:text-green-400">{formatVnd(bankInfo.expected_amount)}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -548,7 +580,7 @@ export default function Register() {
             <span>Hotline: 0355 912 940</span>
           </div>
           <p className="mt-3 text-xs text-gray-400 dark:text-gray-500">
-            Nếu thanh toán thành công nhưng chưa mở quyền trong 1-2 phút, hãy gửi mã đơn thanh toán cho Zalo hỗ trợ.
+            Nếu bạn đã thanh toán thành công nhưng chưa truy cập được, hãy gửi ảnh màn hình chuyển khoản qua Zalo để anh hỗ trợ.
           </p>
         </div>
 
@@ -562,6 +594,76 @@ export default function Register() {
           </Link>
         </div>
       </div>
+
+      {isStatusPopupOpen && order && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[1px] flex items-center justify-center p-4">
+          <div className="w-full max-w-lg bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-slate-700">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white">Cập nhật trạng thái thanh toán</h3>
+              <button
+                type="button"
+                onClick={() => setIsStatusPopupOpen(false)}
+                className="p-1.5 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-slate-700 dark:text-gray-300"
+                aria-label="Đóng popup trạng thái"
+              >
+                <HiX className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4">
+              <div className={`rounded-xl border p-4 ${statusMeta.boxClass}`}>
+                <div className="flex items-start gap-3">
+                  <StatusIcon className={`h-6 w-6 mt-0.5 ${statusMeta.className}`} />
+                  <div>
+                    <p className={`font-semibold ${statusMeta.className}`}>{statusMeta.title}</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">{statusMeta.desc}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">Mã đơn: {order.order_code}</p>
+              </div>
+
+              {showPostPaymentLinks && (
+                <div className="space-y-2">
+                  {order?.zalo_group_url && (
+                    <a
+                      href={order.zalo_group_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors"
+                    >
+                      Vào group Zalo khóa học
+                    </a>
+                  )}
+                  {order?.youtube_guide_url && (
+                    <a
+                      href={order.youtube_guide_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-600 text-white text-sm font-medium rounded-xl hover:bg-rose-700 transition-colors"
+                    >
+                      Xem video hướng dẫn
+                    </a>
+                  )}
+                  {!order?.zalo_group_url && !order?.youtube_guide_url && (
+                    <p className="text-sm text-amber-700 dark:text-amber-300">
+                      Quản trị viên chưa cấu hình link nhóm học hoặc video hướng dẫn.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <a
+                href={supportZaloUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors"
+              >
+                Zalo hỗ trợ sự cố
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
