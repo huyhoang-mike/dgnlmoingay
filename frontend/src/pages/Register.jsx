@@ -40,8 +40,8 @@ const STEPS = [
   {
     icon: HiOutlineUserGroup,
     step: 3,
-    title: 'Mở quyền học ngay lập tức',
-    desc: 'Quyền truy cập khóa học được cấp tự động theo email Google, đồng thời hiện link Zalo nhóm học và video hướng dẫn.',
+    title: 'Học ngay lập tức',
+    desc: 'Truy cập khóa học, nhóm Zalo ôn tập ĐGNL cùng với video hướng dẫn sử dụng.',
   },
 ];
 
@@ -294,7 +294,7 @@ export default function Register() {
             Đăng ký khóa học
           </h1>
           <p className="text-lg text-white/80 max-w-xl mx-auto">
-            Làm theo 3 bước đơn giản để bắt đầu hành trình ôn luyện ĐGNL.
+            Làm các bước bên dưới để đăng ký khóa học và đạt 900+ ngay hôm nay.
           </p>
         </div>
       </div>
@@ -342,7 +342,7 @@ export default function Register() {
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
-                Bạn có thể nhập email trước hoặc sau khi thanh toán. Nên dùng đúng email Google sẽ đăng nhập khóa học.
+                Bạn có thể nhập email trước hoặc sau khi thanh toán. Dùng email có đuôi @gmail vì bạn phải dùng tài khoản Google này để đăng nhập khóa học.
               </p>
             </div>
 
