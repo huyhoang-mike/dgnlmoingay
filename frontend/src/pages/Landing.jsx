@@ -74,12 +74,13 @@ export default function Landing() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
               <span className="block">Tổng Ôn</span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 to-yellow-400">
-                Đánh Giá Năng Lực HCM 2026
+                Đánh Giá Năng Lực
               </span>{' '}
+              2026
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Tổng ôn Đánh Giá Năng Lực HCM toàn diện với 2 giai đoạn: <strong className="text-white">Nền tảng</strong> và{' '}
+              Tổng ôn toàn diện qua 2 giai đoạn: <strong className="text-white">Nền tảng</strong> và{' '}
               <strong className="text-white">Luyện đề</strong>.
             </p>
 
