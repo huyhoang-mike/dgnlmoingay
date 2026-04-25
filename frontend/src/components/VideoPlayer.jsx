@@ -11,7 +11,8 @@ export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
     return null;
   }
 
-  const embedUrl = `https://drive.google.com/file/d/${driveFileId}/preview`;
+  // Google Drive controls are cross-origin; we can only reduce iframe capabilities.
+  const embedUrl = `https://drive.google.com/file/d/${driveFileId}/preview?rm=minimal`;
 
   return (
     <div className="w-full">
@@ -30,17 +31,18 @@ export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
           src={embedUrl}
           title={title}
           className="absolute inset-0 w-full h-full"
-          allow="autoplay; encrypted-media"
+          allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
           loading="lazy"
-          sandbox="allow-same-origin allow-scripts allow-popups"
+          sandbox="allow-same-origin allow-scripts allow-presentation"
+          referrerPolicy="strict-origin-when-cross-origin"
           style={{ border: 'none' }}
         />
       </div>
 
       {/* Caption */}
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 text-center">
-        Nếu video không hiển thị, hãy kiểm tra quyền truy cập Google Drive.
+        Video được phát nhúng từ Google Drive. Một số nút điều hướng của Drive có thể vẫn hiển thị tùy chính sách của Google.
       </p>
     </div>
   );
