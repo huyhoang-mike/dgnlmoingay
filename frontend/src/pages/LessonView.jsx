@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { HiOutlineArrowLeft, HiOutlineArrowRight, HiOutlineCheckCircle, HiOutlineLockClosed } from 'react-icons/hi';
-import { getLesson } from '../api/client';
+import { getLesson, getLessonProgress, upsertLessonProgress } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 import VideoPlayer from '../components/VideoPlayer';
 import PDFMaterial from '../components/PDFMaterial';
@@ -16,7 +16,10 @@ export default function LessonView() {
   const { lessonId } = useParams();
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [completionLoading, setCompletionLoading] = useState(false);
+  const [completionSaving, setCompletionSaving] = useState(false);
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     const fetchLesson = async () => {
@@ -33,6 +36,30 @@ export default function LessonView() {
     };
     fetchLesson();
   }, [lessonId]);
+
+  useEffect(() => {
+    const fetchCompletionStatus = async () => {
+      if (!lesson?.id || !isAuthenticated || !user?.id || lesson.is_locked) {
+        setIsCompleted(false);
+        return;
+      }
+
+      setCompletionLoading(true);
+      try {
+        const response = await getLessonProgress(String(user.id), lesson.id);
+        setIsCompleted(Boolean(response.data?.is_completed));
+      } catch (error) {
+        if (error.response?.status !== 404) {
+          console.error('[DGNL] Failed to fetch lesson completion status:', error);
+        }
+        setIsCompleted(false);
+      } finally {
+        setCompletionLoading(false);
+      }
+    };
+
+    fetchCompletionStatus();
+  }, [lesson?.id, lesson?.is_locked, isAuthenticated, user?.id]);
 
   if (loading) {
     return (
@@ -57,10 +84,52 @@ export default function LessonView() {
     );
   }
 
-  const currentId = parseInt(lessonId);
+  const currentId = parseInt(lessonId, 10);
   const isLocked = lesson.is_locked;
   const hasVideo = !isLocked && !!lesson.video_drive_id;
   const hasPdf = !isLocked && !!lesson.pdf_drive_id;
+  const canTrackProgress = !isLocked && isAuthenticated && !!user?.id;
+
+  const handleToggleComplete = async () => {
+    if (!canTrackProgress || completionSaving) return;
+
+    const nextCompleted = !isCompleted;
+    setCompletionSaving(true);
+    try {
+      await upsertLessonProgress(String(user.id), lesson.id, {
+        is_completed: nextCompleted,
+        progress_percent: nextCompleted ? 100 : 0,
+      });
+      setIsCompleted(nextCompleted);
+    } catch (error) {
+      console.error('[DGNL] Failed to update lesson completion:', error);
+    } finally {
+      setCompletionSaving(false);
+    }
+  };
+
+  const completionButton = canTrackProgress ? (
+    <button
+      type="button"
+      onClick={handleToggleComplete}
+      disabled={completionSaving || completionLoading}
+      className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold transition-colors ${
+        isCompleted
+          ? 'border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+          : 'border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20'
+      } ${completionSaving || completionLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+    >
+      <HiOutlineCheckCircle className="h-5 w-5" />
+      {completionSaving ? 'Đang lưu...' : isCompleted ? 'Đã hoàn thành' : 'Đánh dấu hoàn thành'}
+    </button>
+  ) : !isLocked ? (
+    <Link
+      to="/dang-ky"
+      className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300 font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+    >
+      Đăng nhập để lưu tiến độ
+    </Link>
+  ) : null;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10">
@@ -78,6 +147,12 @@ export default function LessonView() {
           {lesson.is_free && (
             <span className="inline-flex mt-1 px-2 py-0.5 text-[10px] font-bold rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
               FREE
+            </span>
+          )}
+          {!isLocked && isCompleted && (
+            <span className="inline-flex mt-1 ml-2 items-center gap-1 px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+              <HiOutlineCheckCircle className="h-3 w-3" />
+              Đã hoàn thành
             </span>
           )}
         </div>
@@ -172,28 +247,14 @@ export default function LessonView() {
             <PDFMaterial driveFileId={lesson.pdf_drive_id} title="Tài liệu bài học" />
 
             {/* Mark Complete Button */}
-            <button
-              className="w-full flex items-center justify-center gap-2 px-4 py-3
-                         rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold
-                         hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
-            >
-              <HiOutlineCheckCircle className="h-5 w-5" />
-              Đánh dấu hoàn thành
-            </button>
+            {completionButton}
           </div>
         )}
       </div>
 
       {!isLocked && !hasVideo && (
         <div className="mt-6">
-          <button
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-3
-                       rounded-xl border-2 border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 font-semibold
-                       hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
-          >
-            <HiOutlineCheckCircle className="h-5 w-5" />
-            Đánh dấu hoàn thành
-          </button>
+          <div className="w-full sm:w-auto">{completionButton}</div>
         </div>
       )}
     </div>

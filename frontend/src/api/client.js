@@ -60,6 +60,20 @@ export const getLessonProgress = (userId, lessonId) =>
 export const createProgress = (data) => client.post('/progress/', data);
 export const updateProgress = (userId, lessonId, data) =>
   client.put(`/progress/user/${userId}/lesson/${lessonId}`, data);
+export const upsertLessonProgress = async (userId, lessonId, data) => {
+  try {
+    return await updateProgress(userId, lessonId, data);
+  } catch (error) {
+    if (error.response?.status === 404) {
+      return createProgress({
+        user_id: userId,
+        lesson_id: lessonId,
+        ...data,
+      });
+    }
+    throw error;
+  }
+};
 
 // ── Admin ────────────────────────────────────
 export const listUsers = () => client.get('/auth/users');

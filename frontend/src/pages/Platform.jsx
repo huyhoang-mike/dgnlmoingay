@@ -3,8 +3,10 @@
  * Displays all foundation course subjects as a card grid.
  */
 
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HiOutlineArrowRight, HiOutlineLockClosed, HiOutlineBookOpen } from 'react-icons/hi';
+import { HiOutlineArrowRight, HiOutlineLockClosed, HiOutlineBookOpen, HiOutlineCheckCircle } from 'react-icons/hi';
+import { getLessons, getUserProgress } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 
 const CATEGORIES = [
@@ -42,7 +44,82 @@ const CATEGORIES = [
 ];
 
 export default function Platform() {
-  const { isEnrolled } = useAuth();
+  const { isEnrolled, isAuthenticated, user, token } = useAuth();
+  const [lessons, setLessons] = useState([]);
+  const [completedMap, setCompletedMap] = useState({});
+  const [loadingProgress, setLoadingProgress] = useState(true);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadProgress = async () => {
+      setLoadingProgress(true);
+      try {
+        const lessonsPromise = getLessons({ category: 'nentang' });
+        const progressPromise = isAuthenticated && user?.id
+          ? getUserProgress(String(user.id)).then((res) => res.data).catch(() => [])
+          : Promise.resolve([]);
+
+        const [lessonsResponse, progressData] = await Promise.all([lessonsPromise, progressPromise]);
+
+        if (!isActive) return;
+
+        const lessonRows = Array.isArray(lessonsResponse.data) ? lessonsResponse.data : [];
+        const nextCompletedMap = {};
+        progressData.forEach((row) => {
+          if (row.is_completed) {
+            nextCompletedMap[row.lesson_id] = true;
+          }
+        });
+
+        setLessons(lessonRows);
+        setCompletedMap(nextCompletedMap);
+      } catch (error) {
+        console.error('[DGNL] Failed to load nền tảng progress:', error);
+        if (isActive) {
+          setLessons([]);
+          setCompletedMap({});
+        }
+      } finally {
+        if (isActive) {
+          setLoadingProgress(false);
+        }
+      }
+    };
+
+    loadProgress();
+
+    return () => {
+      isActive = false;
+    };
+  }, [isAuthenticated, user?.id, token]);
+
+  const sectionProgress = useMemo(() => {
+    const total = lessons.length;
+    const completed = lessons.reduce((acc, lesson) => acc + (completedMap[lesson.id] ? 1 : 0), 0);
+    const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+    return { total, completed, percent };
+  }, [lessons, completedMap]);
+
+  const subjectProgress = useMemo(() => {
+    const map = {};
+    lessons.forEach((lesson) => {
+      if (!lesson.subject) return;
+      if (!map[lesson.subject]) {
+        map[lesson.subject] = { total: 0, completed: 0, percent: 0 };
+      }
+      map[lesson.subject].total += 1;
+      if (completedMap[lesson.id]) {
+        map[lesson.subject].completed += 1;
+      }
+    });
+
+    Object.values(map).forEach((stats) => {
+      stats.percent = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+    });
+
+    return map;
+  }, [lessons, completedMap]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
@@ -62,6 +139,30 @@ export default function Platform() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="mb-8 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 p-5">
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-200">Tiến độ phần Nền tảng</h2>
+            {isAuthenticated ? (
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {sectionProgress.completed}/{sectionProgress.total} bài ({sectionProgress.percent}%)
+              </span>
+            ) : (
+              <span className="text-xs text-gray-500 dark:text-gray-400">Đăng nhập để lưu tiến độ</span>
+            )}
+          </div>
+
+          <div className="h-2 rounded-full bg-gray-100 dark:bg-slate-700 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all"
+              style={{ width: `${isAuthenticated ? sectionProgress.percent : 0}%` }}
+            />
+          </div>
+
+          {loadingProgress && (
+            <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">Đang cập nhật tiến độ...</p>
+          )}
+        </div>
+
         {CATEGORIES.map((cat) => (
           <div key={cat.group} className="mb-10">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
@@ -69,27 +170,65 @@ export default function Platform() {
               {cat.group}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {cat.subjects.map((s) => (
-                <Link
-                  key={s.key}
-                  to={`/nen-tang/${s.key}`}
-                  className="group bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700 hover:shadow-md transition-all"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <span className="text-2xl">{s.emoji}</span>
-                    {!isEnrolled && (
-                      <HiOutlineLockClosed className="h-4 w-4 text-gray-300 dark:text-slate-600" />
-                    )}
-                  </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {s.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{s.desc}</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-primary-600 dark:text-primary-400 group-hover:gap-2 transition-all">
-                    Xem bài học <HiOutlineArrowRight className="h-3 w-3" />
-                  </span>
-                </Link>
-              ))}
+              {cat.subjects.map((s) => {
+                const stats = subjectProgress[s.key] || { total: 0, completed: 0, percent: 0 };
+                const isSubjectCompleted = stats.total > 0 && stats.completed === stats.total;
+
+                return (
+                  <Link
+                    key={s.key}
+                    to={`/nen-tang/${s.key}`}
+                    className={`group rounded-xl p-5 border hover:shadow-md transition-all ${
+                      isSubjectCompleted
+                        ? 'bg-emerald-50/70 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/40 hover:border-emerald-300 dark:hover:border-emerald-700'
+                        : 'bg-white dark:bg-slate-800 border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="text-2xl">{s.emoji}</span>
+                      <div className="flex items-center gap-1.5">
+                        {isSubjectCompleted && (
+                          <HiOutlineCheckCircle className="h-4 w-4 text-emerald-500" />
+                        )}
+                        {!isEnrolled && (
+                          <HiOutlineLockClosed className="h-4 w-4 text-gray-300 dark:text-slate-600" />
+                        )}
+                      </div>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                      {s.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{s.desc}</p>
+
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400 mb-1">
+                        {stats.total > 0 ? (
+                          <>
+                            <span>{stats.completed}/{stats.total} bài đã học</span>
+                            <span>{stats.percent}%</span>
+                          </>
+                        ) : (
+                          <span>Chưa có bài học</span>
+                        )}
+                      </div>
+                      <div className="h-1.5 rounded-full bg-gray-100 dark:bg-slate-700 overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-emerald-500 to-green-500 transition-all"
+                          style={{ width: `${stats.percent}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <span className={`inline-flex items-center gap-1 text-xs font-medium group-hover:gap-2 transition-all ${
+                      isSubjectCompleted
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : 'text-primary-600 dark:text-primary-400'
+                    }`}>
+                      Xem bài học <HiOutlineArrowRight className="h-3 w-3" />
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         ))}

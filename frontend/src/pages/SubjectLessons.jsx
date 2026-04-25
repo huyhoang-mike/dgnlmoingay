@@ -3,7 +3,7 @@
  * Displays lessons for a specific subject or exam category.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   HiOutlineArrowLeft,
@@ -11,8 +11,9 @@ import {
   HiOutlinePlay,
   HiOutlineDocumentText,
   HiOutlineLockClosed,
+  HiOutlineCheckCircle,
 } from 'react-icons/hi';
-import { getLessons } from '../api/client';
+import { getLessons, getUserProgress } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 
 const SUBJECT_NAMES = {
@@ -33,26 +34,62 @@ export default function SubjectLessons({ category = 'nentang' }) {
   const { subject } = useParams();
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { isEnrolled, token } = useAuth();
+  const [completedMap, setCompletedMap] = useState({});
+  const { isAuthenticated, token, user } = useAuth();
 
   const subjectName = SUBJECT_NAMES[subject] || subject;
   const backLink = category === 'nentang' ? '/nen-tang' : '/luyen-de';
   const backLabel = category === 'nentang' ? 'Nền tảng' : 'Luyện đề';
 
+  const completedCount = useMemo(
+    () => lessons.reduce((acc, lesson) => acc + (completedMap[lesson.id] ? 1 : 0), 0),
+    [lessons, completedMap]
+  );
+  const progressPercent = lessons.length > 0 ? Math.round((completedCount / lessons.length) * 100) : 0;
+
   useEffect(() => {
+    let isActive = true;
+
     const fetchLessons = async () => {
       setLoading(true);
       try {
-        const response = await getLessons({ category, subject });
-        setLessons(response.data);
+        const lessonsPromise = getLessons({ category, subject });
+        const progressPromise = isAuthenticated && user?.id
+          ? getUserProgress(String(user.id)).then((res) => res.data).catch(() => [])
+          : Promise.resolve([]);
+
+        const [lessonsResponse, progressData] = await Promise.all([lessonsPromise, progressPromise]);
+
+        if (!isActive) return;
+
+        setLessons(lessonsResponse.data);
+
+        const nextCompletedMap = {};
+        progressData.forEach((row) => {
+          if (row.is_completed) {
+            nextCompletedMap[row.lesson_id] = true;
+          }
+        });
+        setCompletedMap(nextCompletedMap);
       } catch (err) {
         console.error('[DGNL] Failed to fetch lessons:', err);
+        if (isActive) {
+          setLessons([]);
+          setCompletedMap({});
+        }
       } finally {
-        setLoading(false);
+        if (isActive) {
+          setLoading(false);
+        }
       }
     };
+
     fetchLessons();
-  }, [category, subject, token]);
+
+    return () => {
+      isActive = false;
+    };
+  }, [category, subject, token, isAuthenticated, user?.id]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
@@ -72,6 +109,29 @@ export default function SubjectLessons({ category = 'nentang' }) {
         <p className="text-gray-500 dark:text-gray-400 mb-8">
           {lessons.length} bài học trong môn này
         </p>
+
+        {isAuthenticated && !loading && lessons.length > 0 && (
+          <div className="mb-8 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 p-4">
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="font-medium text-gray-700 dark:text-gray-200">Tiến độ môn học</span>
+              <span className="text-gray-500 dark:text-gray-400">
+                {completedCount}/{lessons.length} bài ({progressPercent}%)
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-gray-100 dark:bg-slate-700 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-emerald-500 to-green-500 transition-all"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {!isAuthenticated && (
+          <div className="mb-8 text-sm text-gray-500 dark:text-gray-400 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 p-4">
+            Đăng nhập để lưu và theo dõi tiến độ học theo từng bài.
+          </div>
+        )}
 
         {/* Lessons */}
         {loading ? (
@@ -93,52 +153,70 @@ export default function SubjectLessons({ category = 'nentang' }) {
           </div>
         ) : (
           <div className="space-y-3">
-            {lessons.map((lesson, index) => (
-              <Link
-                key={lesson.id}
-                to={`/lessons/${lesson.id}`}
-                className="group flex items-center gap-4 bg-white dark:bg-slate-800 rounded-xl p-4 border border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700 hover:shadow-md transition-all"
-              >
-                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
-                  <span className="text-sm font-bold text-primary-600 dark:text-primary-400">
-                    {index + 1}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {lesson.title}
-                  </h3>
-                  {lesson.description && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 truncate">
-                      {lesson.description}
-                    </p>
-                  )}
-                  <div className="flex items-center gap-3 mt-1.5">
-                    {!lesson.is_locked && lesson.video_drive_id && (
-                      <span className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400">
-                        <HiOutlinePlay className="h-3 w-3" /> Video
-                      </span>
-                    )}
-                    {!lesson.is_locked && lesson.pdf_drive_id && (
-                      <span className="inline-flex items-center gap-1 text-xs text-red-500 dark:text-red-400">
-                        <HiOutlineDocumentText className="h-3 w-3" /> PDF
-                      </span>
-                    )}
-                    {lesson.is_free && (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                        FREE
-                      </span>
-                    )}
+            {lessons.map((lesson, index) => {
+              const isCompleted = !!completedMap[lesson.id];
+              return (
+                <Link
+                  key={lesson.id}
+                  to={`/lessons/${lesson.id}`}
+                  className={`group flex items-center gap-4 rounded-xl p-4 border transition-all hover:shadow-md ${
+                    isCompleted
+                      ? 'bg-emerald-50/70 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/40 hover:border-emerald-300 dark:hover:border-emerald-700'
+                      : 'bg-white dark:bg-slate-800 border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
+                  }`}
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
+                    <span className="text-sm font-bold text-primary-600 dark:text-primary-400">
+                      {index + 1}
+                    </span>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {lesson.is_locked && (
-                    <HiOutlineLockClosed className="h-4 w-4 text-gray-300 dark:text-slate-600" />
-                  )}
-                  <HiOutlineArrowRight className="h-4 w-4 text-gray-300 dark:text-slate-600 group-hover:text-primary-500 transition-colors" />
-                </div>
-              </Link>
-            ))}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                      {lesson.title}
+                    </h3>
+                    {lesson.description && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+                        {lesson.description}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-3 mt-1.5">
+                      {!lesson.is_locked && lesson.video_drive_id && (
+                        <span className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400">
+                          <HiOutlinePlay className="h-3 w-3" /> Video
+                        </span>
+                      )}
+                      {!lesson.is_locked && lesson.pdf_drive_id && (
+                        <span className="inline-flex items-center gap-1 text-xs text-red-500 dark:text-red-400">
+                          <HiOutlineDocumentText className="h-3 w-3" /> PDF
+                        </span>
+                      )}
+                      {lesson.is_free && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                          FREE
+                        </span>
+                      )}
+                      {isCompleted && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-bold rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+                          <HiOutlineCheckCircle className="h-3 w-3" /> Đã học
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {isCompleted ? (
+                      <HiOutlineCheckCircle className="h-4 w-4 text-emerald-500" />
+                    ) : lesson.is_locked ? (
+                      <HiOutlineLockClosed className="h-4 w-4 text-gray-300 dark:text-slate-600" />
+                    ) : null}
+                    <HiOutlineArrowRight className={`h-4 w-4 transition-colors ${
+                      isCompleted
+                        ? 'text-emerald-500 group-hover:text-emerald-600'
+                        : 'text-gray-300 dark:text-slate-600 group-hover:text-primary-500'
+                    }`} />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@
  * Lists available mock exams fetched from /exams/index.json
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   HiOutlineArrowRight,
@@ -13,9 +13,10 @@ import {
   HiOutlineDocumentText,
   HiOutlineStar,
   HiOutlineLockClosed,
+  HiOutlineCheckCircle,
 } from 'react-icons/hi';
 import { useAuth } from '../contexts/AuthContext';
-import { getExamSettings } from '../api/client';
+import { getExamSettings, listMyExamAttempts } from '../api/client';
 
 const SUBJECT_COLORS = {
   'Tiếng Việt': 'bg-blue-500',
@@ -27,15 +28,29 @@ const SUBJECT_COLORS = {
 export default function RealPractice() {
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [bestAttemptByExam, setBestAttemptByExam] = useState({});
   const navigate = useNavigate();
-  const { isEnrolled } = useAuth();
+  const { isEnrolled, isAuthenticated } = useAuth();
+
+  const sectionProgress = useMemo(() => {
+    const total = exams.length;
+    const completed = exams.reduce(
+      (acc, exam) => acc + (typeof bestAttemptByExam[exam.id] === 'number' ? 1 : 0),
+      0
+    );
+    const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+    return { total, completed, percent };
+  }, [exams, bestAttemptByExam]);
 
   useEffect(() => {
+    let isActive = true;
+
     const load = async () => {
       try {
-        const [indexRes, settingsRes] = await Promise.all([
+        const [indexRes, settingsRes, attempts] = await Promise.all([
           fetch('/exams/index.json', { cache: 'no-store' }).then((r) => r.json()),
           getExamSettings().then((r) => r.data).catch(() => []),
+          isAuthenticated ? listMyExamAttempts().then((r) => r.data).catch(() => []) : Promise.resolve([]),
         ]);
 
         // Build settings map from backend
@@ -52,15 +67,39 @@ export default function RealPractice() {
           };
         }).filter((exam) => exam.isPublished); // Only show published exams
 
+        if (!isActive) return;
+
+        const nextBestAttemptByExam = {};
+        attempts.forEach((attempt) => {
+          const percent = attempt.max_score > 0
+            ? Math.round((attempt.score / attempt.max_score) * 100)
+            : 0;
+          const currentBest = nextBestAttemptByExam[attempt.exam_id];
+          if (currentBest === undefined || percent > currentBest) {
+            nextBestAttemptByExam[attempt.exam_id] = percent;
+          }
+        });
+
         setExams(merged);
+        setBestAttemptByExam(nextBestAttemptByExam);
       } catch {
-        setExams([]);
+        if (isActive) {
+          setExams([]);
+          setBestAttemptByExam({});
+        }
       } finally {
-        setLoading(false);
+        if (isActive) {
+          setLoading(false);
+        }
       }
     };
+
     load();
-  }, []);
+
+    return () => {
+      isActive = false;
+    };
+  }, [isAuthenticated]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
@@ -96,6 +135,25 @@ export default function RealPractice() {
           ))}
         </div>
 
+        <div className="mb-8 bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 p-5">
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-200">Tiến độ phần Thực chiến</h2>
+            {isAuthenticated ? (
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {sectionProgress.completed}/{sectionProgress.total} đề đã làm ({sectionProgress.percent}%)
+              </span>
+            ) : (
+              <span className="text-xs text-gray-500 dark:text-gray-400">Đăng nhập để lưu tiến độ</span>
+            )}
+          </div>
+          <div className="h-2 rounded-full bg-gray-100 dark:bg-slate-700 overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-orange-500 to-red-500 transition-all"
+              style={{ width: `${isAuthenticated ? sectionProgress.percent : 0}%` }}
+            />
+          </div>
+        </div>
+
         {/* Exam list */}
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-5">📋 Danh sách đề thi</h2>
 
@@ -112,14 +170,29 @@ export default function RealPractice() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {exams.map((exam) => {
               const canAccess = exam.isFree || isEnrolled;
+              const bestScorePercent = bestAttemptByExam[exam.id];
+              const hasAttempt = typeof bestScorePercent === 'number';
+
               return (
                 <div
                   key={exam.id}
-                  className={`group relative bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 overflow-hidden transition-all hover:shadow-md ${
+                  className={`group relative rounded-2xl border overflow-hidden transition-all hover:shadow-md ${
+                    hasAttempt
+                      ? 'bg-emerald-50/70 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/40'
+                      : 'bg-white dark:bg-slate-800 border-gray-100 dark:border-slate-700'
+                  } ${
                     canAccess ? 'cursor-pointer' : 'opacity-80'
                   }`}
                   onClick={() => canAccess && navigate(`/thuc-chien/${exam.id}`)}
                 >
+                  {hasAttempt && (
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+                        <HiOutlineCheckCircle className="h-3 w-3" /> Đã làm
+                      </span>
+                    </div>
+                  )}
+
                   {/* Free badge */}
                   {exam.isFree && (
                     <div className="absolute top-3 right-3">
@@ -187,9 +260,15 @@ export default function RealPractice() {
                   {/* Bottom action bar */}
                   {canAccess && (
                     <div className="px-5 py-3 bg-gray-50 dark:bg-slate-700/50 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between">
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {exam.pointsPerQuestion} điểm/câu
-                      </span>
+                      {hasAttempt ? (
+                        <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                          Điểm tốt nhất: {bestScorePercent}%
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {exam.pointsPerQuestion} điểm/câu
+                        </span>
+                      )}
                       <span className="inline-flex items-center gap-1 text-sm font-medium text-primary-600 dark:text-primary-400 group-hover:gap-2 transition-all">
                         Vào thi <HiOutlineArrowRight className="h-3.5 w-3.5" />
                       </span>
