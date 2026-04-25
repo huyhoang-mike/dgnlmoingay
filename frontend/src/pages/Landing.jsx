@@ -66,21 +66,20 @@ export default function Landing() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm text-white/90 mb-6">
+            {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm text-white/90 mb-6">
               <HiOutlineStar className="h-4 w-4 text-yellow-300" />
               Khóa học Đánh Giá Năng Lực V-ACT 2026 - Đợt 2 đang mở đăng ký
-            </div>
+            </div> */}
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
-              Tổng Ôn{' '}
+              <span className="block">Tổng Ôn</span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 to-yellow-400">
-                Đánh Giá Năng Lực
+                Đánh Giá Năng Lực HCM 2026
               </span>{' '}
-              2026
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Khóa học toàn diện gồm 2 giai đoạn: <strong className="text-white">Nền tảng</strong> và{' '}
+              Tổng ôn Đánh Giá Năng Lực HCM toàn diện với 2 giai đoạn: <strong className="text-white">Nền tảng</strong> và{' '}
               <strong className="text-white">Luyện đề</strong>.
             </p>
 
