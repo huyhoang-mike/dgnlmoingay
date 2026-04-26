@@ -185,14 +185,6 @@ export default function RealPractice() {
                   }`}
                   onClick={() => canAccess && navigate(`/thuc-chien/${exam.id}`)}
                 >
-                  {hasAttempt && (
-                    <div className="absolute top-3 left-3">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
-                        <HiOutlineCheckCircle className="h-3 w-3" /> Đã làm
-                      </span>
-                    </div>
-                  )}
-
                   {/* Free badge */}
                   {exam.isFree && (
                     <div className="absolute top-3 right-3">
@@ -261,9 +253,14 @@ export default function RealPractice() {
                   {canAccess && (
                     <div className="px-5 py-3 bg-gray-50 dark:bg-slate-700/50 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between">
                       {hasAttempt ? (
-                        <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-                          Điểm tốt nhất: {bestScorePercent}%
-                        </span>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+                            <HiOutlineCheckCircle className="h-3 w-3" /> Đã làm
+                          </span>
+                          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                            Điểm tốt nhất: {bestScorePercent}%
+                          </span>
+                        </div>
                       ) : (
                         <span className="text-xs text-gray-500 dark:text-gray-400">
                           {exam.pointsPerQuestion} điểm/câu
