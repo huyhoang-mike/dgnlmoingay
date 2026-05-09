@@ -37,6 +37,19 @@ const EXAM_SECTIONS = [
     ],
   },
   {
+    group: 'Sách Luyện Đề',
+    badge: 'PDF ONLY',
+    badgeColor: 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400',
+    items: [
+      {
+        key: 'sach_luyen_de',
+        name: 'Sách Luyện Đề',
+        hasVideo: false,
+        resourceLabel: 'Sách PDF (+ đáp án nếu có)',
+      },
+    ],
+  },
+  {
     group: 'Đề V-ACT Chính thức trước 2025',
     badge: 'VIDEO CHI TIẾT',
     badgeColor: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
@@ -218,7 +231,7 @@ export default function Practice() {
                           </span>
                         )}
                         <span className="inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
-                          <HiOutlineDocumentText className="h-3 w-3" /> Đáp án
+                          <HiOutlineDocumentText className="h-3 w-3" /> {item.resourceLabel || 'Đáp án'}
                         </span>
                       </div>
 

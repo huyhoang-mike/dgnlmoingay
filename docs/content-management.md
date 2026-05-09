@@ -28,6 +28,7 @@ Mỗi bài học (lesson) trong database có 2 trường quan trọng cho media:
 |------------------|---------------------------------------------|-------------------------------------|
 | `video_drive_id` | Google Drive File ID của video bài giảng    | `1aBcDeFgHiJkLmNoPqRsTuVwXyZ`     |
 | `pdf_drive_id`   | Google Drive File ID của tài liệu PDF       | `2xYzAbCdEfGhIjKlMnOpQrStUv`     |
+| `answer_pdf_drive_id` | Google Drive File ID của file đáp án PDF (tuỳ chọn) | `3mNoPqRsTuVwXyZaBcDeFgHiJk` |
 
 **Luồng hoạt động:**
 
@@ -99,6 +100,7 @@ và nhúng (embed) qua iframe bằng File ID.
   "order": 1,
   "video_drive_id": "1aBcDeFgHiJkLmNoPqRsTuVwXyZ",
   "pdf_drive_id": "2xYzAbCdEfGhIjKlMnOpQrStUv",
+  "answer_pdf_drive_id": "3mNoPqRsTuVwXyZaBcDeFgHiJk",
   "content": "## Nội dung\n\nĐây là nội dung bài học...",
   "is_published": true
 }
@@ -131,6 +133,7 @@ $body = @{
     order          = 1
     video_drive_id = "1aBcDeFgHiJkLmNoPqRsTuVwXyZ"
     pdf_drive_id   = "2xYzAbCdEfGhIjKlMnOpQrStUv"
+    answer_pdf_drive_id = "3mNoPqRsTuVwXyZaBcDeFgHiJk"
     content        = "Nội dung bài học ở đây..."
     is_published   = $true
 } | ConvertTo-Json
@@ -148,6 +151,7 @@ Invoke-RestMethod -Uri "http://localhost/api/lessons/" `
 | `order`          | Không    | Thứ tự sắp xếp (1, 2, 3...). Mặc định: 0                          |
 | `video_drive_id` | Không    | Google Drive File ID của video. Để `null` nếu chưa có              |
 | `pdf_drive_id`   | Không    | Google Drive File ID của PDF. Để `null` nếu chưa có                |
+| `answer_pdf_drive_id` | Không | Google Drive File ID của PDF đáp án. Để `null` nếu không có        |
 | `content`        | Không    | Nội dung text bài học (hỗ trợ Markdown-like formatting)             |
 | `is_published`   | Không    | `true` = hiển thị cho học sinh, `false` = ẩn. Mặc định: `false`   |
 
@@ -172,6 +176,14 @@ curl -X PUT http://localhost/api/lessons/1 \
 curl -X PUT http://localhost/api/lessons/1 \
   -H "Content-Type: application/json" \
   -d '{"pdf_drive_id": "PDF_GOOGLE_DRIVE_FILE_ID"}'
+```
+
+### Thêm PDF đáp án đi kèm
+
+```bash
+curl -X PUT http://localhost/api/lessons/1 \
+  -H "Content-Type: application/json" \
+  -d '{"answer_pdf_drive_id": "ANSWER_PDF_GOOGLE_DRIVE_FILE_ID"}'
 ```
 
 ### Xoá video/PDF (đặt về trống)

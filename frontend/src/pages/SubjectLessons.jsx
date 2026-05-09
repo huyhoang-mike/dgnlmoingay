@@ -28,6 +28,7 @@ const SUBJECT_NAMES = {
   lich_su: 'Lịch Sử',
   gdktpl: 'GD Kinh tế & Pháp luật',
   nang_cao: 'Tài liệu Nâng cao',
+  sach_luyen_de: 'Sách Luyện Đề',
 };
 
 export default function SubjectLessons({ category = 'nentang' }) {
@@ -188,6 +189,11 @@ export default function SubjectLessons({ category = 'nentang' }) {
                       {!lesson.is_locked && lesson.pdf_drive_id && (
                         <span className="inline-flex items-center gap-1 text-xs text-red-500 dark:text-red-400">
                           <HiOutlineDocumentText className="h-3 w-3" /> PDF
+                        </span>
+                      )}
+                      {!lesson.is_locked && lesson.answer_pdf_drive_id && (
+                        <span className="inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
+                          <HiOutlineDocumentText className="h-3 w-3" /> Đáp án PDF
                         </span>
                       )}
                       {lesson.is_free && (

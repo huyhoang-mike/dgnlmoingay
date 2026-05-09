@@ -118,7 +118,7 @@ export default function AdminPanel() {
   const [addLessonLoading, setAddLessonLoading] = useState(false);
   const [newLesson, setNewLesson] = useState({
     title: '', description: '', order: 0, category: 'nentang', subject: '',
-    video_drive_id: '', pdf_drive_id: '', is_published: false, is_free: false,
+    video_drive_id: '', pdf_drive_id: '', answer_pdf_drive_id: '', is_published: false, is_free: false,
   });
   const [csvMode, setCsvMode] = useState('skip');
 
@@ -396,10 +396,11 @@ export default function AdminPanel() {
         description: newLesson.description || null,
         video_drive_id: newLesson.video_drive_id || null,
         pdf_drive_id: newLesson.pdf_drive_id || null,
+        answer_pdf_drive_id: newLesson.answer_pdf_drive_id || null,
       };
       await createLesson(payload);
       showToast('✅ Đã tạo bài giảng mới');
-      setNewLesson({ title: '', description: '', order: 0, category: 'nentang', subject: '', video_drive_id: '', pdf_drive_id: '', is_published: false, is_free: false });
+      setNewLesson({ title: '', description: '', order: 0, category: 'nentang', subject: '', video_drive_id: '', pdf_drive_id: '', answer_pdf_drive_id: '', is_published: false, is_free: false });
       setShowAddLesson(false);
       fetchLessons();
     } catch (err) {
@@ -982,6 +983,11 @@ export default function AdminPanel() {
                         className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Google Drive file ID hoặc URL" />
                     </div>
                     <div>
+                      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">PDF đáp án (tuỳ chọn)</label>
+                      <input type="text" value={newLesson.answer_pdf_drive_id} onChange={(e) => setNewLesson({ ...newLesson, answer_pdf_drive_id: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Google Drive file ID hoặc URL" />
+                    </div>
+                    <div>
                       <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Thứ tự</label>
                       <input type="number" value={newLesson.order} onChange={(e) => setNewLesson({ ...newLesson, order: parseInt(e.target.value) || 0 })}
                         className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
@@ -1025,6 +1031,7 @@ export default function AdminPanel() {
                   <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">subject</code>,{' '}
                   <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">video_drive_id</code>,{' '}
                   <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">pdf_drive_id</code>,{' '}
+                  <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">answer_pdf_drive_id</code>,{' '}
                   <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">is_published</code>,{' '}
                   <code className="bg-gray-100 dark:bg-slate-700 px-1 rounded">is_free</code>
                 </p>
@@ -1097,7 +1104,8 @@ export default function AdminPanel() {
                             <div className="flex gap-2">
                               {l.video_drive_id && <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">📹 Video</span>}
                               {l.pdf_drive_id && <span className="text-[10px] px-1.5 py-0.5 rounded bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400">📄 PDF</span>}
-                              {!l.video_drive_id && !l.pdf_drive_id && <span className="text-[10px] text-gray-400 dark:text-gray-500">—</span>}
+                              {l.answer_pdf_drive_id && <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400">🗂️ Đáp án</span>}
+                              {!l.video_drive_id && !l.pdf_drive_id && !l.answer_pdf_drive_id && <span className="text-[10px] text-gray-400 dark:text-gray-500">—</span>}
                             </div>
                           </td>
                           <td className="px-5 py-4 text-center">

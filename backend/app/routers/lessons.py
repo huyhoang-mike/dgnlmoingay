@@ -33,6 +33,7 @@ def _apply_access_control(lesson: Lesson, user: Optional[User]) -> dict:
         "updated_at": lesson.updated_at,
         "video_drive_id": None,
         "pdf_drive_id": None,
+        "answer_pdf_drive_id": None,
         "content": None,
         "is_locked": True,
     }
@@ -45,6 +46,7 @@ def _apply_access_control(lesson: Lesson, user: Optional[User]) -> dict:
     if has_access:
         data["video_drive_id"] = lesson.video_drive_id
         data["pdf_drive_id"] = lesson.pdf_drive_id
+        data["answer_pdf_drive_id"] = lesson.answer_pdf_drive_id
         data["content"] = lesson.content
         data["is_locked"] = False
 

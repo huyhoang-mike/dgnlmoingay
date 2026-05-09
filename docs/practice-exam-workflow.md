@@ -27,6 +27,46 @@ Thêm một item mới vào đúng nhóm đề:
 - `key` phải khớp với `subject` của các bài học bài giải.
 - Nếu đề đó không có video, đặt `hasVideo: false` để card hiển thị gọn hơn.
 
+### Truong hop dac biet: Them "Sach Luyen De" (chi PDF)
+
+Muc "Sach Luyen De" da duoc cau hinh san voi:
+
+- `key`: `sach_luyen_de`
+- URL: `/luyen-de/sach_luyen_de`
+
+Khi them noi dung cho muc nay, chi can tao lesson voi `category = luyende` va `subject = sach_luyen_de`.
+Khong can video. Ban co 2 truong hop:
+
+- Chi co sach: chi can `pdf_drive_id`.
+- Co kem dap an: them `answer_pdf_drive_id`.
+
+Vi du payload:
+
+```json
+{
+  "title": "Sách Luyện Đề - Chuyên đề Đọc hiểu 01",
+  "description": "Bộ bài tập PDF có đáp án chi tiết",
+  "order": 1,
+  "category": "luyende",
+  "subject": "sach_luyen_de",
+  "video_drive_id": null,
+  "pdf_drive_id": "GOOGLE_DRIVE_PDF_ID",
+  "answer_pdf_drive_id": "GOOGLE_DRIVE_ANSWER_PDF_ID",
+  "content": "Huong dan hoc va ghi chu quan trong...",
+  "is_published": true,
+  "is_free": false
+}
+```
+
+Checklist nhanh cho Sach Luyen De:
+
+- Upload file PDF len Google Drive.
+- Chia se file voi quyen "Bất kỳ ai có đường liên kết" -> "Người xem".
+- Copy file ID va gan vao `pdf_drive_id`.
+- Neu co file dap an rieng, gan them vao `answer_pdf_drive_id`.
+- Dam bao `category = luyende`, `subject = sach_luyen_de`.
+- Bat `is_published = true` de hien thi tren website.
+
 ### Bước 2: Tạo các bài học con cho đề đó
 
 Mỗi video bài giải hoặc mỗi phần tài liệu nên được tạo thành một lesson riêng trong backend.
@@ -61,6 +101,14 @@ Nếu một bài chỉ có tài liệu PDF, chỉ cần để:
 {
   "video_drive_id": null,
   "pdf_drive_id": "GOOGLE_DRIVE_PDF_ID"
+}
+```
+
+Neu co file dap an di kem, them truong:
+
+```json
+{
+  "answer_pdf_drive_id": "GOOGLE_DRIVE_ANSWER_PDF_ID"
 }
 ```
 
@@ -134,5 +182,6 @@ Trong trang admin, vào mục quản lý đề thi và chỉnh:
 - Tạo lesson với `category = luyende` và `subject = key`.
 - Thêm `video_drive_id` nếu có video.
 - Thêm `pdf_drive_id` nếu có tài liệu.
+- Thêm `answer_pdf_drive_id` nếu có file đáp án riêng.
 - Đánh dấu `is_published = true` khi sẵn sàng xuất bản.
 - Với đề thi thử JSON, thêm file vào `public/exams/` và đăng ký trong `index.json`.

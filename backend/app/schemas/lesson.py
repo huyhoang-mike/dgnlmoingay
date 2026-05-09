@@ -14,6 +14,7 @@ class LessonBase(BaseModel):
     subject: str | None = None
     video_drive_id: str | None = None
     pdf_drive_id: str | None = None
+    answer_pdf_drive_id: str | None = None
     content: str | None = None
     is_published: bool = False
     is_free: bool = False
@@ -31,6 +32,7 @@ class LessonUpdate(BaseModel):
     subject: str | None = None
     video_drive_id: str | None = None
     pdf_drive_id: str | None = None
+    answer_pdf_drive_id: str | None = None
     content: str | None = None
     is_published: bool | None = None
     is_free: bool | None = None

@@ -88,6 +88,7 @@ export default function LessonView() {
   const isLocked = lesson.is_locked;
   const hasVideo = !isLocked && !!lesson.video_drive_id;
   const hasPdf = !isLocked && !!lesson.pdf_drive_id;
+  const hasAnswerPdf = !isLocked && !!lesson.answer_pdf_drive_id;
   const canTrackProgress = !isLocked && isAuthenticated && !!user?.id;
 
   const handleToggleComplete = async () => {
@@ -221,6 +222,12 @@ export default function LessonView() {
         </section>
       )}
 
+      {!hasVideo && hasAnswerPdf && (
+        <section className="mb-8">
+          <PDFMaterial driveFileId={lesson.answer_pdf_drive_id} title="File đáp án" />
+        </section>
+      )}
+
       {/* Two-Column: Content + PDF */}
       <div className={`grid grid-cols-1 gap-8 ${hasVideo ? 'lg:grid-cols-3' : ''}`}>
         {/* Main Content */}
@@ -245,6 +252,7 @@ export default function LessonView() {
         {hasVideo && !isLocked && (
           <div className="space-y-6">
             <PDFMaterial driveFileId={lesson.pdf_drive_id} title="Tài liệu bài học" />
+            <PDFMaterial driveFileId={lesson.answer_pdf_drive_id} title="File đáp án" />
 
             {/* Mark Complete Button */}
             {completionButton}

@@ -28,6 +28,7 @@ router = APIRouter()
 # subject         (tuỳ chọn) — tieng_viet, toan, ly, hoa, ...
 # video_drive_id  (tuỳ chọn) — Google Drive video file ID (trống = không có video)
 # pdf_drive_id    (tuỳ chọn) — Google Drive PDF file ID (trống = không có tài liệu)
+# answer_pdf_drive_id (tuỳ chọn) — Google Drive PDF đáp án đi kèm (trống = không có đáp án)
 # content         (tuỳ chọn) — Nội dung bài học (Markdown/HTML)
 # is_published    (tuỳ chọn) — true/false (mặc định false)
 # is_free         (tuỳ chọn) — true/false (mặc định false)
@@ -119,6 +120,7 @@ def _parse_rows(rows: list[dict]) -> list[dict]:
             "subject": _clean_str(row.get("subject")),
             "video_drive_id": _extract_drive_id(row.get("video_drive_id")),
             "pdf_drive_id": _extract_drive_id(row.get("pdf_drive_id")),
+            "answer_pdf_drive_id": _extract_drive_id(row.get("answer_pdf_drive_id")),
             "content": _clean_str(row.get("content")),
             "is_published": _parse_bool(row.get("is_published", "")),
             "is_free": _parse_bool(row.get("is_free", "")),
@@ -193,11 +195,12 @@ async def import_lessons(
 
     **File format:** CSV hoặc XLSX với các cột:
     `title`, `description`, `order`, `category`, `subject`,
-    `video_drive_id`, `pdf_drive_id`, `content`, `is_published`, `is_free`
+    `video_drive_id`, `pdf_drive_id`, `answer_pdf_drive_id`, `content`, `is_published`, `is_free`
 
     - Cột `title` là bắt buộc, các cột khác tuỳ chọn.
     - Nếu `video_drive_id` trống → bài học không có bài giảng video.
     - Nếu `pdf_drive_id` trống → bài học không có tài liệu PDF.
+    - Nếu `answer_pdf_drive_id` trống → bài học không có file đáp án đi kèm.
     """
     if mode not in ("skip", "overwrite", "append"):
         raise HTTPException(status_code=400, detail="Mode phải là: skip, overwrite, hoặc append")
@@ -297,6 +300,7 @@ async def export_lessons(
             "subject": l.subject,
             "video_drive_id": l.video_drive_id,
             "pdf_drive_id": l.pdf_drive_id,
+            "answer_pdf_drive_id": l.answer_pdf_drive_id,
             "content": l.content,
             "is_published": l.is_published,
             "is_free": l.is_free,
