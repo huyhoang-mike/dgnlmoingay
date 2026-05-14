@@ -878,7 +878,7 @@
             " 3."
         ],
         "answer": "A",
-        "explain": "Ta có $\\cos x = \\sin\\left(\\frac{\\pi}{2} - x\\right)$. Phương trình trở thành $\\sin\\left(2x-\\frac{\\pi}{3}\\right) = \\sin\\left(\\frac{\\pi}{2} - x\\right)$.\nTH1: $2x - \\frac{\\pi}{3} = \\frac{\\pi}{2} - x + k2\\pi \\Leftrightarrow 3x = \\frac{5\\pi}{6} + k2\\pi \\Leftrightarrow x = \\frac{5\\pi}{18} + \\frac{k2\\pi}{3}$.\nDo $x \\in [-\\pi; \\pi]$, ta tìm được $k \\in \\{-1; 0; 1\\}$ cho ra 3 nghiệm là $x = -\\frac{7\\pi}{18}, x = \\frac{5\\pi}{18}, x = \\frac{17\\pi}{18}$.\nTH2: $2x - \\frac{\\pi}{3} = \\pi - \\left(\\frac{\\pi}{2} - x\\right) + k2\\pi \\Leftrightarrow 2x - \\frac{\\pi}{3} = \\frac{\\pi}{2} + x + k2\\pi \\Leftrightarrow x = \\frac{5\\pi}{6} + k2\\pi$.\nDo $x \\in [-\\pi; \\pi]$, ta tìm được duy nhất $k = 0 \\Rightarrow x = \\frac{5\\pi}{6}$ (1 nghiệm).\nTổng cộng có 4 nghiệm."
+        "explain": "Ta có $\\cos x = \\sin\\left(\\frac{\\pi}{2} - x\\right)$. Phương trình trở thành $\\sin\\left(2x-\\frac{\\pi}{3}\\right) = \\sin\\left(\\frac{\\pi}{2} - x\\right).\\nTH1: $2x - \\frac{\\pi}{3} = \\frac{\\pi}{2} - x + k2\\pi \\Leftrightarrow 3x = \\frac{5\\pi}{6} + k2\\pi \\Leftrightarrow x = \\frac{5\\pi}{18} + \\frac{k2\\pi}{3}$.\\nDo $x \\in [-\\pi; \\pi]$, ta tìm được $k \\in \\{-1; 0; 1\\}$ cho ra 3 nghiệm là $x = -\\frac{7\\pi}{18}, x = \\frac{5\\pi}{18}, x = \\frac{17\\pi}{18}$.\\nTH2: $2x - \\frac{\\pi}{3} = \\pi - \\left(\\frac{\\pi}{2} - x\\right) + k2\\pi \\Leftrightarrow 2x - \\frac{\\pi}{3} = \\frac{\\pi}{2} + x + k2\\pi \\Leftrightarrow x = \\frac{5\\pi}{6} + k2\\pi$.\\nDo $x \\in [-\\pi; \\pi]$, ta tìm được duy nhất $k = 0 \\Rightarrow x = \\frac{5\\pi}{6}$ (1 nghiệm).\\nTổng cộng có 4 nghiệm."
     },
     {
         "type": "single",
