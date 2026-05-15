@@ -30,6 +30,25 @@ from app.schemas.payment import (
 router = APIRouter()
 
 
+def _clean_env_url(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+
+    cleaned = value.strip()
+    if not cleaned or cleaned.lower() in {"null", "none"}:
+        return None
+
+    # Handle common .env quoting patterns:
+    # - COURSE_ZALO_GROUP_URL=""  -> empty
+    # - COURSE_ZALO_GROUP_URL="https://..." -> https://...
+    while len(cleaned) >= 2 and cleaned[0] == cleaned[-1] and cleaned[0] in {"\"", "'"}:
+        cleaned = cleaned[1:-1].strip()
+        if not cleaned or cleaned.lower() in {"null", "none"}:
+            return None
+
+    return cleaned or None
+
+
 def _utcnow() -> datetime.datetime:
     return datetime.datetime.utcnow()
 
@@ -85,12 +104,12 @@ def _serialize_order(order: PaymentOrder) -> PaymentOrderOut:
         access_granted_at=order.access_granted_at,
         is_access_granted=bool(order.access_granted_at),
         zalo_group_url=(
-            settings.COURSE_ZALO_GROUP_URL.strip() or None if show_course_links else None
+            _clean_env_url(settings.COURSE_ZALO_GROUP_URL) if show_course_links else None
         ),
         youtube_guide_url=(
-            settings.COURSE_YOUTUBE_GUIDE_URL.strip() or None if show_course_links else None
+            _clean_env_url(settings.COURSE_YOUTUBE_GUIDE_URL) if show_course_links else None
         ),
-        support_zalo_url=settings.SUPPORT_ZALO_URL.strip() or None,
+        support_zalo_url=_clean_env_url(settings.SUPPORT_ZALO_URL),
     )
 
 
