@@ -28,7 +28,7 @@
     "seoKeywords": ["luyện toán đánh giá năng lực", "phân tích số liệu ĐGNL", "toán biểu đồ V-ACT"]
   },
   {
-    "id": "tieng-anh-doc-hieu-main-idea",
+    "id": "on-tap-ngu-phap-ta-1",
     "title": "Tiếng Anh: Đọc hiểu main idea",
     "subject": "Tiếng Anh",
     "skill": "Reading comprehension",
@@ -38,7 +38,7 @@
     "totalQuestions": 4,
     "isFree": true,
     "isPublished": true,
-    "file": "tieng-anh-doc-hieu-main-idea.json",
+    "file": "on-tap-ngu-phap-ta-1.json",
     "seoKeywords": ["luyện tiếng anh ĐGNL", "reading comprehension V-ACT", "main idea quiz"]
   }
 ]

@@ -1,0 +1,203 @@
+{
+  "id": "on-tap-ngu-phap-ta-1",
+  "title": "Tiếng Anh: Ôn tập Ngữ pháp, Tìm lỗi sai và Viết lại câu",
+  "subject": "Tiếng Anh",
+  "timeMinutes": 15,
+  "questions": [
+    {
+      "id": "eng-q31",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nThe tech startup _______ on the revolutionary encryption algorithm for three years before they finally secured the venture capital funding.",
+      "options": [
+        { "key": "A", "text": "worked" },
+        { "key": "B", "text": "has been working" },
+        { "key": "C", "text": "had been working" },
+        { "key": "D", "text": "would work" }
+      ],
+      "answer": "C",
+      "explanation": "Hành động nghiên cứu thuật toán xảy ra liên tục trong suốt 3 năm ('for three years') và kết thúc trước một hành động khác trong quá khứ ('before they finally secured...'). Do đó, ta sử dụng thì Quá khứ hoàn thành tiếp diễn (Past Perfect Continuous) để nhấn mạnh tính liên tục và kéo dài của hành động đối với mốc thời gian quá khứ.",
+      "tags": ["grammar", "tenses", "past perfect continuous"]
+    },
+    {
+      "id": "eng-q32",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nTo adapt to the volatile market, the corporation decided to _______ a comprehensive digital transformation strategy last quarter.",
+      "options": [
+        { "key": "A", "text": "carry out" },
+        { "key": "B", "text": "bring about" },
+        { "key": "C", "text": "take over" },
+        { "key": "D", "text": "put forward" }
+      ],
+      "answer": "A",
+      "explanation": "Xét ý nghĩa của các cụm động từ (phrasal verbs):\n- carry out: tiến hành, thực hiện (chiến lược, kế hoạch, dự án)\n- bring about: mang lại, dẫn đến, gây ra\n- take over: tiếp quản, đảm nhận (vị trí từ người khác)\n- put forward: đề xuất, đưa ra (ý kiến, ý tưởng)\nNgữ cảnh câu: Để thích ứng với thị trường đầy biến động, tập đoàn quyết định 'thực hiện' một chiến lược chuyển đổi số toàn diện vào quý trước.",
+      "tags": ["vocabulary", "phrasal verbs"]
+    },
+    {
+      "id": "eng-q33",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nThe latest report indicates that _______ progress has been made in reducing carbon emissions, yet more drastic measures are required.",
+      "options": [
+        { "key": "A", "text": "a great number of" },
+        { "key": "B", "text": "many" },
+        { "key": "C", "text": "a large amount of" },
+        { "key": "D", "text": "a great deal of" }
+      ],
+      "answer": "D",
+      "explanation": "'Progress' (sự tiến bộ, tiến trình) là một danh từ không đếm được mang tính trừu tượng.\n- 'A great number of' và 'many' chỉ đi với danh từ đếm được số nhiều.\n- 'A large amount of' thường đi với danh từ không đếm được dạng vật chất hoặc hữu hình (money, water, v.v.).\n- 'A great deal of' đi với danh từ không đếm được trừu tượng/vô hình (progress, time, effort). Do đó D là lựa chọn chuẩn xác nhất.",
+      "tags": ["grammar", "quantifiers"]
+    },
+    {
+      "id": "eng-q34",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\n_______ a student engages in critical thinking exercises, _______ their ability to solve complex real-world problems becomes.",
+      "options": [
+        { "key": "A", "text": "The more - the better" },
+        { "key": "B", "text": "The most - the best" },
+        { "key": "C", "text": "More - better" },
+        { "key": "D", "text": "The more - the more" }
+      ],
+      "answer": "A",
+      "explanation": "Áp dụng cấu trúc so sánh kép (Double Comparative): The + comparative + S + V, the + comparative + S + V (Càng... thì càng...).\n- Vế đầu: 'The more a student engages...' (Học sinh càng tham gia nhiều vào...)\n- Vế sau: '...the better their ability... becomes' (thì khả năng giải quyết vấn đề của họ càng trở nên tốt hơn). Cấu trúc gốc của vế sau là 'their ability becomes better', khi chuyển sang so sánh kép sẽ đưa cụm 'the better' lên đầu mệnh đề.",
+      "tags": ["grammar", "comparisons", "double comparative"]
+    },
+    {
+      "id": "eng-q35",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nIn the task‑based economy, maintaining a high level of _______ is essential for freelancers to secure long-term contracts with international clients.",
+      "options": [
+        { "key": "A", "text": "professional" },
+        { "key": "B", "text": "professionalism" },
+        { "key": "C", "text": "professionally" },
+        { "key": "D", "text": "professionalize" }
+      ],
+      "answer": "B",
+      "explanation": "Đứng sau giới từ 'of' trong cấu trúc 'a high level of + N', chúng ta cần điền một danh từ hoặc một cụm danh từ.\n- professional (adj): mang tính chuyên nghiệp / (n): chuyên gia\n- professionalism (n): sự chuyên nghiệp, tác phong chuyên nghiệp\n- professionally (adv): một cách chuyên nghiệp\n- professionalize (v): chuyên nghiệp hóa\nNgữ cảnh câu nói về việc duy trì một mức độ 'sự chuyên nghiệp' cao, vì vậy danh từ 'professionalism' là lựa chọn chính xác.",
+      "tags": ["grammar", "word form", "nouns"]
+    },
+    {
+      "id": "eng-q36",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nThe integration (A) of advanced AI algorithms into existing manufacturing processes require (B) significant initial investment but (C) yields long-term efficiency (D) gains.",
+      "options": [
+        { "key": "A", "text": "manufacturing" },
+        { "key": "B", "text": "require" },
+        { "key": "C", "text": "but" },
+        { "key": "D", "text": "efficiency" }
+      ],
+      "answer": "B",
+      "explanation": "Lỗi nằm ở sự hòa hợp giữa chủ ngữ và động từ (Subject-Verb Agreement). Chủ ngữ chính của câu là danh từ số ít 'The integration' (Sự tích hợp), phần thành phần đứng sau 'of advanced AI algorithms...' chỉ là cụm giới từ bổ nghĩa. Do đó, động từ chính phải chia ở số ít: 'require' đổi thành 'requires'.",
+      "tags": ["error correction", "subject-verb agreement"]
+    },
+    {
+      "id": "eng-q37",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nRecent astronomical (A) observations suggest that the (B) Venus may have once possessed (C) liquid water oceans similar (D) to those on Earth.",
+      "options": [
+        { "key": "A", "text": "astronomical" },
+        { "key": "B", "text": "the" },
+        { "key": "C", "text": "possessed" },
+        { "key": "D", "text": "similar" }
+      ],
+      "answer": "B",
+      "explanation": "Lỗi về cách sử dụng mạo từ. Tên gọi của các hành tinh đơn lẻ trong hệ Mặt Trời như Venus (Sao Kim), Mars (Sao Hỏa), Jupiter (Sao Mộc)... là các danh từ riêng và không đi kèm với mạo từ xác định 'the'. Vì vậy, 'the Venus' phải sửa lại thành 'Venus'.",
+      "tags": ["error correction", "articles"]
+    },
+    {
+      "id": "eng-q38",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nThe board of directors (A) carefully reviewed the prospective candidates's (B) portfolios to ensure their (C) skills aligned with the company's (D) vision.",
+      "options": [
+        { "key": "A", "text": "board of directors" },
+        { "key": "B", "text": "candidates's" },
+        { "key": "C", "text": "their" },
+        { "key": "D", "text": "company's" }
+      ],
+      "answer": "B",
+      "explanation": "Lỗi về quy tắc viết sở hữu cách của danh từ số nhiều. Danh từ số nhiều kết thúc bằng đuôi 's' (candidates) khi chuyển sang dạng sở hữu cách thì chỉ cần thêm dấu nháy đơn (') ở cuối từ, chứ không thêm đuôi 's' một lần nữa. Sửa đúng: 'candidates's' thành 'candidates''.",
+      "tags": ["error correction", "possessive nouns"]
+    },
+    {
+      "id": "eng-q39",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nCyberbullying, that (A) can have devastating (B) effects on a teenager's mental health, is a growing concern (C) for educators worldwide (D).",
+      "options": [
+        { "key": "A", "text": "that" },
+        { "key": "B", "text": "devastating" },
+        { "key": "C", "text": "concern" },
+        { "key": "D", "text": "worldwide" }
+      ],
+      "answer": "A",
+      "explanation": "Mệnh đề nằm giữa hai dấu phẩy là mệnh đề quan hệ không xác định (non-defining relative clause) nhằm bổ sung thông tin cho 'Cyberbullying'. Trong loại mệnh đề này, ta không được phép dùng đại từ quan hệ 'that' để thay thế, thay vào đó phải sử dụng 'which' khi nói về sự vật, hiện tượng. Sửa đúng: 'that' thành 'which'.",
+      "tags": ["error correction", "relative clauses"]
+    },
+    {
+      "id": "eng-q40",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nSustainable development involves not only (A) protecting the environment but also (B) to promote (C) social equity and economic viability (D).",
+      "options": [
+        { "key": "A", "text": "not only" },
+        { "key": "B", "text": "but also" },
+        { "key": "C", "text": "to promote" },
+        { "key": "D", "text": "viability" }
+      ],
+      "answer": "C",
+      "explanation": "Áp dụng cấu trúc song hành (Parallel Structure) với cặp liên từ liên kết 'not only... but also...'. Các thành phần được liên kết phải có cùng cấu trúc ngữ pháp. Do sau 'not only' đang sử dụng danh động từ 'protecting' (V-ing), nên sau 'but also' cũng phải sử dụng danh động từ tương ứng. Sửa đúng: 'to promote' thành 'promoting'.",
+      "tags": ["error correction", "parallel structure"]
+    },
+    {
+      "id": "eng-q41",
+      "prompt": "Which of the following best restates the given sentence?\nIt is possible that the sudden surge in remote work has contributed to the decline in commercial real estate demand.",
+      "options": [
+        { "key": "A", "text": "The decline in commercial real estate demand must have been caused by the surge in remote work." },
+        { "key": "B", "text": "The surge in remote work might have played a role in the decreasing demand for commercial real estate." },
+        { "key": "C", "text": "It is certain that remote work is the sole reason for the commercial real estate crisis." },
+        { "key": "D", "text": "Remote work couldn't have influenced the demand for commercial real estate as much as expected." }
+      ],
+      "answer": "B",
+      "explanation": "Câu gốc: 'Có khả năng là sự gia tăng đột biến của làm việc từ xa đã góp phần vào sự sụt giảm nhu cầu bất động sản thương mại.' Cụm 'It is possible... has contributed' thể hiện sự suy đoán về một khả năng trong quá khứ.\n- Đáp án B sử dụng 'might have + V3/ed' để diễn tả một khả năng có thể đã xảy ra trong quá khứ, kết hợp với cụm 'played a role in' đồng nghĩa với 'contributed to', hoàn toàn chính xác.\n- Đáp án A dùng 'must have' (chắc hẳn đã) mang tính khẳng định chắc chắn, sai sắc thái.\n- Đáp án C dùng 'It is certain' (chắc chắn) là sai nghĩa.\n- Đáp án D dùng 'couldn't have' (chắc chắn đã không) mang nghĩa phủ định, sai hoàn toàn.",
+      "tags": ["sentence transformation", "modal verbs"]
+    },
+    {
+      "id": "eng-q42",
+      "prompt": "Which of the following best restates the given sentence?\nThe tech giant failed to innovate in time, so it lost its dominant position in the smartphone market.",
+      "options": [
+        { "key": "A", "text": "Had the tech giant innovated in time, it wouldn't have lost its market dominance." },
+        { "key": "B", "text": "The tech giant would have maintained its position if it didn't fail to innovate." },
+        { "key": "C", "text": "Unless the tech giant innovated, it would lose its dominant position in the market." },
+        { "key": "D", "text": "Provided that the tech giant innovates, it will not lose its market dominance." }
+      ],
+      "answer": "A",
+      "explanation": "Câu gốc diễn tả một sự việc đã xảy ra và kết thúc trong quá khứ: 'Gã khổng lồ công nghệ đã thất bại trong việc đổi mới kịp thời, vì vậy nó đã mất đi vị trí thống lĩnh...'. Do đó, khi viết lại câu dưới dạng giả định trái ngược với quá khứ, ta phải dùng câu điều kiện loại 3.\n- Đáp án A sử dụng cấu trúc đảo ngữ của câu điều kiện loại 3: 'Had + S + V3/ed, S + would + have + V3/ed' (Nếu gã khổng lồ công nghệ đổi mới kịp thời, nó đã không mất...), hoàn toàn chính xác về cả ngữ pháp lẫn ngữ nghĩa.\n- Đáp án B sai ở vế if ('if it didn't fail' là của loại 2).\n- Đáp án C và D sử dụng điều kiện loại 2 và loại 1, không phù hợp để giả định cho quá khứ.",
+      "tags": ["sentence transformation", "conditionals", "inversion"]
+    },
+    {
+      "id": "eng-q43",
+      "prompt": "Which of the following best restates the given sentence?\nStrategy A is effective, but Strategy B and Strategy C demonstrate significantly higher efficiency in resource allocation.",
+      "options": [
+        { "key": "A", "text": "Strategy A is the most efficient of the three strategies in terms of resource allocation." },
+        { "key": "B", "text": "Strategies B and C are just as effective as Strategy A in allocating resources." },
+        { "key": "C", "text": "Among the three, Strategy A is the least efficient approach to resource allocation." },
+        { "key": "D", "text": "Strategy B is more efficient than Strategy C, but both are better than Strategy A." }
+      ],
+      "answer": "C",
+      "explanation": "Câu gốc: 'Chiến lược A có hiệu quả, nhưng Chiến lược B và Chiến lược C cho thấy hiệu suất cao hơn đáng kể trong việc phân bổ nguồn lực.' Điều này đồng nghĩa với việc khi đặt lên bàn cân cả 3 chiến lược thì Chiến lược A có hiệu suất kém nhất.\n- Đáp án C sử dụng cấu trúc so sánh kém nhất 'the least efficient' để khẳng định điều này, hoàn toàn khớp với ý câu gốc.\n- Đáp án A ngược nghĩa hoàn toàn.\n- Đáp án B sai nghĩa khi bảo B và C chỉ hiệu quả bằng A.\n- Đáp án D sai vì câu gốc không cung cấp thông tin so sánh xem chiến lược B có hiệu quả hơn chiến lược C hay không.",
+      "tags": ["sentence transformation", "comparisons"]
+    },
+    {
+      "id": "eng-q44",
+      "prompt": "Which of the following best restates the given sentence?\nImplement strict cybersecurity protocols to safeguard sensitive user data from unauthorized access.",
+      "options": [
+        { "key": "A", "text": "Strict cybersecurity protocols should be implemented so as to prevent unauthorized access to user data." },
+        { "key": "B", "text": "User data will be stolen unless you implement strict cybersecurity protocols immediately." },
+        { "key": "C", "text": "By implementing protocols, sensitive user data is being accessed by unauthorized users." },
+        { "key": "D", "text": "To prevent data from being leaked, we must have implemented strict protocols last year." }
+      ],
+      "answer": "A",
+      "explanation": "Câu gốc là một câu mệnh lệnh đưa ra giải pháp/hướng dẫn: 'Hãy triển khai các giao thức an ninh mạng nghiêm ngặt để bảo vệ dữ liệu nhạy cảm của người dùng khỏi sự truy cập trái phép.'\n- Đáp án A chuyển đổi sang thể bị động với động từ khuyết thiếu kết hợp với cụm từ chỉ mục đích: 'Các giao thức an ninh mạng nghiêm ngặt nên được triển khai để (so as to) ngăn chặn sự truy cập trái phép...', giữ nguyên vẹn ý nghĩa và sắc thái trang trọng của câu gốc.\n- Đáp án B mang tính chất đe dọa, cảnh báo quá mức.\n- Đáp án C sai lệch nghĩa hoàn toàn.\n- Đáp án D tự thêm mốc thời gian quá khứ 'last year' không có trong câu gốc.",
+      "tags": ["sentence transformation", "passive voice", "purpose clauses"]
+    },
+    {
+      "id": "eng-q45",
+      "prompt": "Which of the following best restates the given sentence?\n\"Why don't we integrate more renewable energy sources into our production line next year?\" the CEO said.",
+      "options": [
+        { "key": "A", "text": "The CEO reminded the board to use more renewable energy in the production line." },
+        { "key": "B", "text": "The CEO suggested integrating more renewable energy sources into the production line for the following year." },
+        { "key": "C", "text": "The CEO ordered the staff to change the production line to renewable energy sources." },
+        { "key": "D", "text": "The CEO denied having used renewable energy sources in the production line last year." }
+      ],
+      "answer": "B",
+      "explanation": "Câu trực tiếp dùng cấu trúc 'Why don't we + V...?' (Tại sao chúng ta không...?) nhằm đưa ra một lời gợi ý, đề xuất.\n- Khi chuyển sang câu gián tiếp, cấu trúc này được viết lại một cách tối ưu bằng động từ 'suggest + V-ing' (gợi ý làm gì). Đồng thời trạng ngữ chỉ thời gian 'next year' được chuyển đổi chính xác thành 'the following year'. Do đó, phương án B hoàn toàn chính xác.\n- Các phương án A (reminded - nhắc nhở), C (ordered - ra lệnh), D (denied - phủ nhận) đều sai lệch về sắc thái và ý nghĩa.",
+      "tags": ["sentence transformation", "reported speech", "subjunctive"]
+    }
+  ]
+}
