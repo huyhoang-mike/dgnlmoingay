@@ -33,11 +33,11 @@ export default function QAGuide() {
           <HiOutlineLightningBolt className="h-4 w-4" /> CỘNG ĐỒNG HỎI ĐÁP
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Biến câu hỏi của học sinh thành nội dung SEO hữu ích
+          Đăng câu hỏi và nhận lời giải đáp chi tiết
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-5">
-          Những câu hỏi công khai giúp học sinh mới tìm thấy website qua Google. Khi thấy lời giải chất lượng,
-          các bạn có thêm lý do đăng ký khóa học để được ưu tiên hỗ trợ.
+          Sau khi đăng câu hỏi, admin và các bạn học sinh khác sẽ góp ý và thảo luận lời giải. 
+          Các bạn cũng có thể xem lại nhiều câu hỏi khác đã được giải đáp để ôn tập thêm.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {GUIDE_ITEMS.map((item) => (

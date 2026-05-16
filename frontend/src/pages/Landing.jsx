@@ -182,11 +182,11 @@ export default function Landing() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold mb-3">
-                  MIỄN PHÍ MỖI NGÀY
+                  TỔNG ÔN THEO DẠNG 
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Luyện tập chuyên sâu theo từng dạng bài</h3>
                 <p className="text-sm text-white/80 max-w-2xl leading-relaxed">
-                  Làm quiz ngắn về Tiếng Việt, Tiếng Anh, Toán và phân tích số liệu để phát hiện lỗ hổng trước khi vào đề thực chiến.
+                  Làm quiz về Tiếng Việt, Tiếng Anh, Toán và phân tích số liệu,... để phát hiện lỗ hổng trước khi vào đề thực chiến (Học viên khóa học được ưu tiên truy cập trọn bộ tất cả quiz).
                 </p>
               </div>
               <Link
@@ -204,9 +204,9 @@ export default function Landing() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold mb-3">
                   HỎI BÀI & XEM LỜI GIẢI
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Q&A ĐGNL có admin và cộng đồng hỗ trợ</h3>
+                <h3 className="text-2xl font-bold mb-2">Đăng câu hỏi và nhận lời giải từ cộng đồng hỗ trợ</h3>
                 <p className="text-sm text-white/80 max-w-2xl leading-relaxed">
-                  Đăng câu hỏi bằng text hoặc ảnh, xem lời giải công khai và học từ các câu hỏi thường gặp của học sinh khác.
+                  Đăng câu hỏi và xem lời giải công khai (Học viên khóa học được ưu tiên trả lời từ admin).
                 </p>
               </div>
               <Link
@@ -224,9 +224,9 @@ export default function Landing() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold mb-3">
                   TÀI LIỆU ĐGNL MIỄN PHÍ
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Kho tài liệu mở từ ĐGNL Mỗi Ngày và cộng đồng</h3>
+                <h3 className="text-2xl font-bold mb-2">Kho tài liệu mở được tích lũy qua nhiều năm</h3>
                 <p className="text-sm text-white/80 max-w-2xl leading-relaxed">
-                  Tải PDF, đề cương, checklist ôn tập đã kiểm duyệt; học viên được ưu tiên khi đóng góp và truy cập thư mục Drive đầy đủ hơn.
+                  Tải sách luyện đề, tài liệu chuyên sâu, mẹo ôn thi (Học viên khóa học được ưu tiên truy cập trọn bộ thư mục Drive đầy đủ hơn).
                 </p>
               </div>
               <Link

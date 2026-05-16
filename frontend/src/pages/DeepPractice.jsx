@@ -108,7 +108,7 @@ export default function DeepPractice() {
                 <HiOutlineStar className="h-4 w-4 text-yellow-300" /> Quiz ngắn theo từng chuyên đề
               </div>
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-4">
-                Luyện tập chuyên sâu ĐGNL mỗi ngày
+                Luyện tập chuyên sâu theo dạng bài
               </h1>
               <p className="text-lg text-white/80 leading-relaxed max-w-2xl mb-8">
                 Làm các bộ câu hỏi trắc nghiệm theo từng phần như Tiếng Việt, Tiếng Anh, Toán và phân tích số liệu.

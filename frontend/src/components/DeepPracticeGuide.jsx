@@ -33,10 +33,10 @@ export default function DeepPracticeGuide() {
           <HiOutlineStar className="h-4 w-4" /> LUYỆN TẬP CHUYÊN SÂU
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Học ít hơn mỗi lần, quay lại nhiều hơn mỗi ngày
+          Khoanh vùng kiến thức và ôn tập trọng điểm
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-5">
-          Khu vực này được thiết kế như các bài quiz ngắn theo từng mảng kiến thức. Học sinh có thể thử miễn phí một số bài,
+          Phần này gồm các bài quiz ngắn theo từng mảng kiến thức. Các bạn có thể thử miễn phí một số bài,
           sau đó đăng ký khóa học để mở toàn bộ ngân hàng câu hỏi, bài giảng và đề thực chiến.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

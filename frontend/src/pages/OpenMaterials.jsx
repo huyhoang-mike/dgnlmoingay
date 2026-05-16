@@ -21,8 +21,8 @@ import OpenMaterialCard from '../components/OpenMaterialCard';
 import OpenMaterialsGuide from '../components/OpenMaterialsGuide';
 import { useAuth } from '../contexts/AuthContext';
 
-const SUBJECTS = ['Tất cả', 'Tiếng Việt', 'Tiếng Anh', 'Toán', 'Tư duy khoa học', 'Vật lý', 'Hóa học', 'Sinh học', 'Khác'];
-const CATEGORIES = ['Tất cả', 'Đề thi', 'Tài liệu chuyên đề', 'Tổng hợp kiến thức', 'Sổ tay/Checklist', 'Tài liệu cộng đồng'];
+const SUBJECTS = ['Tất cả', 'Tiếng Việt', 'Tiếng Anh', 'Toán', 'Phân tích số liệu', 'Tư duy logic', 'Hóa học', 'Vật lý', 'Sinh học', 'Lịch sử', 'Địa lý', 'Khác'];
+const CATEGORIES = ['Tất cả', 'Đề thi thử', 'Đề thi chính thức', 'Tài liệu chuyên đề', 'Tổng hợp kiến thức', 'Ghi chú (Notes)', 'Thông tin kỳ thi', 'Khác'];
 const DRIVE_ROOT_URL = import.meta.env.VITE_OPEN_MATERIALS_DRIVE_ROOT_URL;
 
 const statusLabels = {
