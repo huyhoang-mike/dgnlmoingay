@@ -52,11 +52,15 @@ Dự án đã cấu hình các link tương ứng trong `frontend/index.html`.
   - hỗ trợ trình duyệt/thiết bị không đọc tốt ICO.
 - SVG là **tuỳ chọn**: hữu ích cho trình duyệt hiện đại, nhưng **không nên** là định dạng duy nhất.
 
-## Logo đen + nền trong suốt: lưu ý độ tương phản
+## Logo trên tab/dark mode: file nào và nên chỉnh gì?
 
-- Bạn có thể dùng **một icon duy nhất** cho mọi bối cảnh.
-- Nếu logo **màu đen + nền trong suốt**, icon có thể bị khó nhìn khi hiển thị trên các nền tối.
-- Khuyến nghị: tạo phiên bản icon có **nền màu** (hoặc viền) để luôn rõ ràng.
+- Icon trên tab trình duyệt được khai báo trong `frontend/index.html`, ưu tiên các file trong `frontend/public/`:
+  - `favicon.svg` cho trình duyệt hiện đại.
+  - `favicon.ico` cho browser/search engine cũ hoặc crawler ưu tiên URL mặc định.
+  - `favicon-16x16.png`, `favicon-32x32.png`, `favicon-48x48.png` cho PNG fallback.
+- Nếu logo **màu đen + nền trong suốt**, icon dễ bị chìm ở dark mode hoặc khi search engine đặt trên nền tối.
+- Nên dùng **nền tròn tương phản cao** và glyph sáng. Dự án hiện dùng nền tròn xanh đậm, viền xanh sáng và logo trắng để rõ hơn trên Bing/DuckDuckGo/browser tab.
+- Sau khi đổi icon, `frontend/index.html` và `site.webmanifest` nên có version query để tránh cache cũ, ví dụ `?v=20260516`.
 
 ## Sau khi deploy: làm Bing cập nhật nhanh hơn
 
