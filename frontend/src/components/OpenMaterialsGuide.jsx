@@ -12,17 +12,17 @@ const GUIDE_ITEMS = [
   {
     icon: HiOutlineFolderOpen,
     title: 'Kho công khai từ Google Drive',
-    desc: 'Tài liệu đã duyệt được lưu trên Google Drive để dễ chia sẻ, dễ backup và không tốn thêm chi phí hosting lớn.',
+    desc: 'Tài liệu đã duyệt được lưu trên Google Drive để dễ chia sẻ.',
   },
   {
     icon: HiOutlineCloudUpload,
     title: 'Cộng đồng đóng góp',
-    desc: 'Người dùng đăng nhập có thể gửi PDF hoặc ảnh. File được lưu tạm trên VPS để admin kiểm tra trước khi công khai.',
+    desc: 'Người dùng đăng nhập có thể gửi PDF hoặc ảnh.',
   },
   {
     icon: HiOutlineShieldCheck,
     title: 'Duyệt bản quyền trước khi publish',
-    desc: 'Admin kiểm tra nguồn, giấy phép và nội dung nhạy cảm trước khi đưa vào thư mục Drive/kho tài liệu mở.',
+    desc: 'Admin kiểm tra nguồn và nội dung trước khi đưa vào thư mục Drive/kho tài liệu mở.',
   },
 ];
 
@@ -34,11 +34,10 @@ export default function OpenMaterialsGuide() {
           <HiOutlineStar className="h-4 w-4" /> KHO TÀI LIỆU MỞ
         </div>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Tạo thư viện ĐGNL mở, tăng traffic tự nhiên và niềm tin khóa học
+          Cộng đồng trao đổi tài liệu ôn thi ĐGNL
         </h2>
         <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-5">
-          Tài liệu công khai giúp học sinh tìm thấy website khi tra cứu đề cương, PDF luyện tập, biểu mẫu và tài liệu tổng hợp.
-          Những đóng góp tốt từ cộng đồng được kiểm duyệt để hạn chế rủi ro bản quyền.
+          Tài liệu công khai gồm đề cương, bài tập, đề thi thử và tài liệu tổng hợp giúp học sinh ôn tập hiệu quả cho kỳ thi.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {GUIDE_ITEMS.map((item) => (
