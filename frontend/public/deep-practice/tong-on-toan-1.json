@@ -131,7 +131,7 @@
         { "key": "D", "text": "$(-\\infty;-1)$" }
       ],
       "answer": "B",
-      "explanation": "Ta tính đạo hàm các cấp: $y' = e^x + xe^x = e^x(x+1)$ và $y'' = e^x(x+1) + e^x = e^x(x+2)$. Khi đó bất phương trình trở thành: $y''-y'-y>0 \\Leftrightarrow e^x(x+2) - e^x(x+1) - xe^x > 0 \\Leftrightarrow e^x(x+2-x-1-x) > 0 \\Leftrightarrow e^x(1-x) > 0$. Vì $e^x > 0$ với mọi $x \\in \\mathbb{R}$, suy ra $1-x > 0 \\Leftrightarrow x < 1$. Vậy tập nghiệm thu được là $(-\infty;1)$.",
+      "explanation": "Ta tính đạo hàm các cấp: $y' = e^x + xe^x = e^x(x+1)$ và $y'' = e^x(x+1) + e^x = e^x(x+2)$. Khi đó bất phương trình trở thành: $y''-y'-y>0 \\Leftrightarrow e^x(x+2) - e^x(x+1) - xe^x > 0 \\Leftrightarrow e^x(x+2-x-1-x) > 0 \\Leftrightarrow e^x(1-x) > 0$. Vì $e^x > 0$ với mọi $x \\in \\mathbb{R}$, suy ra $1-x > 0 \\Leftrightarrow x < 1$. Vậy tập nghiệm thu được là $(-\\infty;1)$.",
       "tags": ["đạo hàm cấp cao", "bất phương trình"]
     },
     {
