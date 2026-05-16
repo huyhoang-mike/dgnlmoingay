@@ -7,6 +7,8 @@ import Platform from './pages/Platform';
 import Practice from './pages/Practice';
 import RealPractice from './pages/RealPractice';
 import ExamPage from './pages/ExamPage';
+import DeepPractice from './pages/DeepPractice';
+import DeepPracticeQuizPage from './pages/DeepPracticeQuizPage';
 import FreeTrial from './pages/FreeTrial';
 import SubjectLessons from './pages/SubjectLessons';
 import LessonView from './pages/LessonView';
@@ -51,6 +53,18 @@ const ROUTE_META = [
     title: 'Luyện Đề ĐGNL Theo Môn | ĐGNL Mỗi Ngày',
     description:
       'Luyện đề theo chuyên đề và môn học, có đáp án và phân tích để tối ưu điểm thi ĐGNL.',
+  },
+  {
+    test: /^\/luyen-tap-chuyen-sau(?:\/)?$/,
+    title: 'Luyện Tập Chuyên Sâu ĐGNL Miễn Phí | ĐGNL Mỗi Ngày',
+    description:
+      'Làm quiz trắc nghiệm chuyên sâu theo Tiếng Việt, Tiếng Anh, Toán và từng dạng bài ĐGNL. Có câu hỏi miễn phí và câu hỏi dành cho học viên.',
+  },
+  {
+    test: /^\/luyen-tap-chuyen-sau\/[^/]+(?:\/)?$/,
+    title: 'Quiz Chuyên Sâu ĐGNL Online | ĐGNL Mỗi Ngày',
+    description:
+      'Luyện câu hỏi trắc nghiệm ĐGNL theo chuyên đề, có đáp án và giải thích sau khi nộp bài.',
   },
   {
     test: /^\/thuc-chien(?:\/)?$/,
@@ -141,6 +155,10 @@ function App() {
           {/* Practice - Luyện đề */}
           <Route path="/luyen-de" element={<Practice />} />
           <Route path="/luyen-de/:subject" element={<SubjectLessons category="luyende" />} />
+
+          {/* Deep Practice - Luyện tập chuyên sâu */}
+          <Route path="/luyen-tap-chuyen-sau" element={<DeepPractice />} />
+          <Route path="/luyen-tap-chuyen-sau/:quizId" element={<DeepPracticeQuizPage />} />
 
           {/* Lesson View */}
           <Route path="/lessons/:lessonId" element={<LessonView />} />

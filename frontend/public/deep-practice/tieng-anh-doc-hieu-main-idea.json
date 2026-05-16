@@ -1,0 +1,60 @@
+{
+  "id": "tieng-anh-doc-hieu-main-idea",
+  "title": "Tiếng Anh: Đọc hiểu main idea",
+  "subject": "Tiếng Anh",
+  "timeMinutes": 10,
+  "questions": [
+    {
+      "id": "eng-001",
+      "prompt": "Read the sentence: \"Many students use short daily quizzes to identify weak areas before taking a full mock exam.\" What is the main idea?",
+      "options": [
+        { "key": "A", "text": "Daily quizzes help students find weaknesses." },
+        { "key": "B", "text": "Mock exams are always short." },
+        { "key": "C", "text": "Students should avoid quizzes." },
+        { "key": "D", "text": "Weak areas are not important." }
+      ],
+      "answer": "A",
+      "explanation": "The sentence focuses on using short quizzes to identify weak areas.",
+      "tags": ["main idea"]
+    },
+    {
+      "id": "eng-002",
+      "prompt": "Which option is closest in meaning to \"identify\" in the sentence above?",
+      "options": [
+        { "key": "A", "text": "Ignore" },
+        { "key": "B", "text": "Recognize" },
+        { "key": "C", "text": "Create" },
+        { "key": "D", "text": "Forget" }
+      ],
+      "answer": "B",
+      "explanation": "\"Identify\" means to recognize or find out what something is.",
+      "tags": ["vocabulary"]
+    },
+    {
+      "id": "eng-003",
+      "prompt": "Short practice sets are useful because they are focused and easy to repeat. What can be inferred?",
+      "options": [
+        { "key": "A", "text": "Students can review a specific skill many times." },
+        { "key": "B", "text": "Students only need one full exam." },
+        { "key": "C", "text": "Focused practice takes more than a day." },
+        { "key": "D", "text": "Repeating practice is harmful." }
+      ],
+      "answer": "A",
+      "explanation": "If a practice set is focused and easy to repeat, students can revisit the same skill multiple times.",
+      "tags": ["inference"]
+    },
+    {
+      "id": "eng-004",
+      "prompt": "Choose the best title for a paragraph about using topic-based quizzes before mock exams.",
+      "options": [
+        { "key": "A", "text": "Why Topic Practice Improves Exam Readiness" },
+        { "key": "B", "text": "The History of Online Learning" },
+        { "key": "C", "text": "How to Design a Classroom" },
+        { "key": "D", "text": "A Guide to University Majors" }
+      ],
+      "answer": "A",
+      "explanation": "The paragraph topic is topic-based quizzes and exam preparation, so A is the most relevant title.",
+      "tags": ["title", "main idea"]
+    }
+  ]
+}

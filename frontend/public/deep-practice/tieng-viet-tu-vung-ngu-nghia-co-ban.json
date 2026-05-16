@@ -1,0 +1,74 @@
+{
+  "id": "tieng-viet-tu-vung-ngu-nghia-co-ban",
+  "title": "Tiếng Việt: Từ vựng & ngữ nghĩa cơ bản",
+  "subject": "Tiếng Việt",
+  "timeMinutes": 12,
+  "questions": [
+    {
+      "id": "tv-001",
+      "prompt": "Trong câu: \"Lời nhận xét của cô giáo rất xác đáng\", từ \"xác đáng\" gần nghĩa nhất với từ nào?",
+      "options": [
+        { "key": "A", "text": "Chính xác và phù hợp" },
+        { "key": "B", "text": "Gay gắt và khó nghe" },
+        { "key": "C", "text": "Dài dòng và chi tiết" },
+        { "key": "D", "text": "Mơ hồ và chung chung" }
+      ],
+      "answer": "A",
+      "explanation": "\"Xác đáng\" chỉ điều đúng, hợp lý và phù hợp với sự việc đang được bàn tới.",
+      "tags": ["từ đồng nghĩa", "ngữ cảnh"]
+    },
+    {
+      "id": "tv-002",
+      "prompt": "Từ nào sau đây mang sắc thái trang trọng nhất?",
+      "options": [
+        { "key": "A", "text": "Ăn" },
+        { "key": "B", "text": "Dùng bữa" },
+        { "key": "C", "text": "Xơi" },
+        { "key": "D", "text": "Chén" }
+      ],
+      "answer": "B",
+      "explanation": "\"Dùng bữa\" thường được dùng trong văn cảnh lịch sự, trang trọng hơn các lựa chọn còn lại.",
+      "tags": ["phong cách ngôn ngữ"]
+    },
+    {
+      "id": "tv-003",
+      "prompt": "Câu nào dùng từ \"kiên định\" đúng nhất?",
+      "options": [
+        { "key": "A", "text": "Bạn ấy kiên định chạy thật nhanh về đích." },
+        { "key": "B", "text": "Bạn ấy kiên định với mục tiêu học tập của mình." },
+        { "key": "C", "text": "Cơn mưa kiên định suốt cả buổi chiều." },
+        { "key": "D", "text": "Chiếc bàn kiên định trong phòng học." }
+      ],
+      "answer": "B",
+      "explanation": "\"Kiên định\" dùng để nói về lập trường, mục tiêu, ý chí không thay đổi trước khó khăn.",
+      "tags": ["dùng từ"]
+    },
+    {
+      "id": "tv-004",
+      "prompt": "Trong các cặp từ sau, cặp nào là trái nghĩa?",
+      "options": [
+        { "key": "A", "text": "Nhanh nhẹn - linh hoạt" },
+        { "key": "B", "text": "Thận trọng - cẩn thận" },
+        { "key": "C", "text": "Lạc quan - bi quan" },
+        { "key": "D", "text": "Rộng rãi - bao dung" }
+      ],
+      "answer": "C",
+      "explanation": "\"Lạc quan\" là nhìn nhận tích cực, còn \"bi quan\" là nhìn nhận tiêu cực.",
+      "tags": ["trái nghĩa"]
+    },
+    {
+      "id": "tv-005",
+      "prompt": "Quan sát hình minh họa và chọn từ phù hợp nhất để mô tả xu hướng điểm số.",
+      "image": "/exams/images/2026_1_img1.png",
+      "options": [
+        { "key": "A", "text": "Tăng đều" },
+        { "key": "B", "text": "Dao động" },
+        { "key": "C", "text": "Không đổi" },
+        { "key": "D", "text": "Giảm liên tục" }
+      ],
+      "answer": "B",
+      "explanation": "Câu hỏi minh họa cách gắn hình ảnh vào quiz. Khi thay bằng biểu đồ thật, hãy chọn đáp án theo dữ liệu trong hình.",
+      "tags": ["hình ảnh", "từ mô tả"]
+    }
+  ]
+}

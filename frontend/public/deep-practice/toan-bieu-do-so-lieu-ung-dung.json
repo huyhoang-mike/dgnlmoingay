@@ -1,0 +1,74 @@
+{
+  "id": "toan-bieu-do-so-lieu-ung-dung",
+  "title": "Toán: Biểu đồ & số liệu ứng dụng",
+  "subject": "Toán",
+  "timeMinutes": 15,
+  "questions": [
+    {
+      "id": "math-001",
+      "prompt": "Một lớp có 40 học sinh, trong đó 45% là nữ. Số học sinh nam là bao nhiêu?",
+      "options": [
+        { "key": "A", "text": "18" },
+        { "key": "B", "text": "20" },
+        { "key": "C", "text": "22" },
+        { "key": "D", "text": "24" }
+      ],
+      "answer": "C",
+      "explanation": "Số nữ là 40 × 45% = 18, nên số nam là 40 - 18 = 22.",
+      "tags": ["phần trăm"]
+    },
+    {
+      "id": "math-002",
+      "prompt": "Doanh thu tháng 1 là 80 triệu, tháng 2 tăng 25%. Doanh thu tháng 2 là bao nhiêu?",
+      "options": [
+        { "key": "A", "text": "90 triệu" },
+        { "key": "B", "text": "95 triệu" },
+        { "key": "C", "text": "100 triệu" },
+        { "key": "D", "text": "105 triệu" }
+      ],
+      "answer": "C",
+      "explanation": "80 × 1,25 = 100 triệu.",
+      "tags": ["tăng trưởng"]
+    },
+    {
+      "id": "math-003",
+      "prompt": "Nếu trung bình cộng của 5 số là 18, tổng của 5 số đó bằng bao nhiêu?",
+      "options": [
+        { "key": "A", "text": "72" },
+        { "key": "B", "text": "80" },
+        { "key": "C", "text": "90" },
+        { "key": "D", "text": "95" }
+      ],
+      "answer": "C",
+      "explanation": "Tổng = trung bình cộng × số lượng = 18 × 5 = 90.",
+      "tags": ["trung bình cộng"]
+    },
+    {
+      "id": "math-004",
+      "prompt": "Một biểu đồ cho biết tỉ lệ học sinh chọn A, B, C lần lượt là 30%, 45%, 25%. Nhóm nào đông nhất?",
+      "options": [
+        { "key": "A", "text": "Nhóm A" },
+        { "key": "B", "text": "Nhóm B" },
+        { "key": "C", "text": "Nhóm C" },
+        { "key": "D", "text": "Ba nhóm bằng nhau" }
+      ],
+      "answer": "B",
+      "explanation": "45% là tỉ lệ lớn nhất nên nhóm B đông nhất.",
+      "tags": ["đọc biểu đồ"]
+    },
+    {
+      "id": "math-005",
+      "prompt": "Quan sát hình và chọn nhận xét hợp lý nhất.",
+      "image": "/exams/images/2025_2_img1.png",
+      "options": [
+        { "key": "A", "text": "Dữ liệu có thể được chuyển thành câu hỏi đọc biểu đồ" },
+        { "key": "B", "text": "Hình ảnh không thể dùng trong câu hỏi" },
+        { "key": "C", "text": "Quiz chỉ hỗ trợ văn bản" },
+        { "key": "D", "text": "Không thể thêm đáp án cho câu có hình" }
+      ],
+      "answer": "A",
+      "explanation": "Quiz chuyên sâu hỗ trợ prompt có hình ảnh. Admin có thể đặt ảnh trong thư mục public và tham chiếu bằng đường dẫn bắt đầu bằng /.",
+      "tags": ["hình ảnh", "quản lý nội dung"]
+    }
+  ]
+}

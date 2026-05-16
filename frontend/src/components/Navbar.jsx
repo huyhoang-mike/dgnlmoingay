@@ -25,6 +25,7 @@ const NAV_LINKS = [
   { to: '/', label: 'Trang chủ' },
   { to: '/nen-tang', label: 'Nền tảng' },
   { to: '/luyen-de', label: 'Luyện đề' },
+  { to: '/luyen-tap-chuyen-sau', label: 'Quiz chuyên sâu' },
   { to: '/thuc-chien', label: 'Thực chiến' },
   { to: '/hoc-thu', label: 'Học thử' },
 ];

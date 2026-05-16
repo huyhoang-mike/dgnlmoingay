@@ -99,6 +99,13 @@ export default function Landing() {
                 <HiOutlinePlay className="h-5 w-5" />
                 Học thử miễn phí
               </Link>
+              <Link
+                to="/luyen-tap-chuyen-sau"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-yellow-300 text-slate-900 font-bold rounded-xl hover:bg-yellow-200 transition-all text-base"
+              >
+                Quiz chuyên sâu
+                <HiOutlineArrowRight className="h-5 w-5" />
+              </Link>
             </div>
           </div>
         </div>
@@ -174,6 +181,26 @@ export default function Landing() {
               >
                 Xem chi tiết
                 <HiOutlineArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-cyan-600 to-blue-700 text-white shadow-lg shadow-cyan-900/10">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold mb-3">
+                  MIỄN PHÍ MỖI NGÀY
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Luyện tập chuyên sâu theo từng dạng bài</h3>
+                <p className="text-sm text-white/80 max-w-2xl leading-relaxed">
+                  Làm quiz ngắn về Tiếng Việt, Tiếng Anh, Toán và phân tích số liệu để phát hiện lỗ hổng trước khi vào đề thực chiến.
+                </p>
+              </div>
+              <Link
+                to="/luyen-tap-chuyen-sau"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-700 font-bold hover:bg-gray-50 transition-colors flex-shrink-0"
+              >
+                Làm quiz miễn phí <HiOutlineArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </div>

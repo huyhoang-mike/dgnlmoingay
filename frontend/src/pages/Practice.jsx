@@ -189,6 +189,23 @@ export default function Practice() {
           )}
         </div>
 
+        <div className="mb-10 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-700 p-6 text-white">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold mb-2">Muốn luyện đúng điểm yếu trước khi làm đề?</h2>
+              <p className="text-sm text-white/80 leading-relaxed">
+                Vào Luyện tập chuyên sâu để làm quiz ngắn theo từng phần: Tiếng Việt, Tiếng Anh, Toán và phân tích số liệu.
+              </p>
+            </div>
+            <Link
+              to="/luyen-tap-chuyen-sau"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white text-primary-700 text-sm font-bold hover:bg-gray-50 transition-colors flex-shrink-0"
+            >
+              Luyện quiz ngay <HiOutlineArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+
         {EXAM_SECTIONS.map((section) => (
           <div key={section.group} className="mb-10">
             <div className="flex items-center gap-3 mb-4">
