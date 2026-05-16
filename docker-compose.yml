@@ -61,6 +61,8 @@ services:
         condition: service_healthy
     networks:
       - dgnl_network
+    volumes:
+      - qa_uploads:/app/uploads
     # volumes:
     #   - ./backend/app:/app/app  # ⚠️ Chỉ bật khi dev local cần hot-reload
 
@@ -104,3 +106,4 @@ networks:
 # ── Persistent Volumes ─────────────────────────
 volumes:
   postgres_data:
+  qa_uploads:

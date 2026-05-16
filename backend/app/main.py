@@ -2,12 +2,14 @@
 
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.routers import auth, lessons, progress, exams, import_lessons, payments
+from app.routers import auth, lessons, progress, exams, import_lessons, payments, qa
 
 # ── Production: tắt Swagger docs ─────────────
 _is_production = os.getenv("ENVIRONMENT", "development") == "production"
@@ -49,6 +51,12 @@ app.include_router(progress.router, prefix="/api/progress", tags=["User Progress
 app.include_router(exams.router, prefix="/api/exams", tags=["Exam Settings"])
 app.include_router(import_lessons.router, prefix="/api/lessons", tags=["Lesson Import"])
 app.include_router(payments.router, prefix="/api/payments", tags=["Payments"])
+app.include_router(qa.router, prefix="/api/qa", tags=["Q&A"])
+
+# ── Static Uploads ───────────────────────────
+uploads_root = Path(os.getenv("QA_UPLOAD_ROOT", "/app/uploads"))
+uploads_root.mkdir(parents=True, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=str(uploads_root)), name="uploads")
 
 
 # ── Health Check ──────────────────────────────

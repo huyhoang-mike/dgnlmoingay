@@ -103,4 +103,23 @@ export const getPaymentOrderStatus = (orderCode) =>
 export const bindPaymentOrderEmail = (orderCode, data) =>
   client.patch(`/payments/orders/${orderCode}/email`, data);
 
+// ── Q&A Community ───────────────────────────
+export const listQAQuestions = (params = {}) => client.get('/qa/questions', { params });
+export const getQAQuestion = (questionId) => client.get(`/qa/questions/${questionId}`);
+export const createQAQuestion = (formData) =>
+  client.post('/qa/questions/form', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+export const createQAAnswer = (questionId, formData) =>
+  client.post(`/qa/questions/${questionId}/answers/form`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+export const uploadQAImages = (files) => {
+  const formData = new FormData();
+  files.forEach((file) => formData.append('files', file));
+  return client.post('/qa/uploads', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
 export default client;
