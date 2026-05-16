@@ -8,10 +8,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { HiOutlineClock, HiOutlineChartBar } from 'react-icons/hi';
+import { HiOutlineClock, HiOutlineChartBar, HiOutlineEye } from 'react-icons/hi';
 import ExamTake from '../components/ExamTake';
 import { useAuth } from '../contexts/AuthContext';
-import { getExamSettings, listMyExamAttempts } from '../api/client';
+import { getExamAttempt, getExamSettings, listMyExamAttempts } from '../api/client';
 
 export default function ExamPage() {
   const { examId } = useParams();
@@ -27,6 +27,8 @@ export default function ExamPage() {
   // Past-attempts history (enrolled only)
   const [attempts, setAttempts] = useState([]);
   const [attemptsLoading, setAttemptsLoading] = useState(false);
+  const [selectedAttempt, setSelectedAttempt] = useState(null);
+  const [selectedAttemptLoading, setSelectedAttemptLoading] = useState(null);
 
   const fetchAttempts = useCallback(async () => {
     if (!isEnrolled || !examId) return;
@@ -81,6 +83,23 @@ export default function ExamPage() {
   useEffect(() => {
     fetchAttempts();
   }, [fetchAttempts]);
+
+  const openAttemptReview = async (attemptId) => {
+    try {
+      setSelectedAttemptLoading(attemptId);
+      const res = await getExamAttempt(attemptId);
+      setSelectedAttempt(res.data);
+    } catch (err) {
+      console.error('[DGNL] Failed to load exam attempt:', err);
+    } finally {
+      setSelectedAttemptLoading(null);
+    }
+  };
+
+  const startNewAttempt = () => {
+    setSelectedAttempt(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (loading) {
     return (
@@ -139,7 +158,7 @@ export default function ExamPage() {
   return (
     <>
       {/* Past-attempts banner (enrolled only) — rendered above ExamTake. */}
-      {isEnrolled && attempts.length > 0 && (
+      {isEnrolled && attempts.length > 0 && !selectedAttempt && (
         <div className="bg-gray-50 dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
           <div className="max-w-2xl mx-auto px-4 py-4">
             <div className="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
@@ -168,6 +187,15 @@ export default function ExamPage() {
                           <span className="ml-2">· {a.correct_count}✓ {a.wrong_count}✗ {a.unanswered_count}∅</span>
                         </p>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => openAttemptReview(a.id)}
+                        disabled={selectedAttemptLoading === a.id}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-600 text-white text-[11px] font-semibold hover:bg-primary-700 disabled:opacity-60 transition-colors"
+                      >
+                        <HiOutlineEye className="h-3.5 w-3.5" />
+                        {selectedAttemptLoading === a.id ? 'Đang mở...' : 'Xem lại'}
+                      </button>
                     </div>
                   );
                 })}
@@ -181,9 +209,12 @@ export default function ExamPage() {
       )}
 
       <ExamTake
+        key={selectedAttempt ? `review-${selectedAttempt.id}` : `new-${examId}`}
         examData={examData}
         examMeta={examMeta}
-        onBack={() => navigate('/thuc-chien')}
+        reviewAttempt={selectedAttempt}
+        onBack={selectedAttempt ? () => setSelectedAttempt(null) : () => navigate('/thuc-chien')}
+        onStartNew={startNewAttempt}
         onAttemptSaved={fetchAttempts}
       />
     </>

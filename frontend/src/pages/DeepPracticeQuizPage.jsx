@@ -1,18 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { HiOutlineArrowRight, HiOutlineLockClosed } from 'react-icons/hi';
+import { HiOutlineArrowRight, HiOutlineChartBar, HiOutlineClock, HiOutlineEye, HiOutlineLockClosed } from 'react-icons/hi';
 import DeepPracticeQuizRunner from '../components/DeepPracticeQuizRunner';
+import { getDeepPracticeAttempt, listMyDeepPracticeAttempts } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function DeepPracticeQuizPage() {
   const { quizId } = useParams();
   const navigate = useNavigate();
-  const { isEnrolled } = useAuth();
+  const { isAuthenticated, isEnrolled } = useAuth();
   const [meta, setMeta] = useState(null);
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [locked, setLocked] = useState(false);
+  const [attempts, setAttempts] = useState([]);
+  const [attemptsLoading, setAttemptsLoading] = useState(false);
+  const [selectedAttempt, setSelectedAttempt] = useState(null);
+  const [selectedAttemptLoading, setSelectedAttemptLoading] = useState(null);
 
   useEffect(() => {
     let isActive = true;
@@ -51,6 +56,40 @@ export default function DeepPracticeQuizPage() {
       isActive = false;
     };
   }, [isEnrolled, quizId]);
+
+  const fetchAttempts = async () => {
+    if (!isAuthenticated || !quizId) return;
+    try {
+      setAttemptsLoading(true);
+      const res = await listMyDeepPracticeAttempts(quizId);
+      setAttempts(res.data);
+    } catch {
+      setAttempts([]);
+    } finally {
+      setAttemptsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttempts();
+  }, [isAuthenticated, quizId]);
+
+  const openAttemptReview = async (attemptId) => {
+    try {
+      setSelectedAttemptLoading(attemptId);
+      const res = await getDeepPracticeAttempt(attemptId);
+      setSelectedAttempt(res.data);
+    } catch (err) {
+      console.error('[DGNL] Failed to load deep-practice attempt:', err);
+    } finally {
+      setSelectedAttemptLoading(null);
+    }
+  };
+
+  const startNewAttempt = () => {
+    setSelectedAttempt(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (loading) {
     return (
@@ -113,10 +152,60 @@ export default function DeepPracticeQuizPage() {
   }
 
   return (
-    <DeepPracticeQuizRunner
-      quiz={quiz}
-      meta={meta}
-      onBack={() => navigate('/luyen-tap-chuyen-sau')}
-    />
+    <>
+      {isAuthenticated && attempts.length > 0 && !selectedAttempt && (
+        <div className="bg-gray-50 dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
+          <div className="max-w-4xl mx-auto px-4 py-4">
+            <div className="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <HiOutlineChartBar className="h-4 w-4 text-primary-600" />
+                <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  Lịch sử luyện quiz này ({attempts.length})
+                </h3>
+                {attemptsLoading && (
+                  <div className="ml-auto w-3 h-3 border-2 border-primary-300 border-t-primary-600 rounded-full animate-spin" />
+                )}
+              </div>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {attempts.slice(0, 10).map((attempt) => (
+                  <div key={attempt.id} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50 dark:bg-slate-700/40 text-xs">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-mono text-gray-700 dark:text-gray-200">
+                        {attempt.correct_count}/{attempt.total_questions}
+                        <span className="ml-2 text-gray-400">· {attempt.score_percent}%</span>
+                      </p>
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
+                        <HiOutlineClock className="h-3 w-3" />
+                        {new Date(attempt.submitted_at).toLocaleString('vi-VN')}
+                        <span className="ml-2">· {attempt.correct_count}✓ {attempt.wrong_count}✗ {attempt.unanswered_count}∅</span>
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => openAttemptReview(attempt.id)}
+                      disabled={selectedAttemptLoading === attempt.id}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-600 text-white text-[11px] font-semibold hover:bg-primary-700 disabled:opacity-60 transition-colors"
+                    >
+                      <HiOutlineEye className="h-3.5 w-3.5" />
+                      {selectedAttemptLoading === attempt.id ? 'Đang mở...' : 'Xem lại'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <DeepPracticeQuizRunner
+        key={selectedAttempt ? `review-${selectedAttempt.id}` : `new-${quizId}`}
+        quiz={quiz}
+        meta={meta}
+        reviewAttempt={selectedAttempt}
+        onBack={selectedAttempt ? () => setSelectedAttempt(null) : () => navigate('/luyen-tap-chuyen-sau')}
+        onStartNew={startNewAttempt}
+        onAttemptSaved={fetchAttempts}
+      />
+    </>
   );
 }

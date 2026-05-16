@@ -52,6 +52,22 @@ function flattenQuestions(rawData) {
   return flat;
 }
 
+function snapshotQuestions(questions) {
+  return questions.map((question) => ({
+    index: question.index,
+    subject: question.subject,
+    question: question.question,
+    options: question.options || [],
+    answer: question.answer,
+    explain: question.explain,
+    passage: question.passage,
+    instruction: question.instruction,
+    type: question.type,
+    passageId: question.passageId,
+    isFirstInPassage: question.isFirstInPassage,
+  }));
+}
+
 // ── Timer formatting ──
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
@@ -86,21 +102,22 @@ const SUBJECT_COLORS = {
 
 const getSubjectColor = (subject) => SUBJECT_COLORS[subject] || SUBJECT_COLORS['Toán'];
 
-export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved }) {
+export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved, reviewAttempt = null, onStartNew }) {
   const { isEnrolled } = useAuth();
+  const isReviewMode = Boolean(reviewAttempt);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [currentQ, setCurrentQ] = useState(0);
 
   // Exam states
-  const [phase, setPhase] = useState('setup'); // setup | running | submitted
+  const [phase, setPhase] = useState(isReviewMode ? 'submitted' : 'setup'); // setup | running | submitted
   const [customMinutes, setCustomMinutes] = useState(examMeta?.timeMinutes || 150);
   const [remainingSeconds, setRemainingSeconds] = useState(0);
   const [startedAt, setStartedAt] = useState(null);
   const [showMap, setShowMap] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   // Persistence: 'idle' | 'saving' | 'saved' | 'error' | 'skipped'
-  const [saveStatus, setSaveStatus] = useState('idle');
+  const [saveStatus, setSaveStatus] = useState(isReviewMode ? 'saved' : 'idle');
   const [saveError, setSaveError] = useState(null);
 
   const timerRef = useRef(null);
@@ -109,10 +126,26 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
 
   // Flatten on load
   useEffect(() => {
+    if (reviewAttempt?.meta?.questions?.length) {
+      setQuestions(reviewAttempt.meta.questions);
+      return;
+    }
     if (examData) {
       setQuestions(flattenQuestions(examData));
     }
-  }, [examData]);
+  }, [examData, reviewAttempt]);
+
+  useEffect(() => {
+    if (!reviewAttempt) return;
+    setAnswers(reviewAttempt.answers || {});
+    setCurrentQ(0);
+    setPhase('submitted');
+    setRemainingSeconds(0);
+    setStartedAt(null);
+    setSaveStatus('saved');
+    setSaveError(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [reviewAttempt]);
 
   // Timer
   useEffect(() => {
@@ -164,6 +197,10 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
   }, []);
 
   const handleReset = () => {
+    if (isReviewMode) {
+      if (typeof onStartNew === 'function') onStartNew();
+      return;
+    }
     setAnswers({});
     setCurrentQ(0);
     setPhase('setup');
@@ -219,6 +256,8 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
     if (phase !== 'submitted' || !results) return;
     if (saveStatus !== 'idle') return; // already done
 
+    if (isReviewMode) return;
+
     if (!isEnrolled) {
       setSaveStatus('skipped');
       return;
@@ -247,7 +286,10 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
       answers: Object.fromEntries(
         Object.entries(answers).map(([k, v]) => [String(k), v])
       ),
-      meta: { bySubject: results.bySubject },
+      meta: {
+        bySubject: results.bySubject,
+        questions: snapshotQuestions(questions),
+      },
     };
 
     setSaveStatus('saving');
@@ -260,7 +302,7 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
         setSaveStatus('error');
         setSaveError(err?.response?.data?.detail || 'Không thể lưu kết quả');
       });
-  }, [phase, results, isEnrolled, examMeta, maxScore, totalQuestions, answers, startedAt, saveStatus, onAttemptSaved]);
+  }, [phase, results, isEnrolled, examMeta, maxScore, totalQuestions, answers, startedAt, saveStatus, onAttemptSaved, questions, isReviewMode]);
 
   // ── Group questions by subject for sections ──
   const subjectGroups = useMemo(() => {
@@ -376,7 +418,15 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
             {/* Results banner */}
             {phase === 'submitted' && results && (
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 mb-6 shadow-sm border border-gray-100 dark:border-slate-700">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">📊 Kết quả</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+                  {isReviewMode ? '📚 Xem lại lần làm bài' : '📊 Kết quả'}
+                </h2>
+
+                {isReviewMode && reviewAttempt?.submitted_at && (
+                  <div className="mb-4 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-xs text-blue-700 dark:text-blue-300 text-center">
+                    Lần nộp: {new Date(reviewAttempt.submitted_at).toLocaleString('vi-VN')} · Đáp án bạn đã chọn được tô màu ngay bên dưới.
+                  </div>
+                )}
 
                 {/* Save status banner (only shown for enrolled users / errors) */}
                 {saveStatus === 'saving' && (
@@ -388,7 +438,7 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
                 {saveStatus === 'saved' && (
                   <div className="mb-4 flex items-center justify-center gap-2 text-xs text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 rounded-lg py-2">
                     <HiOutlineCloudUpload className="h-4 w-4" />
-                    Đã lưu vào hồ sơ học viên — bạn có thể xem lại sau
+                    {isReviewMode ? 'Đang xem dữ liệu đã lưu trong hồ sơ học viên' : 'Đã lưu vào hồ sơ học viên — bạn có thể xem lại sau'}
                   </div>
                 )}
                 {saveStatus === 'error' && (
@@ -460,11 +510,11 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
                 <div className="flex gap-3 mt-6">
                   <button onClick={handleReset}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-                    <HiOutlineRefresh className="h-4 w-4" /> Làm lại
+                    <HiOutlineRefresh className="h-4 w-4" /> {isReviewMode ? 'Làm bài mới' : 'Làm lại'}
                   </button>
                   <button onClick={onBack}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-600 text-sm font-medium text-white hover:bg-primary-700 transition-colors">
-                    <HiOutlineChevronLeft className="h-4 w-4" /> Danh sách đề
+                    <HiOutlineChevronLeft className="h-4 w-4" /> {isReviewMode ? 'Quay lại lịch sử' : 'Danh sách đề'}
                   </button>
                 </div>
               </div>
@@ -666,11 +716,11 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved })
                 <div className="flex gap-2">
                   <button onClick={handleReset}
                     className="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 text-xs font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-                    <HiOutlineRefresh className="h-3.5 w-3.5" /> Làm lại
+                    <HiOutlineRefresh className="h-3.5 w-3.5" /> {isReviewMode ? 'Bài mới' : 'Làm lại'}
                   </button>
                   <button onClick={onBack}
                     className="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 rounded-xl bg-primary-600 text-xs font-medium text-white hover:bg-primary-700 transition-colors">
-                    <HiOutlineChevronLeft className="h-3.5 w-3.5" /> Danh sách
+                    <HiOutlineChevronLeft className="h-3.5 w-3.5" /> {isReviewMode ? 'Lịch sử' : 'Danh sách'}
                   </button>
                 </div>
               )}

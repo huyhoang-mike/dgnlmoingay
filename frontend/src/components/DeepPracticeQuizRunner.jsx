@@ -2,10 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   HiOutlineArrowLeft,
   HiOutlineCheckCircle,
+  HiOutlineCloudUpload,
   HiOutlineClock,
   HiOutlineRefresh,
   HiOutlineXCircle,
 } from 'react-icons/hi';
+import { submitDeepPracticeAttempt } from '../api/client';
+import { useAuth } from '../contexts/AuthContext';
 
 const OPTION_KEYS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -18,14 +21,40 @@ function QuestionImage({ src, alt }) {
   );
 }
 
-export default function DeepPracticeQuizRunner({ quiz, meta, onBack }) {
-  const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [startedAt] = useState(() => Date.now());
+function snapshotQuestions(questions) {
+  return questions.map((question) => ({
+    id: question.id,
+    prompt: question.prompt,
+    image: question.image,
+    options: question.options || [],
+    answer: question.answer,
+    explanation: question.explanation,
+    explanationImage: question.explanationImage,
+    tags: question.tags || [],
+  }));
+}
 
-  const questions = quiz?.questions || [];
+export default function DeepPracticeQuizRunner({ quiz, meta, onBack, reviewAttempt = null, onAttemptSaved, onStartNew }) {
+  const { isAuthenticated } = useAuth();
+  const isReviewMode = Boolean(reviewAttempt);
+  const [answers, setAnswers] = useState(reviewAttempt?.answers || {});
+  const [submitted, setSubmitted] = useState(isReviewMode);
+  const [startedAt] = useState(() => Date.now());
+  const [saveStatus, setSaveStatus] = useState(isReviewMode ? 'saved' : 'idle');
+  const [saveError, setSaveError] = useState(null);
+
+  const questions = reviewAttempt?.meta?.questions?.length ? reviewAttempt.meta.questions : (quiz?.questions || []);
   const totalQuestions = questions.length;
   const answeredCount = Object.keys(answers).length;
+
+  useEffect(() => {
+    if (!reviewAttempt) return;
+    setAnswers(reviewAttempt.answers || {});
+    setSubmitted(true);
+    setSaveStatus('saved');
+    setSaveError(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [reviewAttempt]);
 
   const result = useMemo(() => {
     if (!submitted) return null;
@@ -37,18 +66,58 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack }) {
       wrong: answeredCount - correct,
       unanswered: totalQuestions - answeredCount,
       percent: totalQuestions > 0 ? Math.round((correct / totalQuestions) * 100) : 0,
-      spentSeconds: Math.max(0, Math.round((Date.now() - startedAt) / 1000)),
+      spentSeconds: isReviewMode
+        ? (reviewAttempt?.time_spent_seconds || 0)
+        : Math.max(0, Math.round((Date.now() - startedAt) / 1000)),
     };
-  }, [answers, answeredCount, questions, startedAt, submitted, totalQuestions]);
+  }, [answers, answeredCount, isReviewMode, questions, reviewAttempt, startedAt, submitted, totalQuestions]);
 
   useEffect(() => {
-    if (!submitted || !meta?.id || !result) return;
+    if (isReviewMode || !submitted || !meta?.id || !result) return;
     const storageKey = `deep-practice-best:${meta.id}`;
     const previous = Number(localStorage.getItem(storageKey) || 0);
     if (result.percent > previous) {
       localStorage.setItem(storageKey, String(result.percent));
     }
-  }, [meta?.id, result, submitted]);
+  }, [isReviewMode, meta?.id, result, submitted]);
+
+  useEffect(() => {
+    if (isReviewMode || !submitted || !meta?.id || !result || saveStatus !== 'idle') return;
+
+    if (!isAuthenticated) {
+      setSaveStatus('skipped');
+      return;
+    }
+
+    const payload = {
+      quiz_id: meta.id,
+      quiz_title: quiz?.title || meta?.title || null,
+      subject: meta?.subject || quiz?.subject || null,
+      score_percent: result.percent,
+      correct_count: result.correct,
+      wrong_count: result.wrong,
+      unanswered_count: result.unanswered,
+      total_questions: totalQuestions,
+      time_spent_seconds: result.spentSeconds,
+      answers,
+      meta: {
+        skill: meta?.skill,
+        level: meta?.level,
+        questions: snapshotQuestions(questions),
+      },
+    };
+
+    setSaveStatus('saving');
+    submitDeepPracticeAttempt(payload)
+      .then((res) => {
+        setSaveStatus('saved');
+        if (typeof onAttemptSaved === 'function') onAttemptSaved(res.data);
+      })
+      .catch((err) => {
+        setSaveStatus('error');
+        setSaveError(err?.response?.data?.detail || 'Không thể lưu kết quả luyện tập');
+      });
+  }, [answers, isAuthenticated, isReviewMode, meta, onAttemptSaved, questions, quiz, result, saveStatus, submitted, totalQuestions]);
 
   const chooseAnswer = (questionId, key) => {
     if (submitted) return;
@@ -56,8 +125,14 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack }) {
   };
 
   const resetQuiz = () => {
+    if (isReviewMode) {
+      if (typeof onStartNew === 'function') onStartNew();
+      return;
+    }
     setAnswers({});
     setSubmitted(false);
+    setSaveStatus('idle');
+    setSaveError(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -131,7 +206,7 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack }) {
                 onClick={resetQuiz}
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 text-sm font-bold hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
               >
-                <HiOutlineRefresh className="h-4 w-4" /> Làm lại
+                <HiOutlineRefresh className="h-4 w-4" /> {isReviewMode ? 'Làm bài mới' : 'Làm lại'}
               </button>
             )}
           </div>
@@ -142,16 +217,43 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack }) {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
                 <h2 className="text-lg font-bold text-emerald-900 dark:text-emerald-200">
-                  Kết quả: {result.correct}/{totalQuestions} câu đúng ({result.percent}%)
+                  {isReviewMode ? 'Xem lại kết quả' : 'Kết quả'}: {result.correct}/{totalQuestions} câu đúng ({result.percent}%)
                 </h2>
                 <p className="text-sm text-emerald-700 dark:text-emerald-300 mt-1">
                   Sai {result.wrong} câu · Bỏ trống {result.unanswered} câu · Thời gian {formatSpentTime(result.spentSeconds)}
                 </p>
+                {isReviewMode && reviewAttempt?.submitted_at && (
+                  <p className="text-xs text-emerald-700/80 dark:text-emerald-300/80 mt-1">
+                    Lần nộp: {new Date(reviewAttempt.submitted_at).toLocaleString('vi-VN')}
+                  </p>
+                )}
               </div>
               <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                 <HiOutlineClock className="h-4 w-4" /> Gợi ý: ghi lại dạng sai để ôn nền tảng
               </div>
             </div>
+            {saveStatus === 'saving' && (
+              <div className="mt-4 flex items-center gap-2 text-xs text-emerald-700 dark:text-emerald-300">
+                <div className="w-3 h-3 border-2 border-emerald-300 border-t-emerald-700 rounded-full animate-spin" />
+                Đang lưu kết quả...
+              </div>
+            )}
+            {saveStatus === 'saved' && (
+              <div className="mt-4 inline-flex items-center gap-2 rounded-lg bg-white/70 dark:bg-slate-900/30 px-3 py-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                <HiOutlineCloudUpload className="h-4 w-4" />
+                {isReviewMode ? 'Đang xem dữ liệu đã lưu' : 'Đã lưu để xem lại sau'}
+              </div>
+            )}
+            {saveStatus === 'skipped' && (
+              <div className="mt-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 px-3 py-2 text-xs text-yellow-700 dark:text-yellow-300">
+                Đăng nhập Google để lưu lịch sử làm quiz và xem lại đáp án trên thiết bị khác.
+              </div>
+            )}
+            {saveStatus === 'error' && (
+              <div className="mt-4 rounded-lg bg-red-50 dark:bg-red-900/20 px-3 py-2 text-xs text-red-700 dark:text-red-300">
+                ⚠️ {saveError}
+              </div>
+            )}
           </div>
         )}
 

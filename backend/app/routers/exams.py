@@ -12,10 +12,16 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models.exam_setting import ExamSetting
 from app.models.exam_attempt import ExamAttempt
+from app.models.deep_practice_attempt import DeepPracticeAttempt
 from app.models.user import User
 from app.schemas.exam_setting import ExamSettingOut, ExamSettingUpdate
 from app.schemas.exam_attempt import (
     ExamAttemptCreate, ExamAttemptOut, ExamAttemptSummary,
+)
+from app.schemas.deep_practice_attempt import (
+    DeepPracticeAttemptCreate,
+    DeepPracticeAttemptOut,
+    DeepPracticeAttemptSummary,
 )
 from app.auth import require_admin, require_auth, require_enrolled
 
@@ -153,4 +159,78 @@ async def list_user_attempts(
         .order_by(ExamAttempt.submitted_at.desc())
     )
     return result.scalars().all()
+
+
+# ════════════════════════════════════════════════
+# Deep Practice Attempts — authenticated users
+# ════════════════════════════════════════════════
+
+@router.post(
+    "/deep-practice-attempts",
+    response_model=DeepPracticeAttemptOut,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_deep_practice_attempt(
+    data: DeepPracticeAttemptCreate,
+    user: User = Depends(require_auth),
+    db: AsyncSession = Depends(get_db),
+):
+    """Persist a submitted specialized-practice quiz attempt."""
+    attempt = DeepPracticeAttempt(
+        user_id=user.id,
+        quiz_id=data.quiz_id,
+        quiz_title=data.quiz_title,
+        subject=data.subject,
+        score_percent=data.score_percent,
+        correct_count=data.correct_count,
+        wrong_count=data.wrong_count,
+        unanswered_count=data.unanswered_count,
+        total_questions=data.total_questions,
+        time_spent_seconds=data.time_spent_seconds,
+        answers=data.answers,
+        meta=data.meta,
+    )
+    db.add(attempt)
+    await db.flush()
+    await db.refresh(attempt)
+    return attempt
+
+
+@router.get(
+    "/deep-practice-attempts/me",
+    response_model=list[DeepPracticeAttemptSummary],
+)
+async def list_my_deep_practice_attempts(
+    quiz_id: str | None = None,
+    user: User = Depends(require_auth),
+    db: AsyncSession = Depends(get_db),
+):
+    """Return current user's specialized quiz attempts, newest first."""
+    stmt = select(DeepPracticeAttempt).where(DeepPracticeAttempt.user_id == user.id)
+    if quiz_id:
+        stmt = stmt.where(DeepPracticeAttempt.quiz_id == quiz_id)
+    stmt = stmt.order_by(DeepPracticeAttempt.submitted_at.desc())
+    result = await db.execute(stmt)
+    return result.scalars().all()
+
+
+@router.get(
+    "/deep-practice-attempts/{attempt_id}",
+    response_model=DeepPracticeAttemptOut,
+)
+async def get_deep_practice_attempt(
+    attempt_id: int,
+    user: User = Depends(require_auth),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get a deep-practice attempt with selected answers. Owner or admin only."""
+    result = await db.execute(
+        select(DeepPracticeAttempt).where(DeepPracticeAttempt.id == attempt_id)
+    )
+    attempt = result.scalar_one_or_none()
+    if not attempt:
+        raise HTTPException(status_code=404, detail="Attempt not found")
+    if attempt.user_id != user.id and not user.is_admin:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    return attempt
 

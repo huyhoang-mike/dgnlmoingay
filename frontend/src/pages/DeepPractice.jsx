@@ -10,6 +10,7 @@ import {
   HiOutlineStar,
 } from 'react-icons/hi';
 import DeepPracticeGuide from '../components/DeepPracticeGuide';
+import { listMyDeepPracticeAttempts } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 
 const SUBJECT_COLORS = {
@@ -28,31 +29,51 @@ export default function DeepPractice() {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeSubject, setActiveSubject] = useState('Tất cả');
+  const [bestAttemptByQuiz, setBestAttemptByQuiz] = useState({});
   const { isEnrolled, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     let isActive = true;
 
-    fetch('/deep-practice/index.json', { cache: 'no-store' })
-      .then((res) => {
-        if (!res.ok) throw new Error('Không tải được danh sách quiz');
-        return res.json();
-      })
-      .then((data) => {
-        if (isActive) setQuizzes(data.filter((quiz) => quiz.isPublished));
-      })
-      .catch(() => {
-        if (isActive) setQuizzes([]);
-      })
-      .finally(() => {
+    const load = async () => {
+      try {
+        const [indexData, attempts] = await Promise.all([
+          fetch('/deep-practice/index.json', { cache: 'no-store' }).then((res) => {
+            if (!res.ok) throw new Error('Không tải được danh sách quiz');
+            return res.json();
+          }),
+          isAuthenticated ? listMyDeepPracticeAttempts().then((res) => res.data).catch(() => []) : Promise.resolve([]),
+        ]);
+
+        const nextBestAttemptByQuiz = {};
+        attempts.forEach((attempt) => {
+          const currentBest = nextBestAttemptByQuiz[attempt.quiz_id];
+          if (currentBest === undefined || attempt.score_percent > currentBest) {
+            nextBestAttemptByQuiz[attempt.quiz_id] = attempt.score_percent;
+          }
+        });
+
+        if (isActive) {
+          setQuizzes(indexData.filter((quiz) => quiz.isPublished));
+          setBestAttemptByQuiz(nextBestAttemptByQuiz);
+        }
+      } catch {
+        if (isActive) {
+          setQuizzes([]);
+          setBestAttemptByQuiz({});
+        }
+      } finally {
         if (isActive) setLoading(false);
-      });
+      }
+    };
+
+    load();
 
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [isAuthenticated]);
 
   const subjects = useMemo(() => (
     ['Tất cả', ...Array.from(new Set(quizzes.map((quiz) => quiz.subject).filter(Boolean)))]
@@ -174,7 +195,7 @@ export default function DeepPractice() {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {filteredQuizzes.map((quiz) => {
                 const canAccess = quiz.isFree || isEnrolled;
-                const bestScore = getBestScore(quiz.id);
+                const bestScore = bestAttemptByQuiz[quiz.id] ?? getBestScore(quiz.id);
                 return (
                   <article
                     key={quiz.id}
@@ -221,7 +242,7 @@ export default function DeepPractice() {
 
                     {bestScore > 0 && (
                       <div className="mb-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/40 p-3 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                        Điểm tốt nhất trên thiết bị này: {bestScore}%
+                        Điểm tốt nhất{bestAttemptByQuiz[quiz.id] !== undefined ? '' : ' trên thiết bị này'}: {bestScore}%
                       </div>
                     )}
 

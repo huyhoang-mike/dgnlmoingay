@@ -95,6 +95,11 @@ export const listMyExamAttempts = (examId) =>
 export const getExamAttempt = (attemptId) => client.get(`/exams/attempts/${attemptId}`);
 export const listUserExamAttempts = (userId) =>
   client.get(`/exams/attempts/user/${userId}`);
+export const submitDeepPracticeAttempt = (data) => client.post('/exams/deep-practice-attempts', data);
+export const listMyDeepPracticeAttempts = (quizId) =>
+  client.get('/exams/deep-practice-attempts/me', { params: quizId ? { quiz_id: quizId } : {} });
+export const getDeepPracticeAttempt = (attemptId) =>
+  client.get(`/exams/deep-practice-attempts/${attemptId}`);
 
 // ── Payments (SePay) ───────────────────────
 export const createPaymentOrder = (data) => client.post('/payments/orders', data);
