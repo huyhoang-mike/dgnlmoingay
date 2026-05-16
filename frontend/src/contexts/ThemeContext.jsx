@@ -1,6 +1,6 @@
 /**
  * Theme Context
- * Manages dark/light mode with localStorage persistence and system preference detection.
+ * Manages dark/light mode with localStorage persistence (defaults to light for first-time visitors).
  */
 
 import { createContext, useContext, useState, useEffect } from 'react';
@@ -10,9 +10,11 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('dgnl-theme');
-      if (stored) return stored;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      try {
+        const stored = localStorage.getItem('dgnl-theme');
+        if (stored === 'dark' || stored === 'light') return stored;
+      } catch {}
+      return 'light';
     }
     return 'light';
   });
@@ -24,7 +26,9 @@ export function ThemeProvider({ children }) {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('dgnl-theme', theme);
+    try {
+      localStorage.setItem('dgnl-theme', theme);
+    } catch {}
   }, [theme]);
 
   const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
