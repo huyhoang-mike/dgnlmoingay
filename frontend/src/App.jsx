@@ -11,6 +11,7 @@ import DeepPractice from './pages/DeepPractice';
 import DeepPracticeQuizPage from './pages/DeepPracticeQuizPage';
 import QA from './pages/QA';
 import QADetail from './pages/QADetail';
+import OpenMaterials from './pages/OpenMaterials';
 import FreeTrial from './pages/FreeTrial';
 import SubjectLessons from './pages/SubjectLessons';
 import LessonView from './pages/LessonView';
@@ -79,6 +80,12 @@ const ROUTE_META = [
     title: 'Lời Giải Câu Hỏi ĐGNL | ĐGNL Mỗi Ngày',
     description:
       'Xem câu hỏi và lời giải Đánh giá năng lực từ cộng đồng ĐGNL Mỗi Ngày.',
+  },
+  {
+    test: /^\/kho-tai-lieu-mo(?:\/)?$/,
+    title: 'Kho Tài Liệu ĐGNL Miễn Phí | PDF Luyện Thi | ĐGNL Mỗi Ngày',
+    description:
+      'Tải tài liệu PDF ôn thi ĐGNL miễn phí, đề cương và tài liệu cộng đồng đã kiểm duyệt. Đăng nhập để đóng góp tài liệu cho kho mở.',
   },
   {
     test: /^\/thuc-chien(?:\/)?$/,
@@ -177,6 +184,9 @@ function App() {
           {/* Q&A Community */}
           <Route path="/hoi-dap" element={<QA />} />
           <Route path="/hoi-dap/:questionId" element={<QADetail />} />
+
+          {/* Open Materials Repository */}
+          <Route path="/kho-tai-lieu-mo" element={<OpenMaterials />} />
 
           {/* Lesson View */}
           <Route path="/lessons/:lessonId" element={<LessonView />} />

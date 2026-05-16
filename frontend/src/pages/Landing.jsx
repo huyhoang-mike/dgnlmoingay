@@ -112,6 +112,12 @@ export default function Landing() {
               >
                 Hỏi đáp Q&A
               </Link>
+              <Link
+                to="/kho-tai-lieu-mo"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all text-base"
+              >
+                Kho tài liệu mở
+              </Link>
             </div>
           </div>
         </div>
@@ -227,6 +233,26 @@ export default function Landing() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-700 font-bold hover:bg-gray-50 transition-colors flex-shrink-0"
               >
                 Vào Hỏi đáp <HiOutlineArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-lg shadow-emerald-900/10">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold mb-3">
+                  TÀI LIỆU ĐGNL MIỄN PHÍ
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Kho tài liệu mở từ ĐGNL Mỗi Ngày và cộng đồng</h3>
+                <p className="text-sm text-white/80 max-w-2xl leading-relaxed">
+                  Tải PDF, đề cương, checklist ôn tập đã kiểm duyệt; học viên được ưu tiên khi đóng góp và truy cập thư mục Drive đầy đủ hơn.
+                </p>
+              </div>
+              <Link
+                to="/kho-tai-lieu-mo"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-700 font-bold hover:bg-gray-50 transition-colors flex-shrink-0"
+              >
+                Vào kho tài liệu <HiOutlineArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </div>

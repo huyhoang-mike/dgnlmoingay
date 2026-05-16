@@ -5,6 +5,7 @@ from app.models.exam_setting import ExamSetting
 from app.models.exam_attempt import ExamAttempt
 from app.models.payment_order import PaymentOrder
 from app.models.qa import QAQuestion, QAAnswer
+from app.models.open_material import OpenMaterial, MaterialSubmission
 
 __all__ = [
     "Lesson",
@@ -15,4 +16,6 @@ __all__ = [
     "PaymentOrder",
     "QAQuestion",
     "QAAnswer",
+    "OpenMaterial",
+    "MaterialSubmission",
 ]

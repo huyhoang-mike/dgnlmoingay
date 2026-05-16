@@ -27,6 +27,7 @@ const NAV_LINKS = [
   { to: '/luyen-de', label: 'Luyện đề' },
   { to: '/luyen-tap-chuyen-sau', label: 'Quiz chuyên sâu' },
   { to: '/hoi-dap', label: 'Hỏi đáp' },
+  { to: '/kho-tai-lieu-mo', label: 'Tài liệu mở' },
   { to: '/thuc-chien', label: 'Thực chiến' },
   { to: '/hoc-thu', label: 'Học thử' },
 ];

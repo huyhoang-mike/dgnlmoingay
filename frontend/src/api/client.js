@@ -122,4 +122,19 @@ export const uploadQAImages = (files) => {
   });
 };
 
+// ── Open Materials ──────────────────────────
+export const listOpenMaterials = (params = {}) => client.get('/open-materials/materials', { params });
+export const createOpenMaterial = (data) => client.post('/open-materials/materials', data);
+export const trackOpenMaterialDownload = (materialId) =>
+  client.post(`/open-materials/materials/${materialId}/download`);
+export const submitOpenMaterial = (formData) =>
+  client.post('/open-materials/submissions/form', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+export const listMyMaterialSubmissions = () => client.get('/open-materials/submissions/me');
+export const listMaterialSubmissionsAdmin = (params = {}) =>
+  client.get('/open-materials/submissions', { params });
+export const reviewMaterialSubmission = (submissionId, data) =>
+  client.patch(`/open-materials/submissions/${submissionId}/review`, data);
+
 export default client;
