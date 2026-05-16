@@ -3,7 +3,6 @@
  * Minimal footer with contact info and social links.
  */
 
-import { HiOutlineAcademicCap } from 'react-icons/hi';
 import {
   FaComments,
   FaFacebookF,
@@ -21,7 +20,11 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-md">
-                <HiOutlineAcademicCap className="h-5 w-5 text-white" />
+                <img
+                  src="/favicon.svg"
+                  alt="ĐGNL Mỗi Ngày"
+                  className="h-5 w-5 brightness-0 invert"
+                />
               </div>
               <span className="text-lg font-bold text-gray-900 dark:text-white">
                 ĐGNL Mỗi Ngày

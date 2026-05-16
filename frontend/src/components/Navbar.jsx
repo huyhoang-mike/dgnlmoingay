@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import {
-  HiOutlineAcademicCap,
   HiOutlineSun,
   HiOutlineMoon,
   HiOutlineMenu,
@@ -72,7 +71,11 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 flex-shrink-0">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-md">
-              <HiOutlineAcademicCap className="h-5 w-5 text-white" />
+              <img
+                src="/favicon.svg"
+                alt="ĐGNL Mỗi Ngày"
+                className="h-5 w-5 brightness-0 invert"
+              />
             </div>
             <span className="text-lg font-bold text-gray-900 dark:text-white hidden sm:block">
               ĐGNL Mỗi Ngày

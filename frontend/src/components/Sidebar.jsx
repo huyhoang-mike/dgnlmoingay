@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { HiOutlineBookOpen, HiOutlineAcademicCap, HiOutlineCheckCircle } from 'react-icons/hi';
+import { HiOutlineCheckCircle } from 'react-icons/hi';
 import { getLessons } from '../api/client';
 
 export default function Sidebar() {
@@ -36,7 +36,11 @@ export default function Sidebar() {
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700
                           flex items-center justify-center shadow-md">
-            <HiOutlineAcademicCap className="h-6 w-6 text-white" />
+            <img
+              src="/favicon.svg"
+              alt="ĐGNL Mỗi Ngày"
+              className="h-6 w-6 brightness-0 invert"
+            />
           </div>
           <div>
             <h1 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">ĐGNL Mỗi Ngày</h1>
