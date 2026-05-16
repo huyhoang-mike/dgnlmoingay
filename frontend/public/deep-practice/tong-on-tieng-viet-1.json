@@ -1,0 +1,411 @@
+{
+  "id": "tong-on-tieng-viet-1",
+  "title": "Tiếng Việt: Ôn tập Chính tả và Lỗi sai văn bản",
+  "subject": "Tiếng Việt",
+  "timeMinutes": 30,
+  "questions": [
+    {
+      "id": "vie-q01",
+      "prompt": "Trong các từ dưới đây, từ nào viết đúng chính tả?",
+      "options": [
+        { "key": "A", "text": "Xán lạn." },
+        { "key": "B", "text": "Trao chuốt." },
+        { "key": "C", "text": "Triều mến." },
+        { "key": "D", "text": "Suất sắc." }
+      ],
+      "answer": "A",
+      "explanation": "\"Xán lạn\" là một từ Hán-Việt cổ viết đúng chính tả (trong đó \"xán\" nghĩa là rực rỡ, \"lạn\" nghĩa là sáng sủa). Các từ còn lại viết sai, cách viết đúng phải là: \"trau chuốt\", \"trìu mến\", \"xuất sắc\".",
+      "tags": ["chính tả", "từ vựng"]
+    },
+    {
+      "id": "vie-q02",
+      "prompt": "Trong các từ dưới đây, từ nào viết sai chính tả?",
+      "options": [
+        { "key": "A", "text": "Chỉn chu." },
+        { "key": "B", "text": "Trau dồi." },
+        { "key": "C", "text": "Tháo giỡ." },
+        { "key": "D", "text": "Thẳng thắn." }
+      ],
+      "answer": "C",
+      "explanation": "Từ viết sai chính tả là \"Tháo giỡ\". Từ đúng trong tiếng Việt phải là \"Tháo dỡ\" (hành động tháo rời các bộ phận cấu thành hoặc dỡ bỏ một công trình, vật dụng nào đó).",
+      "tags": ["chính tả", "từ vựng"]
+    },
+    {
+      "id": "vie-q03",
+      "prompt": "Chọn từ viết đúng chính tả để điền vào chỗ trống trong câu sau: “Anh tôi là một người ______.”",
+      "options": [
+        { "key": "A", "text": "Chính trực, thẳn thắng." },
+        { "key": "B", "text": "Trính trực, thẳn thắng." },
+        { "key": "C", "text": "Trính trực, thẳng thắn." },
+        { "key": "D", "text": "Chính trực, thẳng thắn." }
+      ],
+      "answer": "D",
+      "explanation": "Cặp từ đúng quy chuẩn chính tả tiếng Việt là \"Chính trực\" (chữ \"ch\", mang nghĩa ngay thẳng, chính đáng) và \"thẳng thắn\" (chữ \"thẳng\" và \"thắn\", mang nghĩa trung thực, bộc trực, không quanh co).",
+      "tags": ["chính tả", "điền từ"]
+    },
+    {
+      "id": "vie-q04",
+      "prompt": "Trong những câu sau, câu nào có từ viết sai chính tả?",
+      "options": [
+        { "key": "A", "text": "Ông ta luôn thực hiện tốt những chỉ đạo của cấp trên." },
+        { "key": "B", "text": "Ông ta luôn chê trách những hành động thiếu văn minh nơi công sở." },
+        { "key": "C", "text": "Ông ta luôn chỉ trít những ý tưởng sai lầm của lãnh đạo." },
+        { "key": "D", "text": "Ông ta luôn gièm pha thành công của người khác." }
+      ],
+      "answer": "C",
+      "explanation": "Câu C chứa từ viết sai chính tả là \"chỉ trít\". Từ đúng chuẩn phải là \"chỉ trích\" (phân tích và vạch rõ sai lầm, khuyết điểm của người khác).",
+      "tags": ["chính tả", "tìm lỗi sai"]
+    },
+    {
+      "id": "vie-q05",
+      "prompt": "“Đọc giả mong muống được đọc những quyển sách có khả năng lôi cuống, lay động lòng người.” Những từ viết sai chính tả trong câu trên là:",
+      "options": [
+        { "key": "A", "text": "Đọc giả, mong muống, lôi cuống." },
+        { "key": "B", "text": "Đọc giả, mong muống, lay động." },
+        { "key": "C", "text": "Đọc giả, lôi cuống, lay động." },
+        { "key": "D", "text": "mong muống, lôi cuống, lay động." }
+      ],
+      "answer": "A",
+      "explanation": "Trong câu có 3 từ bị viết sai âm cuối hoặc từ tố:\n- \"Đọc giả\" -> sửa thành \"Độc giả\" (người đọc).\n- \"mong muống\" -> sửa thành \"mong muốn\".\n- \"lôi cuống\" -> sửa thành \"lôi cuốn\".",
+      "tags": ["chính tả", "sửa lỗi"]
+    },
+    {
+      "id": "vie-q06",
+      "prompt": "Câu thành ngữ nào dưới đây bị viết sai chính tả?",
+      "options": [
+        { "key": "A", "text": "Dương đông kích tây." },
+        { "key": "B", "text": "Dây mơ rễ má." },
+        { "key": "C", "text": "Giấy trắng mực đen." },
+        { "key": "D", "text": "Rút dây động rừng." }
+      ],
+      "answer": "B",
+      "explanation": "Thành ngữ viết đúng phải là \"Dây mơ rế má\". Trong đó \"rế\" là cái rế lót nồi làm bằng tre nứa đan kết lằng nhằng, chằng chịt giống như các sợi dây mơ bám vào, nhằm ví von quan hệ họ hàng xa xôi, dây dưa phức tạp. Việc viết thành \"rễ má\" là sai lệch từ gốc.",
+      "tags": ["chính tả", "thành ngữ"]
+    },
+    {
+      "id": "vie-q07",
+      "prompt": "Trường hợp nào sau đây viết đúng chính tả?",
+      "options": [
+        { "key": "A", "text": "Sỗ sàng, súc tích, trau chuốt." },
+        { "key": "B", "text": "Sỗ sàng, xúc tích, trau chuốt." },
+        { "key": "C", "text": "Sỗ sàng, súc tích, trao chuốt." },
+        { "key": "D", "text": "Sổ sàng, súc tích, trau chuốt." }
+      ],
+      "answer": "A",
+      "explanation": "Cả ba từ trong phương án A đều đúng quy chuẩn:\n- \"Sỗ sàng\": thô lỗ, thiếu sành sỏi lịch sự (dùng s, dấu ngã).\n- \"Súc tích\": ngắn gọn mà chứa đựng nhiều ý nghĩa (chữ \"súc\" trong hàm súc).\n- \"Trau chuốt\": gọt giũa tỉ mỉ (chữ \"trau\" trong trau dồi, không phải trao đổi).",
+      "tags": ["chính tả", "từ vựng"]
+    },
+    {
+      "id": "vie-q08",
+      "prompt": "Câu nào dưới đây không sử dụng từ thừa?",
+      "options": [
+        { "key": "A", "text": "Nàng là một người con gái ái nữ yêu quý của lão địa chủ giàu có nhất làng Quỳnh Lâm." },
+        { "key": "B", "text": "Sau khi trở về tổ quốc, người đàn ông ấy trở nên thân thiện, gần gũi hơn." },
+        { "key": "C", "text": "Chị là một người đàn bà làm nông lam lũ, suốt ngày vất vả cày cuốc trên ruộng đồng." },
+        { "key": "D", "text": "Anh trai tôi là một nhà giáo viên mẫu mực." }
+      ],
+      "answer": "B",
+      "explanation": "Câu B diễn đạt chuẩn xác, mạch lạc. Các câu khác mắc lỗi thừa từ (lặp nghĩa):\n- Câu A: Thừa từ \"người con gái\" vì bản thân danh từ \"ái nữ\" đã mang nghĩa là con gái cưng/con gái yêu của một người.\n- Câu C: Mắc lỗi lặp ý trùng lặp giữa \"làm nông lam lũ\" và diễn giải hành động \"suốt ngày vất vả cày cuốc trên ruộng đồng\".\n- Câu D: Thừa kết hợp từ \"nhà giáo viên\" (nhà giáo = giáo viên, nên chỉ dùng \"nhà giáo mẫu mực\" hoặc \"giáo viên mẫu mực\").",
+      "tags": ["lỗi dùng từ", "thừa từ"]
+    },
+    {
+      "id": "vie-q09",
+      "prompt": "“Qua bài thơ đã thể hiện tiếng nói đầy đau thương của người phụ nữ về thân phận mình.” Câu trên bị mắc lỗi gì?",
+      "options": [
+        { "key": "A", "text": "Sai logic." },
+        { "key": "B", "text": "Sai cách dùng từ." },
+        { "key": "C", "text": "Sai ngữ pháp." },
+        { "key": "D", "text": "Sai hệ quy chiếu." }
+      ],
+      "answer": "C",
+      "explanation": "Câu mắc lỗi cú pháp ngữ pháp nghiêm trọng là thiếu thành phần Chủ ngữ. Cụm từ \"Qua bài thơ\" là thành phần Trạng ngữ chỉ phương tiện/ngữ cảnh, dẫn đến phần còn lại \"đã thể hiện...\" trở thành Vị ngữ vô chủ. Sửa đúng: \"Qua bài thơ, tác giả đã thể hiện...\" hoặc biến trạng ngữ thành chủ ngữ: \"Bài thơ đã thể hiện...\".",
+      "tags": ["lỗi ngữ pháp", "thiếu thành phần câu"]
+    },
+    {
+      "id": "vie-q10",
+      "prompt": "Trong các câu sau, câu nào mắc lỗi sai quy chiếu?",
+      "options": [
+        { "key": "A", "text": "Từ ngày về dạy học ở trường này, các em học sinh làm cho tôi rất hài lòng." },
+        { "key": "B", "text": "Vì sự phát triển của cá nhân và xã hội, các em nên phấn đấu học tập thật tốt." },
+        { "key": "C", "text": "Tôi cảm thấy rất hài lòng vì sự cố gắng của các em học sinh nơi đây." },
+        { "key": "D", "text": "Các em nên cố gắng thực hiện đầy đủ nội quy của nhà trường." }
+      ],
+      "answer": "A",
+      "explanation": "Câu A bị sai lỗi quy chiếu ngữ nghĩa logic. Vế tỉnh lược đầu câu \"Từ ngày về dạy học ở trường này\" có hành động \"về dạy học\" thuộc về nhân vật \"tôi\" (người giáo viên). Tuy nhiên, trật tự cú pháp lại đặt danh từ \"các em học sinh\" ngay sau đó làm chủ ngữ mệnh đề chính, khiến câu bị hiểu sai lệch là các em học sinh là người về trường này dạy học.",
+      "tags": ["lỗi quy chiếu", "logic ngữ nghĩa"]
+    },
+    {
+      "id": "vie-q11",
+      "prompt": "Từ nào bị sử dụng sai trong câu sau: “Mặc cho bom rơi đạn lạc, người chiến sĩ vẫn ngang nhiên cầm súng xông ra chiến trường.”",
+      "options": [
+        { "key": "A", "text": "xông ra." },
+        { "key": "B", "text": "người chiến sĩ." },
+        { "key": "C", "text": "ngang nhiên." },
+        { "key": "D", "text": "đạn lạc." }
+      ],
+      "answer": "C",
+      "explanation": "Từ \"ngang nhiên\" mang sắc thái biểu cảm tiêu cực, dùng để mô tả một hành vi sai trái, bất chấp luật pháp hoặc dư luận một cách trơ trẽn. Trong ngữ cảnh ca ngợi phẩm chất anh hùng của người chiến sĩ, từ này phải được thay thế bằng từ mang sắc thái tích cực, tôn vinh như \"hiên ngang\".",
+      "tags": ["lỗi dùng từ", "sắc thái ý nghĩa"]
+    },
+    {
+      "id": "vie-q12",
+      "prompt": "Trong các câu sau, câu nào không mắc lỗi dùng từ?",
+      "options": [
+        { "key": "A", "text": "Tiếng Việt là một loại ngôn ngữ giàu âm thanh và linh động." },
+        { "key": "B", "text": "Trong những phút thi đấu cuối, cặp giò tiền đạo là cứu cánh của đội tuyển." },
+        { "key": "C", "text": "Một bài thơ hay không bao giờ ta đọc qua một lần mà bỏ xuống được." },
+        { "key": "D", "text": "Nhân dịp Quốc Khánh, một số tù nhân được giải phóng khỏi lao tù." }
+      ],
+      "answer": "C",
+      "explanation": "Câu C diễn đạt chuẩn xác, tự nhiên. Các câu khác dùng sai từ:\n- Câu A: Sai từ \"linh động\" (phải sửa thành \"sinh động\").\n- Câu B: Sai từ \"cứu cánh\" (cứu cánh nghĩa gốc là mục đích cuối cùng, không phải sự cứu giúp/phao cứu sinh) và dùng cụm \"cặp giò\" suồng sã, thiếu trang trọng.\n- Câu D: Sai từ \"giải phóng\" (đối với tù nhân mãn hạn hoặc được tha, phải dùng từ \"phóng thích\" hoặc \"đặc xá\").",
+      "tags": ["lỗi dùng từ", "sửa lỗi"]
+    },
+    {
+      "id": "vie-q13",
+      "prompt": "“Lòng tin sâu sắc của những thế hệ cha anh vào lực lượng măng non và xung kích sẽ tiếp bước mình.” Câu trên là câu:",
+      "options": [
+        { "key": "A", "text": "sai logic." },
+        { "key": "B", "text": "thiếu chủ ngữ." },
+        { "key": "C", "text": "thiếu vị ngữ." },
+        { "key": "D", "text": "đúng." }
+      ],
+      "answer": "C",
+      "explanation": "Toàn bộ cấu trúc câu trên mới chỉ cấu thành một cụm danh từ dài đóng vai trò thành phần Chủ ngữ của câu, hoàn toàn trống vắng thành phần Vị ngữ để thể hiện trạng thái hoặc tính chất của \"lòng tin sâu sắc\" đó. Sửa đúng bằng cách bổ sung vị ngữ, ví dụ: \"...là nguồn động lực to lớn cho thế hệ nối tiếp.\"",
+      "tags": ["lỗi ngữ pháp", "thiếu thành phần câu"]
+    },
+    {
+      "id": "vie-q14",
+      "prompt": "“Em hãy tìm các ví dụ trong Chinh phụ ngâm, Truyện Kiều và Hồ Xuân Hương để chứng minh cho ý kiến trên.” Câu trên là câu:",
+      "options": [
+        { "key": "A", "text": "có thành phần cùng chức không đồng loại." },
+        { "key": "B", "text": "đúng." },
+        { "key": "C", "text": "sắp xếp sai vị trí các thành phần." },
+        { "key": "D", "text": "không đủ thành phần chủ ngữ - vị ngữ." }
+      ],
+      "answer": "A",
+      "explanation": "Câu mắc lỗi liệt kê các thành phần đồng chức năng nhưng không cùng chủng loại bản chất logic với nhau: \"Chinh phụ ngâm\" và \"Truyện Kiều\" là tên các tác phẩm, còn \"Hồ Xuân Hương\" lại là tên của một vị tác giả. Sửa đúng: \"...trong Chinh phụ ngâm, Truyện Kiều và thơ Hồ Xuân Hương...\"",
+      "tags": ["lỗi kết hợp", "liệt kê không đồng loại"]
+    },
+    {
+      "id": "vie-q15",
+      "prompt": "Trong những câu sau, câu nào thiếu chủ ngữ?",
+      "options": [
+        { "key": "A", "text": "Sinh viên được nâng cao thể lực sau ba tháng rèn luyện." },
+        { "key": "B", "text": "Qua ba tháng rèn luyện đã nâng cao thể lực của sinh viên." },
+        { "key": "C", "text": "Giáo viên đã nâng cao thể lực của sinh viên sau ba tháng rèn luyện." },
+        { "key": "D", "text": "Qua ba tháng rèn luyện, giáo viên đã nâng cao thể lực của sinh viên." }
+      ],
+      "answer": "B",
+      "explanation": "Ở câu B, cụm từ \"Qua ba tháng rèn luyện\" giữ vai trò làm thành phần Trạng ngữ của câu. Do đó, phần còn lại \"đã nâng cao thể lực của sinh viên\" đóng vai trò là Vị ngữ. Câu hoàn toàn không có thành phần Chủ ngữ đứng trước động từ chỉ hành động.",
+      "tags": ["lỗi ngữ pháp", "thiếu chủ ngữ"]
+    },
+    {
+      "id": "vie-q16",
+      "prompt": "“Bằng giọng thơ giàu nhạc điệu do đó nhà thơ đã tạo ra được cảm xúc mạnh ở người đọc.” Xác định lỗi sai trong câu trên.",
+      "options": [
+        { "key": "A", "text": "Thừa từ “giàu”." },
+        { "key": "B", "text": "Thừa từ “do đó”." },
+        { "key": "C", "text": "Sai logic." },
+        { "key": "D", "text": "Sai hệ quy chiếu." }
+      ],
+      "answer": "B",
+      "explanation": "Câu đã mở đầu bằng một cụm giới từ chỉ phương thức/phương tiện hành động (\"Bằng giọng thơ giàu nhạc điệu,\") theo sau là một cấu trúc chủ - vị trọn vẹn độc lập. Việc thêm quán từ nối liên kết nguyên nhân - kết quả \"do đó\" chen vào giữa là hoàn toàn dư thừa và phá vỡ tính liên kết cú pháp chính quy của câu.",
+      "tags": ["lỗi kết hợp", "thừa từ"]
+    },
+    {
+      "id": "vie-q17",
+      "prompt": "Câu nào sau đây không bị mắc lỗi?",
+      "options": [
+        { "key": "A", "text": "Đâu phải là tôi không quan tâm tới nó? Tôi đã nói hết cách rồi nhưng nó có chịu nghe đâu? Anh thử khuyên nó xem sao?" },
+        { "key": "B", "text": "Thằng bé kiên quyết đòi chơi game." },
+        { "key": "C", "text": "Quảng Trị, nơi dừng chân đầu tiên của triều đình nhà Nguyễn trên hành trình về phương Nam, nơi xảy ra mùa hè 72 rực lửa." },
+        { "key": "D", "text": "Anh ta đã đánh những đòn khá hiểm nhưng đánh sao nổi một tay anh chị nổi tiếng dao búa." }
+      ],
+      "answer": "A",
+      "explanation": "Câu A hoàn toàn sạch lỗi, kết cấu tự nhiên phù hợp văn phong hội thoại đời sống. Các câu còn lại lỗi cụ thể:\n- Câu B: Dùng sai từ \"kiên quyết\" (từ này mang nét nghĩa tích cực, ý chí đúng đắn; đối với hành vi đòi chơi game mang tính bướng bỉnh trẻ con thì nên dùng từ \"khăng khăng\" hoặc \"nhất quyết\").\n- Câu C: Thiếu thành phần Vị ngữ nòng cốt câu, toàn bộ câu mới chỉ là danh từ trung tâm phối hợp cụm giải thích định ngữ.\n- Câu D: Thiếu dấu chấm hỏi cuối câu cho hình thức câu hỏi tu từ phản bác.",
+      "tags": ["lỗi tổng hợp", "chọn câu đúng"]
+    },
+    {
+      "id": "vie-q18",
+      "prompt": "“Nhằm nâng cao chất lượng và trải nghiệm của khách hàng.” là câu:",
+      "options": [
+        { "key": "A", "text": "thiếu chủ ngữ." },
+        { "key": "B", "text": "thiếu vị ngữ." },
+        { "key": "C", "text": "thiếu chủ ngữ và vị ngữ." },
+        { "key": "D", "text": "rút gọn." }
+      ],
+      "answer": "C",
+      "explanation": "Cấu trúc từ bắt đầu bằng từ hạn định mục đích \"Nhằm...\" chỉ giúp xây dựng nên một cụm Trạng ngữ chỉ mục đích kéo dài. Chuỗi từ này hoàn toàn chưa chứa đựng cấu trúc nòng cốt gồm Chủ ngữ và Vị ngữ để tạo thành một câu độc lập có nghĩa.",
+      "tags": ["lỗi ngữ pháp", "thiếu thành phần câu"]
+    },
+    {
+      "id": "vie-q19",
+      "prompt": "“Để đánh dấu bước ngoặt mới về phát triển thị trường tại các quốc gia Đông Nam Á.” Câu trên bị mắc lỗi gì?",
+      "options": [
+        { "key": "A", "text": "Thiếu chủ ngữ." },
+        { "key": "B", "text": "Thiếu vị ngữ." },
+        { "key": "C", "text": "Thiếu chủ ngữ và vị ngữ." },
+        { "key": "D", "text": "Thiếu dấu câu." }
+      ],
+      "answer": "C",
+      "explanation": "Tương tự như câu trên, chuỗi từ bắt đầu bằng từ chỉ mục đích \"Để...\" tạo thành thành phần phụ Trạng ngữ chỉ mục đích cho câu. Câu chưa hề được thiết lập cụm Chủ - Vị nòng cốt nên mắc lỗi thiếu cả chủ ngữ và vị ngữ.",
+      "tags": ["lỗi ngữ pháp", "thiếu thành phần câu"]
+    },
+    {
+      "id": "vie-q20",
+      "prompt": "“Sáng nay ở sân bóng, cầu thủ A thổ lộ việc vợ có thai với huấn luyện viên trưởng.” Câu trên chứa đựng thông tin mơ hồ:",
+      "options": [
+        { "key": "A", "text": "về sự việc." },
+        { "key": "B", "text": "về địa điểm." },
+        { "key": "C", "text": "về thời gian." },
+        { "key": "D", "text": "về tâm lý." }
+      ],
+      "answer": "A",
+      "explanation": "Câu bị mắc lỗi diễn đạt mơ hồ gây đa nghĩa về bản chất Sự việc. Cấu trúc lỏng lẻo khiến người đọc có thể suy diễn theo hai hướng trái ngược: Hướng 1 là \"cầu thủ A trò chuyện, tâm sự với huấn luyện viên trưởng về việc vợ mình mang thai\"; Hướng 2 (sai lệch nghiêm trọng) là \"đứa con trong bụng người vợ là của huấn luyện viên trưởng\".",
+      "tags": ["lỗi diễn đạt", "mơ hồ ngữ nghĩa"]
+    },
+    {
+      "id": "vie-q21",
+      "prompt": "“Phân tích các dẫn chứng trong Cung oán ngâm khúc, Truyện Kiều và Hồ Xuân Hương để làm rõ vấn đề phụ nữ trong xã hội phong kiến.” Câu trên là câu:",
+      "options": [
+        { "key": "A", "text": "có thành phần đồng chức năng nhưng không đồng loại." },
+        { "key": "B", "text": "viết đúng không cần chỉnh sửa." },
+        { "key": "C", "text": "sắp xếp sai vị trí các thành phần." },
+        { "key": "D", "text": "thiếu thành phần nòng cốt." }
+      ],
+      "answer": "A",
+      "explanation": "Câu mắc lỗi liệt kê không đồng đẳng chủng loại bản chất: \"Cung oán ngâm khúc\" và \"Truyện Kiều\" thuộc phạm trù tác phẩm văn học, trong khi \"Hồ Xuân Hương\" là tên của một cá nhân tác giả. Cách sửa đúng: \"...trong Cung oán ngâm khúc, Truyện Kiều và thơ Hồ Xuân Hương...\"",
+      "tags": ["lỗi kết hợp", "liệt kê không đồng loại"]
+    },
+    {
+      "id": "vie-q22",
+      "prompt": "Câu nào sau đây không bị thừa từ?",
+      "options": [
+        { "key": "A", "text": "Khi họ đốt sách thì chính là họ đang đốt cả nhân loại, loài người." },
+        { "key": "B", "text": "Đọc sách hay cũng giống như được trò chuyện với những bộ óc tuyệt vời." },
+        { "key": "C", "text": "Những cuốn sách này được tái bản lại là một tín hiệu đáng mừng cho người đọc." },
+        { "key": "D", "text": "Đọc sách giúp ta lớn lên, trưởng thành và hiểu biết hơn." }
+      ],
+      "answer": "B",
+      "explanation": "Câu B diễn đạt chuẩn xác, tinh gọn và giàu triết lý. Các phương án còn lại đều mắc lỗi lặp nghĩa/thừa từ:\n- Câu A: Thừa cụm từ \"loài người\" vì ý nghĩa đã nằm trọn trong từ \"nhân loại\".\n- Câu C: Thừa từ \"lại\" vì bản thân tiền tố \"tái\" trong \"tái bản\" đã có nghĩa là làm lại một lần nữa.\n- Câu D: Sử dụng trùng lặp từ gần nghĩa \"lớn lên\" và \"trưởng thành\" gây rườm rà không cần thiết.",
+      "tags": ["lỗi dùng từ", "thừa từ"]
+    },
+    {
+      "id": "vie-q23",
+      "prompt": "“Trước tình hình COVID-19 đang diễn biến phức tạp, khó lường.” Câu trên mắc lỗi gì?",
+      "options": [
+        { "key": "A", "text": "Thiếu dấu câu." },
+        { "key": "B", "text": "Thiếu chủ ngữ và vị ngữ." },
+        { "key": "C", "text": "Thiếu vị ngữ." },
+        { "key": "D", "text": "Thiếu chủ ngữ." }
+      ],
+      "answer": "B",
+      "explanation": "Câu bị lỗi cú pháp chưa hoàn chỉnh do toàn bộ cấu trúc chuỗi từ đứng sau giới từ \"Trước tình hình...\" mới chỉ đóng vai trò làm thành phần Trạng ngữ chỉ bối cảnh lịch sử của câu. Câu hoàn toàn khuyết thiếu bộ khung nòng cốt gồm cả Chủ ngữ và Vị ngữ.",
+      "tags": ["lỗi ngữ pháp", "thiếu thành phần câu"]
+    },
+    {
+      "id": "vie-q24",
+      "prompt": "“Theo tôi, đó là lối giáo dục đứng đắn, đích thực của việc dạy; người dạy sẽ làm đúng vai trò của mình hơn, nhất là biết khiêm cung hơn.” Từ nào bị dùng sai trong câu trên?",
+      "options": [
+        { "key": "A", "text": "đứng đắn." },
+        { "key": "B", "text": "đích thực." },
+        { "key": "C", "text": "vai trò." },
+        { "key": "D", "text": "khiêm cung." }
+      ],
+      "answer": "A",
+      "explanation": "Tính từ \"đứng đắn\" thường được sử dụng nhằm miêu tả phẩm chất đạo đức, tư cách đạo lý hoặc tác phong đoan trang của một con người cụ thể. Khi nói về đường lối phương châm hay một phương pháp, mô hình lý luận giáo dục, chúng ta bắt buộc phải sử dụng từ \"đúng đắn\" (thể hiện tính chính xác, phù hợp quy luật khách quan).",
+      "tags": ["lỗi dùng từ", "từ vựng"]
+    },
+    {
+      "id": "vie-q25",
+      "prompt": "“Những mái nhà đơn sơ, giản dị nơi thâm sâu cùng cốc của tỉnh Lào Cai nằm sát bên mép núi.” Xác định lỗi sai trong câu trên.",
+      "options": [
+        { "key": "A", "text": "Sai về dùng từ." },
+        { "key": "B", "text": "Sai ngữ pháp." },
+        { "key": "C", "text": "Sai quy chiếu." },
+        { "key": "D", "text": "Sai logic." }
+      ],
+      "answer": "A",
+      "explanation": "Câu bị mắc lỗi dùng sai từ ngữ do nhầm lẫn thành ngữ cố định. Cụm từ viết sai là \"thâm sâu cùng cốc\". Thành ngữ gốc đúng chuẩn trong tiếng Việt phải là \"thâm sơn cùng cốc\" (vùng núi sâu hẻo lánh, hiểm trở khó đi). Từ \"thâm sâu\" dùng để mô tả độ sâu sắc thuộc về suy nghĩ, tâm lý con người.",
+      "tags": ["lỗi dùng từ", "thành ngữ"]
+    },
+    {
+      "id": "vie-q26",
+      "prompt": "Câu nào dưới đây là câu đúng?",
+      "options": [
+        { "key": "A", "text": "Sự đồng hành, bên cạnh lẫn nhau là minh chứng rõ nhất cho tình yêu sâu đậm." },
+        { "key": "B", "text": "Giải pháp này như cứu cánh nhóm chúng tôi trong lúc bế tắc." },
+        { "key": "C", "text": "Yếu điểm của tôi vẫn là sự thiếu tự tin khi đứng trước đám đông." },
+        { "key": "D", "text": "Qua đó, ta càng thấy học vấn uyên bác và tầm nhìn xa rộng của anh." }
+      ],
+      "answer": "D",
+      "explanation": "Câu D hoàn toàn đúng ngữ pháp và ngữ nghĩa. Các câu còn lại lỗi cụ thể:\n- Câu A: Lỗi kết hợp đẳng lập khập khiễng giữa cụm từ chỉ vị trí không gian \"bên cạnh lẫn nhau\" và một danh từ trừu tượng \"Sự đồng hành\".\n- Câu B: Dùng sai từ \"cứu cánh\" (cứu cánh là mục đích cuối cùng, không phải sự giúp đỡ, cứu nguy).\n- Câu C: Dùng sai từ \"yếu điểm\" (yếu điểm là điểm quan trọng mang tính cốt lõi; trường hợp nói về khuyết điểm hay điểm còn non kém thì phải dùng từ \"điểm yếu\").",
+      "tags": ["lỗi tổng hợp", "chọn câu đúng"]
+    },
+    {
+      "id": "vie-q27",
+      "prompt": "“Để đánh dấu bước ngoặt mới về phát triển thị trường tại các quốc gia Đông Nam Á.” Câu trên là câu chưa hoàn chỉnh vì thiếu thành phần nào sau đây?",
+      "options": [
+        { "key": "A", "text": "Thiếu chủ ngữ." },
+        { "key": "B", "text": "Thiếu vị ngữ." },
+        { "key": "C", "text": "Thiếu trạng ngữ." },
+        { "key": "D", "text": "Thiếu nòng cốt câu." }
+      ],
+      "answer": "D",
+      "explanation": "Chuỗi từ này thực chất chỉ mới hoàn thành chức năng cấu tạo nên thành phần phụ là một cụm Trạng ngữ chỉ mục đích của câu, hoàn toàn chưa lập được bộ khung nòng cốt chính của câu (bao gồm cả Chủ ngữ lẫn Vị ngữ). Do đó, chọn đáp án D là bao quát đầy đủ nhất.",
+      "tags": ["lỗi ngữ pháp", "thiếu thành phần câu"]
+    },
+    {
+      "id": "vie-q28",
+      "prompt": "“Chúng tôi đã thảo luận về dự án này hai lần: một lần vào năm ngoái, một lần ngay tại văn phòng đại diện của công ty ở phía Nam.” Nhận định nào về câu trên là đúng?",
+      "options": [
+        { "key": "A", "text": "Câu sai logic ngữ nghĩa." },
+        { "key": "B", "text": "Câu mắc lỗi dùng từ." },
+        { "key": "C", "text": "Câu sai cấu tạo ngữ pháp." },
+        { "key": "D", "text": "Câu mắc lỗi dấu câu." }
+      ],
+      "answer": "A",
+      "explanation": "Câu mắc lỗi nghiêm trọng về tư duy Logic ngữ nghĩa trong phân loại liệt kê. Khi phân tích bổ nghĩa cho thành phần danh số \"hai lần\", các thành tố liệt kê bắt buộc phải tuân thủ cùng một tiêu chí đồng nhất. Việc dùng \"một lần vào năm ngoái\" (tiêu chí thời gian) đứng cạnh đẳng lập với \"một lần ngay tại văn phòng...\" (tiêu chí không gian địa điểm) gây ra sự khập khiễng, thiếu logic đồng nhất.",
+      "tags": ["lỗi logic", "ngữ nghĩa"]
+    },
+    {
+      "id": "vie-q29",
+      "prompt": "Chỉ ra câu sai trong các câu sau:",
+      "options": [
+        { "key": "A", "text": "Do tình cảm chân thành, gần gũi của các anh chị khiến Khang gắn bó với nhóm hơn." },
+        { "key": "B", "text": "Nhờ có những tình cảm chân thành, gần gũi của các anh chị, Khang gắn bó với nhóm hơn." },
+        { "key": "C", "text": "Những tình cảm chân thành, gần gũi của các anh chị làm cho Khang gắn bó với nhóm hơn." },
+        { "key": "D", "text": "Đáp lại những tình cảm chân thành, gần gũi của các anh chị, Khang gắn bó với nhóm hơn." }
+      ],
+      "answer": "A",
+      "explanation": "Câu A bị sai lỗi cấu trúc cú pháp do kết hợp chồng chéo, lẫn lộn giữa hai cấu trúc ngữ pháp khác nhau. Việc vừa dùng giới từ \"Do...\" ở đầu vừa dùng hệ động từ \"...khiến...\" ở giữa khiến toàn bộ vế đầu biến thành trạng ngữ, vế sau là vị ngữ, câu hoàn toàn rơi vào trạng thái khuyết thiếu Chủ ngữ. Cách sửa đúng: Bỏ chữ \"Do\" hoặc lược bỏ từ \"khiến\".",
+      "tags": ["lỗi ngữ pháp", "sai cấu trúc câu"]
+    },
+    {
+      "id": "vie-q30",
+      "prompt": "Câu “Nhờ kinh nghiệm nghiên cứu khoa học từ thời còn là sinh viên của Minh đã gây ấn tượng tốt với hội đồng đánh giá.” là câu sai, nên được sửa thành câu nào sau đây?",
+      "options": [
+        { "key": "A", "text": "Nhờ kinh nghiệm nghiên cứu khoa học từ thời còn là sinh viên, Minh đã gây ấn tượng tốt với hội đồng đánh giá." },
+        { "key": "B", "text": "Từ thời còn là sinh viên, nhờ kinh nghiệm nghiên cứu khoa học của Minh đã gây ấn tượng tốt với hội đồng đánh giá." },
+        { "key": "C", "text": "Nhờ kinh nghiệm nghiên cứu khoa học từ thời còn là sinh viên, hội đồng đánh giá đã có ấn tượng tốt với Minh." },
+        { "key": "D", "text": "Từ lúc còn là sinh viên, hội đồng đánh giá đã có ấn tượng tốt về kinh nghiệm nghiên cứu khoa học của Minh." }
+      ],
+      "answer": "A",
+      "explanation": "Câu gốc mắc lỗi biến chủ ngữ thành trạng ngữ do việc tổ chức trật tự kết cấu sai (tương tự lỗi ở câu 29). Phương án A sửa đổi hoàn hảo nhất bằng cách chuyển đổi \"Nhờ kinh nghiệm nghiên cứu khoa học từ thời còn là sinh viên\" định hình rõ làm thành phần Trạng ngữ bổ trợ, thiết lập danh từ riêng \"Minh\" đứng độc lập làm thành phần Chủ ngữ rõ ràng của câu.",
+      "tags": ["sửa lỗi câu", "ngữ pháp"]
+    },
+    {
+      "id": "vie-q31",
+      "prompt": "“Sống có nghị lực mạnh mẽ sẽ giúp chúng ta vượt qua mọi thử thách, mọi trở ngại của hoàn cảnh và đạt được điều chúng ta mong ước; bởi vậy do đó, mỗi người cần giữ vững tinh thần, luôn hướng đến mục tiêu và nỗ lực hoàn thành mục tiêu”. Câu trên mắc lỗi gì?",
+      "options": [
+        { "key": "A", "text": "Thiếu thành phần vị ngữ." },
+        { "key": "B", "text": "Dùng sai từ ngữ liên kết." },
+        { "key": "C", "text": "Thiếu thành phần chủ ngữ." },
+        { "key": "D", "text": "Dùng từ sai về từ loại." }
+      ],
+      "answer": "B",
+      "explanation": "Câu mắc lỗi sử dụng sai từ ngữ liên kết do bị trùng lặp nghĩa rườm rà. Việc đặt hai quan hệ từ/cụm từ liên kết mang bản chất biểu đạt kết quả đứng liền kề sát cạnh sát nhau là \"bởi vậy\" và \"do đó\" tạo thành kết cấu lỗi \"bởi vậy do đó\". Chỉ cần lược bỏ một trong hai từ là câu trở nên mạch lạc và chuẩn chỉnh.",
+      "tags": ["lỗi kết hợp", "từ ngữ liên kết"]
+    }
+  ]
+}

@@ -1,0 +1,398 @@
+{
+  "id": "tong-on-toan-1",
+  "title": "Đề minh họa ĐGNL ĐHQG-HCM 2026 - Phần Toán học (15 câu đầu)",
+  "subject": "Toán học",
+  "timeMinutes": 45,
+  "questions": [
+    {
+      "id": "math-q61",
+      "prompt": "Một hình chữ nhật và một hình vuông có cùng chu vi là 24 (đơn vị dài). Biết rằng diện tích hình vuông lớn hơn diện tích hình chữ nhật là 4 (đơn vị diện tích). Hiệu giữa chiều dài và chiều rộng của hình chữ nhật là:",
+      "options": [
+        { "key": "A", "text": "2" },
+        { "key": "B", "text": "4" },
+        { "key": "C", "text": "6" },
+        { "key": "D", "text": "8" }
+      ],
+      "answer": "B",
+      "explanation": "Cạnh hình vuông là $24 : 4 = 6$. Diện tích hình vuông là $6^2 = 36$. Diện tích hình chữ nhật là $36 - 4 = 32$. Nửa chu vi hình chữ nhật là $24 : 2 = 12$. Gọi $x, y$ lần lượt là chiều dài và chiều rộng của hình chữ nhật ($x \\ge y > 0$). Ta có hệ phương trình: $x + y = 12$ và $xy = 32$. Giải hệ này ta được $x = 8, y = 4$. Vậy hiệu giữa hai kích thước chiều dài và chiều rộng là $8 - 4 = 4$.",
+      "tags": ["chu vi", "diện tích", "hệ phương trình"]
+    },
+    {
+      "id": "math-q62",
+      "prompt": "Cho phương trình $\\sqrt{-x^2+mx} = 2x-1$ với m là tham số thực. Tập hợp tất cả giá trị của m để phương trình trên vô nghiệm là:",
+      "options": [
+        { "key": "A", "text": "$(\\frac{1}{2};+\\infty)$" },
+        { "key": "B", "text": "$(\\frac{1}{2};2]$" },
+        { "key": "C", "text": "$(-\\infty;\\frac{1}{2})$" },
+        { "key": "D", "text": "$(-\\infty;2)$" }
+      ],
+      "answer": "C",
+      "explanation": "Điều kiện: $2x-1 \\ge 0 \\Leftrightarrow x \\ge \\frac{1}{2}$. Khi đó, bình phương hai vế phương trình ta được: $-x^2+mx=(2x-1)^2 \\Leftrightarrow mx = 5x^2-4x+1 \\Leftrightarrow m = 5x-4+\\frac{1}{x}$ (vì $x \\ge \\frac{1}{2} > 0$). Xét hàm số $f(x)=5x+\\frac{1}{x}-4$ trên $[\\frac{1}{2};+\\infty)$. Ta có $f'(x)=5-\\frac{1}{x^2} > 0$ với mọi $x \\ge \\frac{1}{2}$ nên hàm số luôn đồng biến trên nửa khoảng này. Suy ra giá trị nhỏ nhất của hàm số là $\\min f(x) = f(\\frac{1}{2}) = \\frac{1}{2}$. Để phương trình vô nghiệm thì $m < \\min f(x)$, tức là $m < \\frac{1}{2}$ hay $m \\in (-\\infty;\\frac{1}{2})$.",
+      "tags": ["phương trình chứa căn", "biện luận tham số", "khảo sát hàm số"]
+    },
+    {
+      "id": "math-q63",
+      "prompt": "Anh Hùng muốn gửi tiết kiệm để sau 3 năm có 800 triệu đồng mua xe. Biết lãi suất hàng tháng là 0,6%, tiền lãi sinh ra hàng tháng được nhập vào tiền vốn, số tiền gửi hàng tháng là như nhau. Anh Hùng phải gửi ngân hàng mỗi tháng số tiền gần nhất với số tiền nào sau đây:",
+      "options": [
+        { "key": "A", "text": "19.785.000 đồng" },
+        { "key": "B", "text": "19.895.000 đồng" },
+        { "key": "C", "text": "19.975.000 đồng" },
+        { "key": "D", "text": "19.665.000 đồng" }
+      ],
+      "answer": "B",
+      "explanation": "Gọi M (triệu đồng) là số tiền gửi mỗi tháng, r là lãi suất hàng tháng. Công thức tính tổng số tiền sau n tháng gửi định kì (gửi đầu mỗi tháng) là: $S_n = M(1+r)\\frac{(1+r)^n-1}{r}$. Với $r=0,6\\% = 0,006$, $n=36$, $S_n=800$, ta có: $800 = M(1+0,006)\\frac{(1+0,006)^{36}-1}{0,006} \\Rightarrow M = \\frac{800 \\cdot 0,006}{1,006 \\cdot (1,006^{36}-1)} \\approx 19,856$ (triệu đồng). Số tiền này gần nhất với số tiền 19.895.000 đồng.",
+      "tags": ["bài toán thực tế", "lại suất tích lũy", "cấp số nhân"]
+    },
+    {
+      "id": "math-q64",
+      "prompt": "Cho $a=\\log_2 5$, $b=\\log_5 3$. Biết $\\log_{24} 15 = \\frac{ma+ab}{n+ab}$ với $m, n$ là các số nguyên. Giá trị $S=m^2+n^2$ là:",
+      "options": [
+        { "key": "A", "text": "2" },
+        { "key": "B", "text": "5" },
+        { "key": "C", "text": "13" },
+        { "key": "D", "text": "10" }
+      ],
+      "answer": "D",
+      "explanation": "Ta có: $ab = \\log_2 5 \\cdot \\log_5 3 = \\log_2 3$. Khi đó, ta tính: $\\log_{24} 15 = \\frac{\\log_2 15}{\\log_2 24} = \\frac{\\log_2(3\\cdot5)}{\\log_2(2^3\\cdot3)} = \\frac{\\log_2 3 + \\log_2 5}{3 + \\log_2 3} = \\frac{ab + a}{3 + ab} = \\frac{1\\cdot a + ab}{3 + ab}$. Đồng nhất hệ số với biểu thức đề bài cho $\\frac{ma+ab}{n+ab}$, ta được $m=1$ và $n=3$. Vậy $S = 1^2 + 3^2 = 10$.",
+      "tags": ["logarit", "đồng nhất hệ số"]
+    },
+    {
+      "id": "math-q65",
+      "prompt": "Có 6 thị trấn A, B, C, D, E và F được kết nối với nhau bởi một số tuyến đường. Độ dài tính bằng kilômét của các tuyến đường kết nối giữa các thị trấn được cho kèm theo bảng ma trận kề dưới đây. Tổng số tuyến đường kết nối các thị trấn với nhau là:\n\n| | A | B | C | D | E | F |\n|---|---|---|---|---|---|---|\n| **A** | 0 | 1 | 0 | 8 | 4 | 1 |\n| **B** | 1 | 0 | 2 | 0 | 0 | 0 |\n| **C** | 0 | 2 | 0 | 3 | 0 | 0 |\n| **D** | 8 | 0 | 3 | 0 | 5 | 0 |\n| **E** | 4 | 0 | 0 | 5 | 0 | 1 |\n| **F** | 1 | 0 | 0 | 0 | 1 | 0 |",
+      "options": [
+        { "key": "A", "text": "8" },
+        { "key": "B", "text": "6" },
+        { "key": "C", "text": "10" },
+        { "key": "D", "text": "9" }
+      ],
+      "answer": "A",
+      "explanation": "Dựa vào bảng ma trận khoảng cách đối xứng, ta đếm các cặp thị trấn có độ dài tuyến đường lớn hơn 0 (mỗi cặp chỉ đếm một lần): Từ A nối với B, D, E, F (4 tuyến); Từ B nối với C (1 tuyến, không tính lại A); Từ C nối với D (1 tuyến, không tính lại B); Từ D nối với E (1 tuyến, không tính lại A, C); Từ E nối với F (1 tuyến, không tính lại A, D). Tổng cộng có: $4 + 1 + 1 + 1 + 1 = 8$ tuyến đường.",
+      "tags": ["lý thuyết đồ thị", "ma trận kề"]
+    },
+    {
+      "id": "math-q66",
+      "prompt": "Một công ty viễn thông đang lên kế hoạch kéo cáp ngầm nối sáu thị trấn: A, B, C, D, E và F. Sơ đồ các tuyến cáp có thể xây dựng cùng chi phí đi kèm (tính bằng nghìn đô la) được cho như sau: BD(100), BE(120), AC(140), DF(160), DE(180), EF(220), CD(260), AB(300). Chi phí tối thiểu mà công ty phải bỏ ra để xây dựng hệ thống cáp sao cho tất cả sáu thị trấn đều được liên thông kết nối với nhau là:",
+      "options": [
+        { "key": "A", "text": "780" },
+        { "key": "B", "text": "820" },
+        { "key": "C", "text": "760" },
+        { "key": "D", "text": "800" }
+      ],
+      "answer": "A",
+      "explanation": "Đây là bài toán tìm cây khung nhỏ nhất của đồ thị. Áp dụng thuật toán Kruskal: Bước 1: Sắp xếp các cạnh theo chi phí tăng dần: BD(100), BE(120), AC(140), DF(160), DE(180), EF(220), CD(260), AB(300). Bước 2: Lần lượt chọn các cạnh nhỏ nhất không tạo thành chu trình kín: Chọn BD (100), chọn BE (120), chọn AC (140), chọn DF (160). Cạnh DE(180) và EF(220) bỏ qua vì tạo chu trình kín. Chọn CD (260) để kết nối cụm (A-C) với cụm liên thông còn lại. Tổng chi phí tối thiểu là: $100 + 120 + 140 + 160 + 260 = 780$ nghìn đô la.",
+      "tags": ["cây khung nhỏ nhất", "thuật toán kruskal", "tối ưu đồ thị"]
+    },
+    {
+      "id": "math-q67",
+      "prompt": "Tập nghiệm của phương trình $\\cos 2x + 3 \\sin x - 2 = 0$ là:",
+      "options": [
+        { "key": "A", "text": "$S=\\{\\frac{\\pi}{2}+k2\\pi;\\frac{\\pi}{6}+k2\\pi;\\frac{5\\pi}{6}+k2\\pi, k\\in\\mathbb{Z}\\}$" },
+        { "key": "B", "text": "$S=\\{\\frac{\\pi}{6}+k2\\pi;\\frac{5\\pi}{6}+k2\\pi, k\\in\\mathbb{Z}\\}$" },
+        { "key": "C", "text": "$S=\\{\\frac{\\pi}{2}+k2\\pi;\\frac{\\pi}{3}+k2\\pi;\\frac{2\\pi}{3}+k2\\pi, k\\in\\mathbb{Z}\\}$" },
+        { "key": "D", "text": "$S=\\{\\frac{\\pi}{3}+k2\\pi;\\frac{2\\pi}{3}+k2\\pi, k\\in\\mathbb{Z}\\}$" }
+      ],
+      "answer": "A",
+      "explanation": "Phương trình tương đương với: $(1-2\\sin^2 x) + 3\\sin x - 2 = 0 \\Leftrightarrow 2\\sin^2 x - 3\\sin x + 1 = 0 \\Leftrightarrow \\sin x = 1$ hoặc $\\sin x = \\frac{1}{2}$.\n- Với $\\sin x = 1 \\Leftrightarrow x = \\frac{\\pi}{2}+k2\\pi$.\n- Với $\\sin x = \\frac{1}{2} \\Leftrightarrow x = \\frac{\\pi}{6}+k2\\pi$ hoặc $x = \\frac{5\\pi}{6}+k2\\pi$ ($k\\in\\mathbb{Z}$). Vậy tập nghiệm đầy đủ tương ứng với phương án A.",
+      "tags": ["phương trình lượng giác", "lượng giác đại số"]
+    },
+    {
+      "id": "math-q68",
+      "prompt": "Cho tam giác ABC có a, b, c lần lượt là độ dài các cạnh đối diện với các đỉnh A, B, C. Biết $b(b^2-a^2)=c(a^2-c^2)$, khi đó số đo của góc A bằng:",
+      "options": [
+        { "key": "A", "text": "30°" },
+        { "key": "B", "text": "45°" },
+        { "key": "C", "text": "60°" },
+        { "key": "D", "text": "120°" }
+      ],
+      "answer": "C",
+      "explanation": "Ta có: $b(b^2-a^2)=c(a^2-c^2) \\Leftrightarrow b^3 - ba^2 = ca^2 - c^3 \\Leftrightarrow b^3 + c^3 = a^2(b+c) \\Leftrightarrow (b+c)(b^2-bc+c^2) = a^2(b+c)$. Vì $b, c > 0 \\Rightarrow b+c > 0$, chia cả hai vế cho $(b+c)$ ta thu được $b^2-bc+c^2 = a^2$. Mặt khác, theo định lý côsin: $a^2 = b^2+c^2-2bc\\cos A$. Suy ra $-bc = -2bc\\cos A \\Rightarrow \\cos A = \\frac{1}{2} \\Rightarrow \\hat{A} = 60^\\circ$.",
+      "tags": ["định lý cosin", "hệ thức lượng trong tam giác"]
+    },
+    {
+      "id": "math-q69",
+      "prompt": "Cho hàm số $f(x) = \\begin{cases}\\frac{x^2-4}{x-2}&\\text{khi } x\\ne2\\\\ m+1&\\text{khi } x=2\\end{cases}$ với m là tham số thực. Giá trị của m để hàm số liên tục tại $x_0=2$ là:",
+      "options": [
+        { "key": "A", "text": "m = 3" },
+        { "key": "B", "text": "m = 2" },
+        { "key": "C", "text": "m = 4" },
+        { "key": "D", "text": "m = 1" }
+      ],
+      "answer": "A",
+      "explanation": "Ta tính giới hạn của hàm số khi x tiến về 2: $\\lim_{x \\to 2} f(x) = \\lim_{x \\to 2} \\frac{x^2-4}{x-2} = \\lim_{x \\to 2} \\frac{(x-2)(x+2)}{x-2} = \\lim_{x \\to 2} (x+2) = 4$. Để hàm số liên tục tại $x_0=2$ thì $\\lim_{x \\to 2} f(x) = f(2) \\Leftrightarrow 4 = m + 1 \\Leftrightarrow m = 3$.",
+      "tags": ["hàm số liên tục", "giới hạn hàm số"]
+    },
+    {
+      "id": "math-q70",
+      "prompt": "Cho hàm số $y=x \\cdot e^x$. Tập nghiệm của bất phương trình $y''-y'-y>0$ là:",
+      "options": [
+        { "key": "A", "text": "$(-1;+\\infty)$" },
+        { "key": "B", "text": "$(-\\infty;1)$" },
+        { "key": "C", "text": "$(1;+\\infty)$" },
+        { "key": "D", "text": "$(-\\infty;-1)$" }
+      ],
+      "answer": "B",
+      "explanation": "Ta tính đạo hàm các cấp: $y' = e^x + xe^x = e^x(x+1)$ và $y'' = e^x(x+1) + e^x = e^x(x+2)$. Khi đó bất phương trình trở thành: $y''-y'-y>0 \\Leftrightarrow e^x(x+2) - e^x(x+1) - xe^x > 0 \\Leftrightarrow e^x(x+2-x-1-x) > 0 \\Leftrightarrow e^x(1-x) > 0$. Vì $e^x > 0$ với mọi $x \\in \\mathbb{R}$, suy ra $1-x > 0 \\Leftrightarrow x < 1$. Vậy tập nghiệm thu được là $(-\infty;1)$.",
+      "tags": ["đạo hàm cấp cao", "bất phương trình"]
+    },
+    {
+      "id": "math-q71",
+      "prompt": "Cho hàm số $f(x)$ liên tục trên [0;2] và thoả mãn $\\int_{0}^{2}f(x)dx=7$. Tính giá trị của tích phân $\\int_{2}^{0}(f(x)-x)dx$.",
+      "options": [
+        { "key": "A", "text": "5" },
+        { "key": "B", "text": "-5" },
+        { "key": "C", "text": "-3" },
+        { "key": "D", "text": "3" }
+      ],
+      "answer": "B",
+      "explanation": "Ta tách tích phân thành hai phần và đảo cận tích phân đầu: $\\int_{2}^{0}(f(x)-x)dx = \\int_{2}^{0}f(x)dx - \\int_{2}^{0}xdx = -\\int_{0}^{2}f(x)dx - \\left.\\frac{x^2}{2}\\right|_2^0 = -7 - (0 - \\frac{4}{2}) = -7 + 2 = -5$.",
+      "tags": ["tích phân", "tính chất cận tích phân"]
+    },
+    {
+      "id": "math-q72",
+      "prompt": "Xét hàm số $y=f(x)$ có $f'(x)=3x(x-2)$ và đồ thị (C) của nó đi qua gốc tọa độ. Tính diện tích hình phẳng giới hạn bởi (C) và trục hoành.",
+      "options": [
+        { "key": "A", "text": "0" },
+        { "key": "B", "text": "$-\\frac{27}{4}$" },
+        { "key": "C", "text": "4" },
+        { "key": "D", "text": "$\\frac{27}{4}$" }
+      ],
+      "answer": "D",
+      "explanation": "Ta tìm hàm số gốc bằng cách tính nguyên hàm: $f(x)=\\int f'(x)dx = \\int (3x^2-6x)dx = x^3-3x^2+C$. Vì đồ thị đi qua gốc tọa độ $O(0;0)$ nên $f(0)=0 \\Rightarrow C=0 \\Rightarrow f(x)=x^3-3x^2$. Phương trình hoành độ giao điểm của (C) với trục hoành: $x^3-3x^2=0 \\Leftrightarrow x=0$ hoặc $x=3$. Diện tích hình phẳng cần tính là: $S=\\int_{0}^{3}|x^3-3x^2|dx = \\int_{0}^{3}(3x^2-x^3)dx = \\left.\\left(x^3-\\frac{x^4}{4}\\right)\\right|_0^3 = 27-\\frac{81}{4}=\\frac{27}{4}$.",
+      "tags": ["diện tích hình phẳng", "ứng dụng tích phân"]
+    },
+    {
+      "id": "math-q73",
+      "prompt": "Để sản xuất mỗi cái bánh loại A cần 200 g bột và 25 g thịt, để sản xuất mỗi bánh loại B cần 100 g bột và 50 g thịt. Số nguyên liệu có sẵn gồm 5 kg bột và 1 kg thịt. Gọi x là số bánh loại A và y là số bánh loại B. Hệ bất phương trình biểu diễn các ràng buộc nguyên liệu là:",
+      "options": [
+        { "key": "A", "text": "$\\begin{cases}200x+100y\\le5000\\\\ 25x+50y\\le1000\\\\ x,y\\ge0\\end{cases}$" },
+        { "key": "B", "text": "$\\begin{cases}200x+25y\\le5000\\\\ 100x+50y\\le1000\\\\ x,y\\ge0\\end{cases}$" },
+        { "key": "C", "text": "$\\begin{cases}200x+100y\\le1000\\\\ 25x+50y\\le5000\\\\ x,y\\ge0\\end{cases}$" },
+        { "key": "D", "text": "$\\begin{cases}200x+25y\\le1000\\\\ 100x+50y\\le5000\\\\ x,y\\ge0\\end{cases}$" }
+      ],
+      "answer": "A",
+      "explanation": "Đổi các đại lượng về cùng đơn vị gam: 5 kg = 5000 g bột; 1 kg = 1000 g thịt. Khối lượng bột sử dụng tối đa là 5000g nên ta có bất phương trình: $200x+100y \\le 5000$. Khối lượng thịt tối đa là 1000g nên ta có bất phương trình: $25x+50y \\le 1000$. Đồng thời số lượng bánh sản xuất không thể âm nên $x \\ge 0, y \\ge 0$. Hệ bất phương trình đầy đủ là phương án A.",
+      "tags": ["hệ bất phương trình bậc nhất hai ẩn", "bài toán thực tế"]
+    },
+    {
+      "id": "math-q74",
+      "prompt": "Dựa vào thông tin điều kiện nguyên liệu từ câu trên, giả sử lợi nhuận thu được từ mỗi chiếc bánh loại A là 10 nghìn đồng và từ loại B là 15 nghìn đồng. Lợi nhuận tối đa (nghìn đồng) có thể thu được là bao nhiêu?",
+      "options": [
+        { "key": "A", "text": "250" },
+        { "key": "B", "text": "300" },
+        { "key": "C", "text": "350" },
+        { "key": "D", "text": "400" }
+      ],
+      "answer": "C",
+      "explanation": "Hệ bất phương trình ràng buộc được thu gọn thành: $2x+y\\le50$, $x+2y\\le40$ và $x,y\\ge0$. Hàm mục tiêu biểu thị lợi nhuận là $F(x,y)=10x+15y$. Miền nghiệm của hệ là đa giác tứ giác với các đỉnh cực biên: $O(0;0)$, $A(25;0)$, $B(0;20)$ và điểm giao nhau của hai đường thẳng là $C(20;10)$. Tính lợi nhuận tại các điểm đỉnh: $F(O)=0$, $F(A)=250$, $F(B)=300$, $F(C)=10(20)+15(10)=350$. Vậy mức lợi nhuận tối đa đạt được là 350 nghìn đồng.",
+      "tags": ["quy hoạch tuyến tính", "bài toán tối ưu"]
+    },
+    {
+      "id": "math-q75",
+      "prompt": "Cho cấp số cộng $(u_n)$ xác định bởi hệ phương trình: $\\begin{cases}u_1+u_5=12\\\\ u_2+u_6=16\\end{cases}$. Công sai d của cấp số cộng $(u_n)$ là:",
+      "options": [
+        { "key": "A", "text": "d = 1" },
+        { "key": "B", "text": "d = 2" },
+        { "key": "C", "text": "d = 3" },
+        { "key": "D", "text": "d = 4" }
+      ],
+      "answer": "B",
+      "explanation": "Áp dụng công thức số hạng tổng quát của cấp số cộng $u_n=u_1+(n-1)d$, hệ phương trình tương đương: $\\begin{cases}u_1+(u_1+4d)=12\\\\ (u_1+d)+(u_1+5d)=16\\end{cases} \\Leftrightarrow \\begin{cases}2u_1+4d=12\\\\ 2u_1+6d=16\\end{cases}$. Trừ vế theo vế của phương trình thứ hai cho phương trình thứ nhất ta thu được: $2d = 4 \\Leftrightarrow d = 2$.",
+      "tags": ["cấp số cộng", "công sai"]
+    },
+    {
+      "id": "math-q76",
+      "prompt": "Dựa vào thông tin điều kiện từ câu trước, cho cấp số cộng $(u_n)$ xác định bởi hệ phương trình: $\\begin{cases}u_1+u_5=12\\\\ u_2+u_6=16\\end{cases}$ với số hạng đầu $u_1=2$ và công sai $d=2$. Tính giá trị giới hạn $\\lim_{n\\rightarrow\\infty}\\frac{5u_n-3}{n+2}$:",
+      "options": [
+        { "key": "A", "text": "0" },
+        { "key": "B", "text": "5" },
+        { "key": "C", "text": "10" },
+        { "key": "D", "text": "+$\\infty$" }
+      ],
+      "answer": "C",
+      "explanation": "Từ dữ kiện $u_1=2, d=2$, ta tìm được số hạng tổng quát của cấp số cộng: $u_n = u_1 + (n-1)d = 2 + (n-1)2 = 2n$. Thay vào biểu thức giới hạn, ta thu được: $\\lim_{n\\rightarrow\\infty}\\frac{5(2n)-3}{n+2} = \\lim_{n\\rightarrow\\infty}\\frac{10n-3}{n+2} = 10$.",
+      "tags": ["cấp số cộng", "giới hạn dãy số"]
+    },
+    {
+      "id": "math-q77",
+      "prompt": "Trong không gian tọa độ Oxyz, cho điểm $A(2;2;-3)$ và hai mặt phẳng $(P):2x+y-2z=0$, $(Q):2x-y+z=0$. Khoảng cách từ điểm A đến mặt phẳng (P) bằng:",
+      "options": [
+        { "key": "A", "text": "3" },
+        { "key": "B", "text": "4" },
+        { "key": "C", "text": "2" },
+        { "key": "D", "text": "6" }
+      ],
+      "answer": "B",
+      "explanation": "Áp dụng công thức tính khoảng cách từ một điểm $M(x_0;y_0;z_0)$ đến mặt phẳng $(P): Ax+By+Cz+D=0$: $d(A,(P)) = \\frac{|2\\cdot2 + 1\\cdot2 - 2\\cdot(-3)|}{\\sqrt{2^2+1^2+(-2)^2}} = \\frac{|4+2+6|}{\\sqrt{9}} = \\frac{12}{3} = 4$.",
+      "tags": ["hình học oxyz", "khoảng cách từ điểm đến mặt phẳng"]
+    },
+    {
+      "id": "math-q78",
+      "prompt": "Trong không gian tọa độ Oxyz, cho điểm $A(2;2;-3)$ và hai mặt phẳng $(P):2x+y-2z=0$, $(Q):2x-y+z=0$. Mặt phẳng đi qua A và vuông góc với cả hai mặt phẳng (P) và (Q) có phương trình là:",
+      "options": [
+        { "key": "A", "text": "x + 6y + 4z - 2 = 0" },
+        { "key": "B", "text": "x - 6y - 4z - 2 = 0" },
+        { "key": "C", "text": "x - 6y + 4z + 22 = 0" },
+        { "key": "D", "text": "x + 6y - 4z - 26 = 0" }
+      ],
+      "answer": "A",
+      "explanation": "Mặt phẳng (P) và (Q) lần lượt có các vectơ pháp tuyến là $\\vec{n}_P=(2;1;-2)$ và $\\vec{n}_Q=(2;-1;1)$. Mặt phẳng cần tìm vuông góc với cả (P) và (Q) nên nhận tích có hướng $[\\vec{n}_P, \\vec{n}_Q] = (-1;-6;-4)$ làm vectơ pháp tuyến, chọn $\\vec{n}=(1;6;4)$. Phương trình mặt phẳng qua $A(2;2;-3)$ là: $1(x-2)+6(y-2)+4(z+3)=0 \\Leftrightarrow x+6y+4z-2=0$.",
+      "tags": ["hình học oxyz", "phương trình mặt phẳng", "tích có hướng"]
+    },
+    {
+      "id": "math-q79",
+      "prompt": "Cho hàm số $y=x^3-3x+m$. Với m = 1, giá trị lớn nhất của hàm số trên đoạn [-2; 2] là:",
+      "options": [
+        { "key": "A", "text": "4" },
+        { "key": "B", "text": "3" },
+        { "key": "C", "text": "2" },
+        { "key": "D", "text": "1" }
+      ],
+      "answer": "B",
+      "explanation": "Với m = 1, hàm số là $y=x^3-3x+1$. Đạo hàm $y'=3x^2-3 = 0 \\Leftrightarrow x = \\pm 1 \\in [-2;2]$. Ta tính các giá trị biên và cực trị: $y(-2)=-1, y(-1)=3, y(1)=-1, y(2)=3$. So sánh các giá trị, ta được giá trị lớn nhất trên đoạn $[-2; 2]$ là 3.",
+      "tags": ["khảo sát hàm số", "giá trị lớn nhất nhỏ nhất"]
+    },
+    {
+      "id": "math-q80",
+      "prompt": "Cho hàm số $y=x^3-3x+m$. Tất cả các giá trị của m để hàm số nghịch biến trên tập xác định là:",
+      "options": [
+        { "key": "A", "text": "m $\\in$ [-1; 3]" },
+        { "key": "B", "text": "m = 1" },
+        { "key": "C", "text": "m $\\in$ [-1/2; 4]" },
+        { "key": "D", "text": "m $\\in \\emptyset$" }
+      ],
+      "answer": "D",
+      "explanation": "Tập xác định của hàm số là $\\mathbb{R}$. Ta có đạo hàm $y'=3x^2-3$. Để hàm số nghịch biến trên $\\mathbb{R}$ thì bắt buộc $y' \\le 0, \\forall x \\in \\mathbb{R} \\Leftrightarrow 3x^2-3 \\le 0, \\forall x \\in \\mathbb{R}$. Điều này hoàn toàn vô lý vì với $x$ đủ lớn (ví dụ $x=2$) thì $y'=9>0$. Do đó không tồn tại giá trị m nào thỏa mãn.",
+      "tags": ["tính đơn điệu hàm số", "bất phương trình"]
+    },
+    {
+      "id": "math-q81",
+      "prompt": "Tính tổng tất cả các giá trị nguyên của tham số m sao cho phương trình $-x^3+3x=m$ có 3 nghiệm thực phân biệt.",
+      "options": [
+        { "key": "A", "text": "-1" },
+        { "key": "B", "text": "2" },
+        { "key": "C", "text": "1" },
+        { "key": "D", "text": "0" }
+      ],
+      "answer": "D",
+      "explanation": "Xét hàm số số $f(x)=-x^3+3x$. Ta có $f'(x)=-3x^2+3 = 0 \\Leftrightarrow x = \\pm 1$. Khảo sát bảng biến thiên thu được giá trị cực tiểu là $f(-1)=-2$ và giá trị cực đại là $f(1)=2$. Để phương trình có 3 nghiệm phân biệt thì đường thẳng $y=m$ cắt đồ thị tại 3 điểm, tức là $-2 < m < 2$. Vì $m \\in \\mathbb{Z} \\Rightarrow m \\in \\{-1; 0; 1\\}$. Tổng các giá trị nguyên bằng $(-1) + 0 + 1 = 0$.",
+      "tags": ["sự tương giao đồ thị", "biện luận nghiệm", "cực trị hàm số"]
+    },
+    {
+      "id": "math-q82",
+      "prompt": "Một nhà máy có hai lô hàng cần kiểm tra. Lô A có 10 sản phẩm, trong đó có 7 sản phẩm tốt và 3 sản phẩm lỗi. Lô B có 15 sản phẩm, trong đó có 10 sản phẩm tốt và 5 sản phẩm lỗi. Từ lô hàng A chọn ngẫu nhiên đồng thời 2 sản phẩm, xác suất để lấy được 2 sản phẩm tốt là:",
+      "options": [
+        { "key": "A", "text": "7/15" },
+        { "key": "B", "text": "1/5" },
+        { "key": "C", "text": "7/30" },
+        { "key": "D", "text": "11/90" }
+      ],
+      "answer": "A",
+      "explanation": "Số phần tử của không gian mẫu chọn ngẫu nhiên 2 sản phẩm từ 10 sản phẩm của lô A là $n(\\Omega) = C_{10}^2 = 45$. Gọi E là biến cố chọn được 2 sản phẩm tốt từ 7 sản phẩm tốt của lô A, ta có số kết quả thuận lợi là $n(E) = C_7^2 = 21$. Xác suất thu được là $P(E) = \\frac{21}{45} = \\frac{7}{15}$.",
+      "tags": ["xác suất cổ điển", "tổ hợp"]
+    },
+    {
+      "id": "math-q83",
+      "prompt": "Một nhà máy có hai lô hàng cần kiểm tra. Lô A có 10 sản phẩm (7 tốt, 3 lỗi). Lô B có 15 sản phẩm (10 tốt, 5 lỗi). Chọn ngẫu nhiên một lô hàng, rồi từ lô hàng đó chọn ra 2 sản phẩm. Xác suất để lấy được 2 sản phẩm tốt là:",
+      "options": [
+        { "key": "A", "text": "94/105" },
+        { "key": "B", "text": "23/94" },
+        { "key": "C", "text": "47/105" },
+        { "key": "D", "text": "49/94" }
+      ],
+      "answer": "C",
+      "explanation": "Xác suất chọn trúng lô A hoặc lô B đều bằng $1/2$. Xác suất lấy được 2 sản phẩm tốt từ lô A là $\\frac{C_7^2}{C_{10}^2} = \\frac{7}{15}$. Xác suất lấy được 2 sản phẩm tốt từ lô B là $\\frac{C_{10}^2}{C_{15}^2} = \\frac{3}{7}$. Áp dụng công thức xác suất toàn phần, ta có tổng xác suất: $P = \\frac{1}{2} \\cdot \\frac{7}{15} + \\frac{1}{2} \\cdot \\frac{3}{7} = \\frac{47}{105}$.",
+      "tags": ["xác suất toàn phần", "biến cố độc lập"]
+    },
+    {
+      "id": "math-q84",
+      "prompt": "Một nhà máy có hai lô hàng cần kiểm tra. Lô A có 10 sản phẩm (7 tốt, 3 lỗi). Lô B có 15 sản phẩm (10 tốt, 5 lỗi). Chọn ngẫu nhiên một lô hàng, rồi từ lô hàng đó chọn ra 1 sản phẩm. Biết sản phẩm được chọn là sản phẩm lỗi. Xác suất để lô được chọn ban đầu là lô B bằng:",
+      "options": [
+        { "key": "A", "text": "9/19" },
+        { "key": "B", "text": "10/19" },
+        { "key": "C", "text": "1/2" },
+        { "key": "D", "text": "3/5" }
+      ],
+      "answer": "B",
+      "explanation": "Gọi L là biến cố lấy được sản phẩm lỗi. Áp dụng công thức xác suất toàn phần: $P(L) = P(A)\\cdot P(L|A) + P(B)\\cdot P(L|B) = \\frac{1}{2}\\cdot\\frac{3}{10} + \\frac{1}{2}\\cdot\\frac{5}{15} = \\frac{19}{60}$. Áp dụng công thức Bayes, xác suất điều kiện để lô chọn ban đầu là lô B khi biết sản phẩm bị lỗi là: $P(B|L) = \\frac{P(B)\\cdot P(L|B)}{P(L)} = \\frac{\\frac{1}{2}\\cdot\\frac{5}{15}}{\\frac{19}{60}} = \\frac{10}{19}$.",
+      "tags": ["công thức bayes", "xác suất điều kiện"]
+    },
+    {
+      "id": "math-q85",
+      "prompt": "Trong mặt phẳng tọa độ Oxy, cho tam giác ABC có tọa độ các đỉnh lần lượt là $A(-5;1)$, $B(1;5)$, $C(7;-3)$. Gọi G là trọng tâm của tam giác ABC. Khoảng cách độ dài đoạn thẳng OG bằng:",
+      "options": [
+        { "key": "A", "text": "$\\sqrt{2}$" },
+        { "key": "B", "text": "$\\sqrt{3}$" },
+        { "key": "C", "text": "1" },
+        { "key": "D", "text": "2" }
+      ],
+      "answer": "A",
+      "explanation": "Tọa độ trọng tâm G của tam giác ABC tính theo công thức trung bình cộng tọa độ ba đỉnh: $x_G = \\frac{-5+1+7}{3}=1$ và $y_G = \\frac{1+5+(-3)}{3}=1 \\Rightarrow G(1;1)$. Khoảng cách đoạn thẳng từ gốc tọa độ đến G là $OG = \\sqrt{1^2+1^2} = \\sqrt{2}$.",
+      "tags": ["tọa độ phẳng oxy", "trọng tâm tam giác"]
+    },
+    {
+      "id": "math-q86",
+      "prompt": "Trong mặt phẳng tọa độ Oxy, cho tam giác ABC có tọa độ các đỉnh $A(-5;1)$, $B(1;5)$, $C(7;-3)$. Gọi M là trung điểm cạnh AC, N là điểm sao cho tứ giác BMCN lập thành một hình bình hành. Tổng hoành độ và tung độ của điểm N bằng:",
+      "options": [
+        { "key": "A", "text": "7" },
+        { "key": "B", "text": "8" },
+        { "key": "C", "text": "9" },
+        { "key": "D", "text": "10" }
+      ],
+      "answer": "D",
+      "explanation": "Tọa độ trung điểm M của đoạn AC là $M(1;-1)$. Vì BMCN là hình bình hành nên ta có đẳng thức vectơ: $\\vec{BN} = \\vec{MC} \\Leftrightarrow (x_N - 1; y_N - 5) = (7 - 1; -3 - (-1)) = (6; -2) \\Rightarrow x_N = 7, y_N = 3$. Tổng hoành độ và tung độ bằng $7 + 3 = 10$.",
+      "tags": ["tọa độ phẳng oxy", "hình bình hành", "vectơ"]
+    },
+    {
+      "id": "math-q87",
+      "prompt": "Trong mặt phẳng tọa độ Oxy, cho tam giác ABC có tọa độ các đỉnh $A(-5;1)$, $B(1;5)$, $C(7;-3)$. Gọi D là điểm nằm trên cạnh BC sao cho đường tròn nhận DB làm đường kính tiếp xúc trực tiếp với trục tung. Hiệu giữa hoành độ và tung độ của điểm D bằng:",
+      "options": [
+        { "key": "A", "text": "2" },
+        { "key": "B", "text": "2,5" },
+        { "key": "C", "text": "3" },
+        { "key": "D", "text": "3,5" }
+      ],
+      "answer": "C",
+      "explanation": "Đường thẳng BC đi qua $B(1;5)$ có VTCP $\\vec{BC}=(6;-8)$, phương trình tham số: $\\begin{cases}x=1+6t\\\\ y=5-8t\\end{cases}$. Gọi $D(1+6t;5-8t) \\in BC$. Tâm I của đường tròn đường kính DB là trung điểm DB nên $I(1+3t;5-4t)$, bán kính $R=IB=\\sqrt{(3t)^2+(-4t)^2}=5|t|$. Đường tròn tiếp xúc trục tung $Oy \\Leftrightarrow d(I,Oy) = R \\Leftrightarrow |1+3t| = 5|t| \\Leftrightarrow 16t^2-6t-1=0 \\Leftrightarrow t=1/2$ (nhận vì thuộc $[0;1]$) hoặc $t=-1/8$ (loại). Suy ra $D(4;1)$, hiệu hoành độ và tung độ là $4-1=3$.",
+      "tags": ["hình học phẳng", "phương trình tham số", "tiếp xúc đường tròn"]
+    },
+    {
+      "id": "math-q88",
+      "prompt": "Cho hình chóp S.ABCD có đáy là hình vuông cạnh a. Hình chiếu vuông góc H của S lên mặt đáy (ABCD) trùng với trung điểm của đoạn AB. Biết độ dài cạnh bên đường cao $SH=a$. Thể tích của hình chóp S.BHD bằng:",
+      "options": [
+        { "key": "A", "text": "\\frac{1}{6} a^3" },
+        { "key": "B", "text": "\\frac{1}{12} a^3" },
+        { "key": "C", "text": "\\frac{\\sqrt{2}}{12} a^3" },
+        { "key": "D", "text": "\\frac{\\sqrt{3}}{12} a^3" }
+      ],
+      "answer": "B",
+      "explanation": "Đáy ABCD hình vuông nên tam giác BHD có chiều cao hạ từ D là $DA=a$ và cạnh đáy tương ứng $HB = a/2$. Diện tích tam giác đáy là $S_{BHD} = \\frac{1}{2}\\cdot a \\cdot \\frac{a}{2} = \\frac{a^2}{4}$. Do đó thể tích khối chóp S.BHD là $V = \\frac{1}{3} \\cdot SH \\cdot S_{BHD} = \\frac{1}{3} \\cdot a \\cdot \\frac{a^2}{4} = \\frac{a^3}{12}$.",
+      "tags": ["hình học không gian", "thể tích khối chóp"]
+    },
+    {
+      "id": "math-q89",
+      "prompt": "Cho hình chóp S.ABCD có đáy là hình vuông cạnh a, hình chiếu vuông góc H của S lên đáy là trung điểm của AB, biết đường cao $SH=a$. Chu vi của tam giác SBD bằng:",
+      "options": [
+        { "key": "A", "text": "\\frac{3 + 2\\sqrt{2} + \\sqrt{5}}{2} a" },
+        { "key": "B", "text": "\\frac{\\sqrt{3} + 2\\sqrt{2} + \\sqrt{5}}{2} a" },
+        { "key": "C", "text": "\\frac{2\\sqrt{5} + 2\\sqrt{2}}{2} a" },
+        { "key": "D", "text": "\\frac{5 + \\sqrt{3} + 2\\sqrt{2}}{2} a" }
+      ],
+      "answer": "A",
+      "explanation": "Ta dùng định lý Pitago tính độ dài các cạnh tam giác SBD:\n- $SB = \\sqrt{SH^2+HB^2} = \\sqrt{a^2 + (a/2)^2} = \\frac{a\\sqrt{5}}{2}$.\n- $HD = \\sqrt{AH^2+AD^2} = \\sqrt{(a/2)^2+a^2} = \\frac{a\\sqrt{5}}{2} \\Rightarrow SD = \\sqrt{SH^2+HD^2} = \\sqrt{a^2 + \\frac{5a^2}{4}} = \\frac{3a}{2}$.\n- $BD = \\sqrt{AB^2+AD^2} = a\\sqrt{2}$.\nCộng tổng 3 cạnh lại ta được kết quả chu vi tương ứng phương án A.",
+      "tags": ["hình học không gian", "chu vi tam giác", "pitago"]
+    },
+    {
+      "id": "math-q90",
+      "prompt": "Cho hình chóp S.ABCD có đáy là hình vuông cạnh a, hình chiếu vuông góc H của S lên đáy là trung điểm AB, biết $SH=a$. Khoảng cách từ điểm H đến mặt phẳng (SBD) xấp xỉ bằng giá trị nào sau đây:",
+      "options": [
+        { "key": "A", "text": "0,5a" },
+        { "key": "B", "text": "0,66a" },
+        { "key": "C", "text": "0,33a" },
+        { "key": "D", "text": "0,25a" }
+      ],
+      "answer": "C",
+      "explanation": "Dựng đường cao $HI \\perp BD$ tại I. Vì ABCD là hình vuông nên $HI = \\frac{1}{4}AC = \\frac{a\\sqrt{2}}{4}$. Dựng đường cao $HK \\perp SI$ tại K, độ dài HK chính là khoảng cách cần tìm. Hệ thức lượng trong tam giác vuông SHI: $\\frac{1}{HK^2} = \\frac{1}{SH^2} + \\frac{1}{HI^2} = \\frac{1}{a^2} + \\frac{16}{2a^2} = \\frac{9}{a^2} \\Rightarrow HK = \\frac{a}{3} \\approx 0,33a$.",
+      "tags": ["hình học không gian", "khoảng cách từ điểm đến mặt phẳng"]
+    }
+  ]
+}    
