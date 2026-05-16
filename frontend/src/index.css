@@ -40,4 +40,45 @@
   .sidebar-link.active {
     @apply bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 font-semibold shadow-sm;
   }
+
+  .markdown-content {
+    @apply text-sm leading-relaxed text-gray-800 dark:text-gray-200;
+  }
+
+  .markdown-content p {
+    @apply mb-2 last:mb-0;
+  }
+
+  .markdown-content ul {
+    @apply list-disc pl-5 my-2;
+  }
+
+  .markdown-content ol {
+    @apply list-decimal pl-5 my-2;
+  }
+
+  .markdown-content table {
+    @apply w-full text-sm border-collapse my-3;
+  }
+
+  .markdown-content th,
+  .markdown-content td {
+    @apply border border-gray-200 dark:border-slate-700 px-2 py-1 align-top;
+  }
+
+  .markdown-content th {
+    @apply bg-gray-50 dark:bg-slate-800 font-semibold;
+  }
+
+  .markdown-content code {
+    @apply rounded bg-gray-100 dark:bg-slate-700 px-1;
+  }
+
+  .markdown-inline {
+    @apply text-sm leading-relaxed text-gray-700 dark:text-gray-200;
+  }
+
+  .markdown-inline p {
+    @apply m-0 inline;
+  }
 }

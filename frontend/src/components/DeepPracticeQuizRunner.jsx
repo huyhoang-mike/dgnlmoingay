@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import rehypeKatex from 'rehype-katex';
 import {
   HiOutlineArrowLeft,
   HiOutlineCheckCircle,
@@ -7,6 +9,8 @@ import {
   HiOutlineRefresh,
   HiOutlineXCircle,
 } from 'react-icons/hi';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import { submitDeepPracticeAttempt } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -17,6 +21,20 @@ function QuestionImage({ src, alt }) {
   return (
     <div className="mt-4 overflow-hidden rounded-xl border border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
       <img src={src} alt={alt || 'Hình minh họa câu hỏi'} className="w-full max-h-[420px] object-contain" />
+    </div>
+  );
+}
+
+const MARKDOWN_REMARK_PLUGINS = [remarkGfm, remarkMath];
+const MARKDOWN_REHYPE_PLUGINS = [rehypeKatex];
+
+function MarkdownContent({ text, className }) {
+  if (!text) return null;
+  return (
+    <div className={className}>
+      <ReactMarkdown remarkPlugins={MARKDOWN_REMARK_PLUGINS} rehypePlugins={MARKDOWN_REHYPE_PLUGINS}>
+        {text}
+      </ReactMarkdown>
     </div>
   );
 }
@@ -270,9 +288,10 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack, reviewAttem
                     <p className="text-xs font-bold text-cyan-700 dark:text-cyan-300 mb-1">
                       Câu {index + 1}{question.tags?.length ? ` · ${question.tags.join(' · ')}` : ''}
                     </p>
-                    <h2 className="text-base font-semibold text-gray-900 dark:text-white leading-relaxed whitespace-pre-line">
-                      {question.prompt}
-                    </h2>
+                    <MarkdownContent
+                      className="markdown-content text-base font-semibold text-gray-900 dark:text-white"
+                      text={question.prompt}
+                    />
                   </div>
                   {submitted && (
                     isCorrect ? <HiOutlineCheckCircle className="h-6 w-6 text-emerald-500 flex-shrink-0" /> : <HiOutlineXCircle className="h-6 w-6 text-red-500 flex-shrink-0" />
@@ -305,9 +324,7 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack, reviewAttem
                           <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-white dark:bg-slate-800 text-xs font-bold border border-current/10">
                             {optionKey}
                           </span>
-                          <span className="text-sm leading-relaxed">
-                            {option.text}
-                          </span>
+                          <MarkdownContent className="markdown-inline" text={option.text} />
                         </div>
                         <QuestionImage src={option.image} alt={`Hình minh họa đáp án ${optionKey}`} />
                       </button>
@@ -320,9 +337,10 @@ export default function DeepPracticeQuizRunner({ quiz, meta, onBack, reviewAttem
                     <p className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                       Đáp án đúng: {question.answer}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                      {question.explanation || 'Chưa có giải thích cho câu này.'}
-                    </p>
+                    <MarkdownContent
+                      className="markdown-content text-sm text-gray-600 dark:text-gray-300"
+                      text={question.explanation || 'Chưa có giải thích cho câu này.'}
+                    />
                     <QuestionImage src={question.explanationImage} alt={`Hình giải thích câu ${index + 1}`} />
                   </div>
                 )}
