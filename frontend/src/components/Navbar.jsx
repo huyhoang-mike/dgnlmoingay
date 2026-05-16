@@ -25,11 +25,11 @@ const NAV_LINKS = [
   { to: '/', label: 'Trang chủ' },
   { to: '/nen-tang', label: 'Nền tảng' },
   { to: '/luyen-de', label: 'Luyện đề' },
-  { to: '/luyen-tap-chuyen-sau', label: 'Quiz chuyên sâu' },
-  { to: '/hoi-dap', label: 'Hỏi đáp' },
-  { to: '/kho-tai-lieu-mo', label: 'Tài liệu mở' },
+  { to: '/luyen-tap-chuyen-sau', label: 'Quiz' },
   { to: '/thuc-chien', label: 'Thực chiến' },
   { to: '/hoc-thu', label: 'Học thử' },
+  { to: '/kho-tai-lieu-mo', label: 'Tài liệu' },
+  { to: '/hoi-dap', label: 'Hỏi đáp' },
 ];
 
 export default function Navbar() {

@@ -98,26 +98,7 @@ export default function Landing() {
               >
                 <HiOutlinePlay className="h-5 w-5" />
                 Học thử miễn phí
-              </Link>
-              <Link
-                to="/luyen-tap-chuyen-sau"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-yellow-300 text-slate-900 font-bold rounded-xl hover:bg-yellow-200 transition-all text-base"
-              >
-                Quiz chuyên sâu
-                <HiOutlineArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                to="/hoi-dap"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all text-base"
-              >
-                Hỏi đáp Q&A
-              </Link>
-              <Link
-                to="/kho-tai-lieu-mo"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all text-base"
-              >
-                Kho tài liệu mở
-              </Link>
+              </Link>             
             </div>
           </div>
         </div>
