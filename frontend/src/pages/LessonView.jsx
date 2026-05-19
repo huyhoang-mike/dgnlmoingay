@@ -251,8 +251,8 @@ export default function LessonView() {
         {/* Sidebar: PDF + Actions */}
         {hasVideo && !isLocked && (
           <div className="space-y-6">
-            <PDFMaterial driveFileId={lesson.pdf_drive_id} title="Tài liệu bài học" />
-            <PDFMaterial driveFileId={lesson.answer_pdf_drive_id} title="File đáp án" />
+            {hasPdf && <PDFMaterial driveFileId={lesson.pdf_drive_id} title="Tài liệu bài học" />}
+            {hasAnswerPdf && <PDFMaterial driveFileId={lesson.answer_pdf_drive_id} title="File đáp án" />}
 
             {/* Mark Complete Button */}
             {completionButton}

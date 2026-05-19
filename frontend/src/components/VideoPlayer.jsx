@@ -1,6 +1,6 @@
 /**
  * VideoPlayer Component
- * Embeds a Google Drive video using an iframe with responsive 16:9 aspect ratio.
+ * Embeds a Google Drive video using the official preview URL with responsive sizing.
  *
  * @param {string} driveFileId - The Google Drive File ID
  * @param {string} [title]     - Optional title for the video
@@ -11,30 +11,35 @@ export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
     return null;
   }
 
-  // Google Drive controls are cross-origin; we can only reduce iframe capabilities.
-  const embedUrl = `https://drive.google.com/file/d/${driveFileId}/preview?rm=minimal`;
+  const previewUrl = `https://drive.google.com/file/d/${driveFileId}/preview`;
+  const viewUrl = `https://drive.google.com/file/d/${driveFileId}/view`;
 
   return (
     <div className="w-full">
       {/* Title bar */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-3">
         <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
           📹 Video bài giảng
         </h3>
+        <a
+          href={viewUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center rounded-lg border border-gray-200 dark:border-slate-700 px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+        >
+          Mở bằng Google Drive
+        </a>
       </div>
 
       {/* 16:9 responsive iframe container */}
-      <div className="relative w-full overflow-hidden rounded-2xl bg-gray-900 dark:bg-slate-800 shadow-lg
-                      ring-1 ring-gray-200 dark:ring-slate-700"
-           style={{ paddingBottom: '56.25%' }}>
+      <div className="relative w-full aspect-video min-h-[220px] sm:min-h-0 overflow-hidden rounded-2xl bg-gray-900 dark:bg-slate-800 shadow-lg ring-1 ring-gray-200 dark:ring-slate-700">
         <iframe
-          src={embedUrl}
+          src={previewUrl}
           title={title}
           className="absolute inset-0 w-full h-full"
-          allow="autoplay; encrypted-media; picture-in-picture"
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
           allowFullScreen
           loading="lazy"
-          sandbox="allow-same-origin allow-scripts allow-presentation"
           referrerPolicy="strict-origin-when-cross-origin"
           style={{ border: 'none' }}
         />
@@ -42,7 +47,7 @@ export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
 
       {/* Caption */}
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 text-center">
-        Video được phát nhúng từ Google Drive. Một số nút điều hướng của Drive có thể vẫn hiển thị tùy chính sách của Google.
+        Nếu trình duyệt chặn cookie hoặc player hiển thị không tốt trên điện thoại, hãy bấm “Mở bằng Google Drive” để xem trong tab riêng.
       </p>
     </div>
   );
