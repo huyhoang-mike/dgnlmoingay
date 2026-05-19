@@ -36,7 +36,7 @@ export default function QAQuestionCard({ question }) {
           </span>
         ) : (
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
-            Public SEO
+            Công khai
           </span>
         )}
         {question.status === 'answered' && (

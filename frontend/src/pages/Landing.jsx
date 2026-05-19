@@ -213,7 +213,7 @@ export default function Landing() {
                 to="/hoi-dap"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-700 font-bold hover:bg-gray-50 transition-colors flex-shrink-0"
               >
-                Vào Hỏi đáp <HiOutlineArrowRight className="h-5 w-5" />
+                Hỏi đáp ngay <HiOutlineArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function Landing() {
                 to="/kho-tai-lieu-mo"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-primary-700 font-bold hover:bg-gray-50 transition-colors flex-shrink-0"
               >
-                Vào kho tài liệu <HiOutlineArrowRight className="h-5 w-5" />
+                Kho tài liệu <HiOutlineArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </div>
@@ -332,7 +332,7 @@ export default function Landing() {
               599,000 <span className="text-lg font-normal text-gray-500 dark:text-gray-400">VNĐ</span>
             </p>
             <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-1 mb-6">
-              ⭐ Ưu đãi Đợt 2 - đến hết tháng 4/2026
+              ⭐ Ưu đãi Đợt 2 - đến hết đọt 2 - 2026
             </p>
             <Link
               to="/dang-ky"

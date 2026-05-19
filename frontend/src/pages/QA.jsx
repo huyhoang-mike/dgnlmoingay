@@ -156,7 +156,7 @@ export default function QA() {
             <div className="rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Đặt câu hỏi mới</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-5">
-                Càng rõ đề bài và phần bạn vướng, câu trả lời càng nhanh và chính xác. Ảnh tối đa 5MB/ảnh.
+                Các bạn nhớ ghi rõ đề bài và hoặc những thắc mắc về kỳ thi. Ảnh tối đa 5MB/ảnh.
               </p>
               {!isAuthenticated && (
                 <div className="rounded-xl bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-800/30 p-4 text-sm text-yellow-800 dark:text-yellow-200 mb-5">
@@ -207,7 +207,7 @@ export default function QA() {
                   required
                   minLength={10}
                   rows={6}
-                  placeholder="Gửi đề bài, cách bạn đang suy nghĩ và phần chưa hiểu..."
+                  placeholder="Giải thích rõ hơn thắc mắc, phần nào chưa hiểu,..."
                   className="w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
@@ -228,7 +228,7 @@ export default function QA() {
                   <input
                     value={form.tags}
                     onChange={(event) => setForm((prev) => ({ ...prev, tags: event.target.value }))}
-                    placeholder="vd: từ vựng, biểu đồ, reading"
+                    placeholder="vd: từ vựng, biểu đồ, đọc hiểu, logic, reading"
                     className="w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
@@ -247,7 +247,6 @@ export default function QA() {
                     />
                     <span>
                       <span className="block text-sm font-bold text-gray-900 dark:text-white">Công khai</span>
-                      <span className="block text-xs text-gray-500 dark:text-gray-400">Tốt cho SEO, ai cũng xem được.</span>
                     </span>
                   </label>
                   <label className={`flex items-start gap-3 rounded-xl border p-3 ${canUseCourseVisibility ? 'border-gray-200 dark:border-slate-600 cursor-pointer' : 'border-gray-100 dark:border-slate-700 opacity-50 cursor-not-allowed'}`}>
@@ -261,8 +260,7 @@ export default function QA() {
                       className="mt-1"
                     />
                     <span>
-                      <span className="block text-sm font-bold text-gray-900 dark:text-white">Chỉ học viên</span>
-                      <span className="block text-xs text-gray-500 dark:text-gray-400">Riêng tư trong khóa học.</span>
+                      <span className="block text-sm font-bold text-gray-900 dark:text-white">Riêng tư trong khóa học</span>
                     </span>
                   </label>
                 </div>
