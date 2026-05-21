@@ -63,7 +63,16 @@ URL public có dạng:
 /uploads/qa/YYYY/MM/<uuid>.jpg
 ```
 
-Nginx proxy `/uploads/` về backend để FastAPI phục vụ static files. Cách này miễn phí, tự động, dễ backup và không phụ thuộc API bên ngoài.
+Trong production, Nginx sẽ **serve trực tiếp** đường dẫn `/uploads/` từ Docker volume `qa_uploads` (mount read-only) để tải ảnh nhanh và tránh lỗi lệch cấu hình static. Backend vẫn mount `/uploads` để có thể dùng khi debug hoặc khi truy cập trực tiếp vào backend.
+
+### 3.1. Troubleshooting lỗi 404 ảnh Q&A
+
+Nếu link dạng `/uploads/qa/YYYY/MM/<uuid>.jpg` bị 404:
+
+- Kiểm tra `docker-compose.yml` đã mount volume `qa_uploads` vào Nginx (ví dụ `/var/www/uploads`).
+- Kiểm tra Nginx config có `location /uploads/` dùng `alias` trỏ đúng thư mục volume.
+- Kiểm tra trong volume có thực sự có file ảnh (file được tạo lúc upload).
+- Nếu đang dùng Cloudflare, thử **Purge Cache** cho đường dẫn `/uploads/*` sau khi deploy.
 
 ## 4. Vì sao chưa dùng Google Drive làm mặc định?
 

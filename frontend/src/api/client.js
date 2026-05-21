@@ -142,4 +142,11 @@ export const listMaterialSubmissionsAdmin = (params = {}) =>
 export const reviewMaterialSubmission = (submissionId, data) =>
   client.patch(`/open-materials/submissions/${submissionId}/review`, data);
 
+// ── Notifications ───────────────────────────
+export const listNotifications = (params = {}) => client.get('/notifications/', { params });
+export const markNotificationRead = (notificationId) =>
+  client.patch(`/notifications/${notificationId}/read`);
+export const markAllNotificationsRead = () => client.post('/notifications/mark-all-read');
+export const broadcastNotification = (data) => client.post('/notifications/broadcast', data);
+
 export default client;

@@ -7,6 +7,7 @@ from app.models.payment_order import PaymentOrder
 from app.models.qa import QAQuestion, QAAnswer
 from app.models.open_material import OpenMaterial, MaterialSubmission
 from app.models.deep_practice_attempt import DeepPracticeAttempt
+from app.models.notification import Notification
 
 __all__ = [
     "Lesson",
@@ -20,4 +21,5 @@ __all__ = [
     "OpenMaterial",
     "MaterialSubmission",
     "DeepPracticeAttempt",
+    "Notification",
 ]

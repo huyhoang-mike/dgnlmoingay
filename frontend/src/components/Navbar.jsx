@@ -4,10 +4,11 @@
  * Inspired by GitHub Education's clean design.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import {
+  HiOutlineBell,
   HiOutlineSun,
   HiOutlineMoon,
   HiOutlineMenu,
@@ -18,6 +19,7 @@ import {
   HiOutlineBadgeCheck,
   HiOutlineLockClosed,
 } from 'react-icons/hi';
+import { listNotifications, markAllNotificationsRead, markNotificationRead } from '../api/client';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -37,8 +39,43 @@ export default function Navbar() {
   const { user, isAuthenticated, isAdmin, isEnrolled, login, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
+  const [notificationsError, setNotificationsError] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
   const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
+
+  const loadNotifications = async ({ silent = false } = {}) => {
+    if (!isAuthenticated) return;
+    if (!silent) {
+      setNotificationsLoading(true);
+      setNotificationsError(null);
+    }
+    try {
+      const res = await listNotifications({ limit: 12, offset: 0 });
+      setNotifications(res.data?.items || []);
+      setUnreadCount(res.data?.unread_count || 0);
+      setNotificationsError(null);
+    } catch (error) {
+      if (!silent) setNotificationsError('Không thể tải thông báo.');
+    } finally {
+      if (!silent) setNotificationsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadNotifications({ silent: true });
+    } else {
+      setShowNotifications(false);
+      setNotifications([]);
+      setUnreadCount(0);
+      setNotificationsError(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const handleGoogleSuccess = async (response) => {
     setLoginError(null);
@@ -109,11 +146,115 @@ export default function Navbar() {
               )}
             </button>
 
+            {/* Notifications */}
+            {isAuthenticated && (
+              <div className="relative">
+                <button
+                  onClick={async () => {
+                    const next = !showNotifications;
+                    setShowProfile(false);
+                    setShowNotifications(next);
+                    if (next) await loadNotifications();
+                  }}
+                  className="relative p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+                  aria-label="Thông báo"
+                >
+                  <HiOutlineBell className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-primary-600 text-white text-[10px] font-bold flex items-center justify-center">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
+                </button>
+
+                {showNotifications && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setShowNotifications(false)} />
+                    <div className="absolute right-0 mt-2 w-80 rounded-xl bg-white dark:bg-slate-800 shadow-lg ring-1 ring-gray-200 dark:ring-slate-700 z-50 overflow-hidden">
+                      <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between gap-3">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">Thông báo</p>
+                        {unreadCount > 0 && (
+                          <button
+                            onClick={async () => {
+                              try {
+                                await markAllNotificationsRead();
+                                setUnreadCount(0);
+                                setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
+                              } catch (error) {
+                                setNotificationsError('Không thể cập nhật trạng thái.');
+                              }
+                            }}
+                            className="text-xs font-semibold text-primary-600 dark:text-primary-400 hover:underline"
+                          >
+                            Đánh dấu đã đọc
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="max-h-96 overflow-auto">
+                        {notificationsLoading ? (
+                          <div className="p-6 flex items-center justify-center">
+                            <div className="inline-block w-6 h-6 border-2 border-primary-200 dark:border-primary-900 border-t-primary-600 rounded-full animate-spin" />
+                          </div>
+                        ) : notificationsError ? (
+                          <div className="p-4 text-sm text-red-600 dark:text-red-400">{notificationsError}</div>
+                        ) : notifications.length === 0 ? (
+                          <div className="p-6 text-sm text-gray-500 dark:text-gray-400">Chưa có thông báo nào.</div>
+                        ) : (
+                          notifications.map((n) => (
+                            <button
+                              key={n.id}
+                              onClick={async () => {
+                                setShowNotifications(false);
+                                try {
+                                  if (!n.is_read) await markNotificationRead(n.id);
+                                  setNotifications((prev) => prev.map((x) => (x.id === n.id ? { ...x, is_read: true } : x)));
+                                  if (!n.is_read) setUnreadCount((c) => Math.max(0, c - 1));
+                                } catch (error) {
+                                  // Ignore mark-read failures; still allow navigation.
+                                }
+                                if (n.url) {
+                                  if (/^https?:\/\//i.test(n.url)) {
+                                    window.location.href = n.url;
+                                  } else {
+                                    navigate(n.url);
+                                  }
+                                }
+                              }}
+                              className={`w-full text-left px-4 py-3 border-b last:border-b-0 border-gray-100 dark:border-slate-700 transition-colors ${
+                                n.is_read
+                                  ? 'bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700'
+                                  : 'bg-primary-50 dark:bg-primary-900/10 hover:bg-primary-100/60 dark:hover:bg-primary-900/20'
+                              }`}
+                            >
+                              <div className="flex items-start gap-2">
+                                {!n.is_read && <span className="mt-1.5 h-2 w-2 rounded-full bg-primary-600 flex-shrink-0" />}
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{n.title}</p>
+                                  {n.body && (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">{n.body}</p>
+                                  )}
+                                  <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">{new Date(n.created_at).toLocaleString('vi-VN')}</p>
+                                </div>
+                              </div>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
             {/* Auth */}
             {isAuthenticated ? (
               <div className="relative">
                 <button
-                  onClick={() => setShowProfile(!showProfile)}
+                  onClick={() => {
+                    setShowNotifications(false);
+                    setShowProfile(!showProfile);
+                  }}
                   className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   {user?.picture ? (

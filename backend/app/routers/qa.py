@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import get_current_user, require_auth
 from app.database import get_db
+from app.models.notification import Notification
 from app.models.qa import QAAnswer, QAQuestion
 from app.models.user import User
 from app.schemas.qa import (
@@ -340,6 +341,22 @@ async def create_answer_json(
         question.status = "answered"
     await db.flush()
     await db.refresh(answer)
+
+    if question.author_id != user.id:
+        preview = answer.body.strip().replace("\n", " ")
+        if len(preview) > 160:
+            preview = f"{preview[:157]}..."
+        title = "Admin đã trả lời câu hỏi của bạn" if user.is_admin else "Câu hỏi của bạn đã có câu trả lời mới"
+        db.add(
+            Notification(
+                user_id=question.author_id,
+                type="qa_answer",
+                title=title,
+                body=preview or None,
+                url=f"/hoi-dap/{question_id}",
+            )
+        )
+
     return _answer_out(answer, {user.id: user})
 
 

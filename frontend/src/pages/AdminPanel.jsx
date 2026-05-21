@@ -13,6 +13,7 @@ import {
   HiOutlineUsers,
   HiOutlineShieldCheck,
   HiOutlineBadgeCheck,
+  HiOutlineBell,
   HiOutlineSearch,
   HiOutlineRefresh,
   HiOutlineChevronLeft,
@@ -39,6 +40,7 @@ import {
   getExamSettings, updateExamSetting,
   getLessons, updateLesson, createLesson, importLessons, deleteLesson,
   listUserExamAttempts,
+  broadcastNotification,
 } from '../api/client';
 
 const COURSE_TYPE_OPTIONS = [
@@ -59,6 +61,7 @@ const TABS = [
   { key: 'users', label: 'Học viên', icon: HiOutlineUsers },
   { key: 'exams', label: 'Đề thi', icon: HiOutlineLightningBolt },
   { key: 'content', label: 'Nội dung', icon: HiOutlineBookOpen },
+  { key: 'notifications', label: 'Thông báo', icon: HiOutlineBell },
 ];
 
 const CATEGORY_LABELS = {
@@ -74,6 +77,15 @@ export default function AdminPanel() {
   // ── Shared state ─────────────────────────
   const [activeTab, setActiveTab] = useState('users');
   const [toast, setToast] = useState(null);
+
+  // ── Notifications broadcast state ────────
+  const [broadcast, setBroadcast] = useState({
+    title: '',
+    body: '',
+    url: '',
+    target: 'enrolled',
+  });
+  const [broadcastLoading, setBroadcastLoading] = useState(false);
 
   // ── Users state ──────────────────────────
   const [users, setUsers] = useState([]);
@@ -133,6 +145,35 @@ export default function AdminPanel() {
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
+  };
+
+  // ════════════════════════════════════════════
+  // NOTIFICATIONS: Broadcast
+  // ════════════════════════════════════════════
+  const handleBroadcast = async (e) => {
+    e.preventDefault();
+    const title = broadcast.title.trim();
+    const body = broadcast.body.trim();
+    const url = broadcast.url.trim();
+    if (!title) {
+      showToast('Vui lòng nhập tiêu đề thông báo', 'error');
+      return;
+    }
+    try {
+      setBroadcastLoading(true);
+      const res = await broadcastNotification({
+        title,
+        body: body || null,
+        url: url || null,
+        target: broadcast.target,
+      });
+      showToast(`✅ Đã gửi thông báo (${res.data?.created_count || 0} người nhận)`);
+      setBroadcast({ title: '', body: '', url: '', target: broadcast.target });
+    } catch (err) {
+      showToast(err?.response?.data?.detail || 'Lỗi gửi thông báo', 'error');
+    } finally {
+      setBroadcastLoading(false);
+    }
   };
 
   // ════════════════════════════════════════════
@@ -1177,6 +1218,95 @@ export default function AdminPanel() {
                 </div>
               </div>
             )}
+          </>
+        )}
+
+        {/* ══════════════════════════════════════ */}
+        {/* TAB 4: NOTIFICATIONS                  */}
+        {/* ══════════════════════════════════════ */}
+        {activeTab === 'notifications' && (
+          <>
+            <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-xl p-4 mb-6">
+              <p className="text-sm text-amber-900 dark:text-amber-200">
+                <strong>💡 Gợi ý:</strong> Dùng để thông báo bài tập mới, nhắc lịch học hoặc cập nhật quan trọng.
+                Học viên sẽ thấy thông báo ở biểu tượng chuông trên thanh điều hướng.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 p-6">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <HiOutlineBell className="h-4 w-4 text-primary-600" /> Gửi thông báo
+              </h3>
+
+              <form onSubmit={handleBroadcast} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Tiêu đề *</label>
+                    <input
+                      type="text"
+                      required
+                      value={broadcast.title}
+                      onChange={(e) => setBroadcast({ ...broadcast, title: e.target.value })}
+                      placeholder="vd: Đã đăng bài tập mới - Toán biểu đồ"
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Nội dung</label>
+                    <textarea
+                      rows={4}
+                      value={broadcast.body}
+                      onChange={(e) => setBroadcast({ ...broadcast, body: e.target.value })}
+                      placeholder="Viết nội dung ngắn gọn để học viên nắm được cần làm gì..."
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Link (tuỳ chọn)</label>
+                    <input
+                      type="text"
+                      value={broadcast.url}
+                      onChange={(e) => setBroadcast({ ...broadcast, url: e.target.value })}
+                      placeholder="/hoi-dap/123 hoặc https://..."
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
+                    />
+                    <p className="mt-1 text-[11px] text-gray-400 dark:text-gray-500">Nếu nhập link nội bộ, bắt đầu bằng dấu "/".</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Gửi tới</label>
+                    <select
+                      value={broadcast.target}
+                      onChange={(e) => setBroadcast({ ...broadcast, target: e.target.value })}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
+                    >
+                      <option value="enrolled">Học viên đã đăng ký</option>
+                      <option value="all">Tất cả người dùng</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <button
+                    type="submit"
+                    disabled={broadcastLoading}
+                    className="px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors disabled:opacity-50"
+                  >
+                    {broadcastLoading ? 'Đang gửi...' : 'Gửi thông báo'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBroadcast({ ...broadcast, title: '', body: '', url: '' })}
+                    disabled={broadcastLoading}
+                    className="px-5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 text-sm font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50"
+                  >
+                    Xóa nội dung
+                  </button>
+                </div>
+              </form>
+            </div>
           </>
         )}
       </div>

@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.routers import auth, lessons, progress, exams, import_lessons, payments, qa, open_materials
+from app.routers import auth, lessons, progress, exams, import_lessons, payments, qa, open_materials, notifications
 
 # ── Production: tắt Swagger docs ─────────────
 _is_production = os.getenv("ENVIRONMENT", "development") == "production"
@@ -53,9 +53,11 @@ app.include_router(import_lessons.router, prefix="/api/lessons", tags=["Lesson I
 app.include_router(payments.router, prefix="/api/payments", tags=["Payments"])
 app.include_router(qa.router, prefix="/api/qa", tags=["Q&A"])
 app.include_router(open_materials.router, prefix="/api/open-materials", tags=["Open Materials"])
+app.include_router(notifications.router, prefix="/api/notifications", tags=["Notifications"])
 
 # ── Static Uploads ───────────────────────────
-uploads_root = Path(os.getenv("QA_UPLOAD_ROOT", "/app/uploads"))
+qa_upload_dir = Path(os.getenv("QA_UPLOAD_DIR", "/app/uploads/qa"))
+uploads_root = Path(os.getenv("QA_UPLOAD_ROOT") or str(qa_upload_dir.parent))
 uploads_root.mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(uploads_root)), name="uploads")
 
