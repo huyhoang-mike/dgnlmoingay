@@ -1,0 +1,398 @@
+{
+  "id": "on-tap-ngu-phap-ta-tong-hop",
+  "title": "Tiếng Anh: Ôn tập Ngữ pháp, Tìm lỗi sai và Viết lại câu",
+  "subject": "Tiếng Anh",
+  "timeMinutes": 30,
+  "questions": [
+    {
+      "id": "eng-q01",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nOnly _______ students knew how to solve this problem.",
+      "options": [
+        { "key": "A", "text": "a few" },
+        { "key": "B", "text": "few" },
+        { "key": "C", "text": "a little" },
+        { "key": "D", "text": "little" }
+      ],
+      "answer": "A",
+      "explanation": "Từ 'students' (học sinh) là danh từ đếm được số nhiều, vì vậy ta dùng 'few' hoặc 'a few'. Tuy nhiên, khi đi với 'only' tạo thành cụm 'only a few' mang nghĩa là 'chỉ một vài' (một số lượng rất ít).",
+      "tags": ["grammar", "quantifiers"]
+    },
+    {
+      "id": "eng-q02",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nSeafood pizza costs _______ mushroom pizza.",
+      "options": [
+        { "key": "A", "text": "twice more than" },
+        { "key": "B", "text": "twice as much as" },
+        { "key": "C", "text": "as much as twice" },
+        { "key": "D", "text": "twice as" }
+      ],
+      "answer": "B",
+      "explanation": "Câu này kiểm tra cấu trúc so sánh gấp bội. Cấu trúc đúng là: Số lần (twice, three times...) + as + much/many + (N) + as. Do đó, 'twice as much as' là đáp án chính xác.",
+      "tags": ["grammar", "comparisons"]
+    },
+    {
+      "id": "eng-q03",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nDon’t talk to me while I _______.",
+      "options": [
+        { "key": "A", "text": "have been studying" },
+        { "key": "B", "text": "study" },
+        { "key": "C", "text": "am studying" },
+        { "key": "D", "text": "have read" }
+      ],
+      "answer": "C",
+      "explanation": "Liên từ 'while' (trong khi) thường diễn tả một hành động đang tiếp diễn tại một thời điểm. Mệnh lệnh 'Don't talk to me' ở hiện tại, do đó hành động đang diễn ra cũng phải ở thì hiện tại tiếp diễn (am studying).",
+      "tags": ["grammar", "tenses", "present continuous"]
+    },
+    {
+      "id": "eng-q04",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nMr. Dung _______ a new idea for lesson plan.",
+      "options": [
+        { "key": "A", "text": "came down" },
+        { "key": "B", "text": "came up with" },
+        { "key": "C", "text": "came by" },
+        { "key": "D", "text": "came in for" }
+      ],
+      "answer": "B",
+      "explanation": "Cụm động từ (Phrasal verb) 'come up with' có nghĩa là nảy ra ý tưởng, phát minh ra hoặc đề xuất một kế hoạch. Các lựa chọn khác không hợp nghĩa.",
+      "tags": ["vocabulary", "phrasal verbs"]
+    },
+    {
+      "id": "eng-q05",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nProceeds from the sale of ABC company were equally _______ among the founder's two sons.",
+      "options": [
+        { "key": "A", "text": "divisions" },
+        { "key": "B", "text": "divide" },
+        { "key": "C", "text": "divided" },
+        { "key": "D", "text": "dividing" }
+      ],
+      "answer": "C",
+      "explanation": "Câu này đang ở thể bị động (Tiền thu được từ việc bán công ty... được chia đều). Cấu trúc bị động là 'be + V3/ed'. Động từ 'divide' (chia) chuyển sang phân từ hai là 'divided'.",
+      "tags": ["grammar", "passive voice"]
+    },
+    {
+      "id": "eng-q06",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nI have been to China but I have never visited United Kingdom, so I intend to visit it next year.",
+      "options": [
+        { "key": "A", "text": "have been to" },
+        { "key": "B", "text": "but" },
+        { "key": "C", "text": "United Kingdom" },
+        { "key": "D", "text": "to visit" }
+      ],
+      "answer": "C",
+      "explanation": "Lỗi sai ở mạo từ. Với các quốc gia có chứa các từ như 'Kingdom', 'States', 'Republic' (Ví dụ: The United Kingdom, The United States), ta bắt buộc phải sử dụng mạo từ 'the' phía trước. Sửa đúng: 'the United Kingdom'.",
+      "tags": ["error correction", "articles"]
+    },
+    {
+      "id": "eng-q07",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nBeing a lawyer were one of my mother’s dreams when she was young.",
+      "options": [
+        { "key": "A", "text": "Being" },
+        { "key": "B", "text": "were" },
+        { "key": "C", "text": "dreams" },
+        { "key": "D", "text": "was" }
+      ],
+      "answer": "B",
+      "explanation": "Chủ ngữ của câu là danh động từ 'Being a lawyer' (Việc làm luật sư). Danh động từ (V-ing) đóng vai trò làm chủ ngữ luôn được xem là ngôi thứ ba số ít, nên động từ to be phải chia là 'was' thay vì 'were'.",
+      "tags": ["error correction", "subject-verb agreement"]
+    },
+    {
+      "id": "eng-q08",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nAccording to a recent report, because of the severe cuts in benefits to homeless people, more and more are being forced sleeping on the streets.",
+      "options": [
+        { "key": "A", "text": "a" },
+        { "key": "B", "text": "cuts in" },
+        { "key": "C", "text": "are" },
+        { "key": "D", "text": "sleeping" }
+      ],
+      "answer": "D",
+      "explanation": "Cấu trúc chủ động là 'force someone to do something' (buộc ai phải làm gì). Khi chuyển sang bị động sẽ là 'be forced to do something'. Do đó, 'sleeping' phải sửa thành 'to sleep'.",
+      "tags": ["error correction", "verb patterns"]
+    },
+    {
+      "id": "eng-q09",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nNam was the first marketing director of the restaurant, and he came up with an idea what increased sales.",
+      "options": [
+        { "key": "A", "text": "the" },
+        { "key": "B", "text": "came up with" },
+        { "key": "C", "text": "what" },
+        { "key": "D", "text": "sales" }
+      ],
+      "answer": "C",
+      "explanation": "Đại từ quan hệ dùng để thay thế cho danh từ chỉ sự vật ('an idea') đóng vai trò làm chủ ngữ trong mệnh đề quan hệ phải là 'which' hoặc 'that', không được dùng 'what'. Sửa đúng: 'which' hoặc 'that'.",
+      "tags": ["error correction", "relative clauses"]
+    },
+    {
+      "id": "eng-q10",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nMy home is farer from school than Nga’s house. Therefore, I spend more than 25 minutes getting there by bus.",
+      "options": [
+        { "key": "A", "text": "farer" },
+        { "key": "B", "text": "from" },
+        { "key": "C", "text": "Therefore" },
+        { "key": "D", "text": "getting" }
+      ],
+      "answer": "A",
+      "explanation": "Tính từ 'far' có dạng so sánh hơn bất quy tắc là 'farther' (về khoảng cách vật lý) hoặc 'further' (khoảng cách hoặc mức độ trừu tượng). Không tồn tại từ 'farer' trong tiếng Anh. Sửa đúng: 'farther'.",
+      "tags": ["error correction", "comparisons"]
+    },
+    {
+      "id": "eng-q11",
+      "prompt": "Which of the following best restates the given sentence?\nAlex speaks Japanese more fluently than Hoa.",
+      "options": [
+        { "key": "A", "text": "Hoa doesn’t speak Japanese as fluently as Alex." },
+        { "key": "B", "text": "Hoa doesn’t speak Japanese fluently as Alex." },
+        { "key": "C", "text": "Hoa speak Japanese more fluently than Alex." },
+        { "key": "D", "text": "Hoa doesn’t speak Japanese less fluently than Alex." }
+      ],
+      "answer": "A",
+      "explanation": "Câu gốc có nghĩa: 'Alex nói tiếng Nhật trôi chảy hơn Hoa.' Để viết lại câu giữ nguyên nghĩa, ta dùng cấu trúc so sánh bằng ở dạng phủ định: 'Hoa không nói tiếng Nhật trôi chảy bằng Alex' (not as fluently as). Đáp án B thiếu từ 'as' thứ nhất.",
+      "tags": ["sentence transformation", "comparisons"]
+    },
+    {
+      "id": "eng-q12",
+      "prompt": "Which of the following best restates the given sentence?\nAn said: “I read this novel last week.”",
+      "options": [
+        { "key": "A", "text": "An said she read that novel the previous week." },
+        { "key": "B", "text": "An said she had read that novel the previous week." },
+        { "key": "C", "text": "An said she has read that novel the week before." },
+        { "key": "D", "text": "An said she would read that novel the week before." }
+      ],
+      "answer": "B",
+      "explanation": "Khi chuyển từ câu trực tiếp sang gián tiếp, cần tuân thủ 3 quy tắc: Lùi thì (Quá khứ đơn 'read' lùi về Quá khứ hoàn thành 'had read'), đổi đại từ/tính từ chỉ định ('this' thành 'that') và đổi trạng ngữ thời gian ('last week' thành 'the previous week' hoặc 'the week before').",
+      "tags": ["sentence transformation", "reported speech"]
+    },
+    {
+      "id": "eng-q13",
+      "prompt": "Which of the following best restates the given sentence?\nBecause I had nothing to do, I decided to read comic book.",
+      "options": [
+        { "key": "A", "text": "Having nothing to do, I decided to read comic book." },
+        { "key": "B", "text": "Have nothing to do, I decided to read comic book." },
+        { "key": "C", "text": "Since having nothing to do, I decided to read comic book." },
+        { "key": "D", "text": "Because having nothing to do, I decided to read comic book." }
+      ],
+      "answer": "A",
+      "explanation": "Khi hai vế câu có cùng chủ ngữ ('I'), ta có thể rút gọn mệnh đề trạng ngữ chỉ nguyên nhân bằng cách bỏ liên từ (Because/Since), bỏ chủ ngữ thứ nhất, và chuyển động từ chính về dạng V-ing ('had' thành 'Having').",
+      "tags": ["sentence transformation", "participle clauses"]
+    },
+    {
+      "id": "eng-q14",
+      "prompt": "Which of the following best restates the given sentence?\nI didn’t know the total story, so I couldn’t tell you.",
+      "options": [
+        { "key": "A", "text": "If I had known the total story, I would tell you." },
+        { "key": "B", "text": "I would have told you if I knew the total story." },
+        { "key": "C", "text": "Were I known the total story, I would tell you." },
+        { "key": "D", "text": "Had I known the total story, I would have told you." }
+      ],
+      "answer": "D",
+      "explanation": "Câu gốc là một sự việc đã xảy ra và kết thúc trong quá khứ ('didn't know', 'couldn't tell'). Vì vậy, giả định trái ngược với quá khứ phải dùng câu điều kiện loại 3. Đáp án D sử dụng cấu trúc đảo ngữ của loại 3: 'Had + S + V3/ed, S + would have + V3/ed', hoàn toàn chính xác.",
+      "tags": ["sentence transformation", "conditionals", "inversion"]
+    },
+    {
+      "id": "eng-q15",
+      "prompt": "Which of the following best restates the given sentence?\nIt’s likely that Minh didn’t understand what I told him.",
+      "options": [
+        { "key": "A", "text": "Minh might have not understood what I told him." },
+        { "key": "B", "text": "Minh might not understand what I told him." },
+        { "key": "C", "text": "Minh may not understand what I told him." },
+        { "key": "D", "text": "Minh may not have understood what I told him." }
+      ],
+      "answer": "D",
+      "explanation": "Câu gốc thể hiện sự suy đoán, dự đoán về một hành động đã xảy ra trong quá khứ ('didn't understand'). Ta dùng cấu trúc 'may/might (not) + have + V3/ed' (có lẽ đã (không) làm gì). Đáp án A sai vị trí của từ 'not' (đúng phải là might not have). Đáp án D là lựa chọn chuẩn xác.",
+      "tags": ["sentence transformation", "modal verbs"]
+    },
+    {
+      "id": "eng-q16",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nIf you are not _______ with your laptop, you may return it for a full refund.",
+      "options": [
+        { "key": "A", "text": "satisfaction" },
+        { "key": "B", "text": "satisfied" },
+        { "key": "C", "text": "satisfying" },
+        { "key": "D", "text": "satisfy" }
+      ],
+      "answer": "B",
+      "explanation": "Đứng sau động từ to be ('are') cần một tính từ. Khi diễn tả cảm xúc, trạng thái của người (bạn cảm thấy hài lòng), ta dùng tính từ đuôi -ed: 'satisfied' (hài lòng với). Tính từ đuôi -ing ('satisfying') dùng để miêu tả bản chất sự vật (chiếc máy tính làm hài lòng).",
+      "tags": ["grammar", "adjectives", "word form"]
+    },
+    {
+      "id": "eng-q17",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\n_______ the results of the customer survey, my store may consider extending the closing time.",
+      "options": [
+        { "key": "A", "text": "Because" },
+        { "key": "B", "text": "Depending on" },
+        { "key": "C", "text": "Whereas" },
+        { "key": "D", "text": "In order for" }
+      ],
+      "answer": "B",
+      "explanation": "Ngữ cảnh câu: 'Dựa vào / Tuỳ thuộc vào kết quả của cuộc khảo sát khách hàng, cửa hàng của tôi có thể xem xét kéo dài thời gian đóng cửa'. Cụm 'Depending on' phù hợp nhất về nghĩa. 'Because' phải đi với mệnh đề (S+V) hoặc 'Because of + N/V-ing'.",
+      "tags": ["vocabulary", "prepositions"]
+    },
+    {
+      "id": "eng-q18",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nYou shouldn’t drink too _______ coffee because it can impact your sleep.",
+      "options": [
+        { "key": "A", "text": "much" },
+        { "key": "B", "text": "many" },
+        { "key": "C", "text": "lot of" },
+        { "key": "D", "text": "few" }
+      ],
+      "answer": "A",
+      "explanation": "'Coffee' (cà phê) là danh từ không đếm được. Để nói 'quá nhiều' với danh từ không đếm được, ta dùng 'too much'. (Quá nhiều với danh từ đếm được dùng 'too many').",
+      "tags": ["grammar", "quantifiers"]
+    },
+    {
+      "id": "eng-q19",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nMost members of the marketing department _______ Hoa’ idea.",
+      "options": [
+        { "key": "A", "text": "hold out" },
+        { "key": "B", "text": "notify" },
+        { "key": "C", "text": "fall in with" },
+        { "key": "D", "text": "come into" }
+      ],
+      "answer": "C",
+      "explanation": "Cụm động từ (Phrasal verb) 'fall in with' mang ý nghĩa là đồng ý với, tán thành ý kiến/kế hoạch của ai đó. Hầu hết các thành viên phòng marketing đều tán thành ý tưởng của Hoa.",
+      "tags": ["vocabulary", "phrasal verbs"]
+    },
+    {
+      "id": "eng-q20",
+      "prompt": "Choose a suitable word or phrase (A, B, C, or D) to fill in the blank:\nIf I _______ your phone number yesterday, I could have informed you about the cancellation of the picnic.",
+      "options": [
+        { "key": "A", "text": "have" },
+        { "key": "B", "text": "had" },
+        { "key": "C", "text": "have had" },
+        { "key": "D", "text": "had had" }
+      ],
+      "answer": "D",
+      "explanation": "Sự xuất hiện của 'yesterday' và vế chính 'could have informed' cho thấy đây là câu điều kiện loại 3 (giả định trái ngược với quá khứ). Cấu trúc vế If: If + S + had + V3/ed. Động từ chính là 'have', phân từ 2 của nó là 'had', nên động từ chia đúng là 'had had'.",
+      "tags": ["grammar", "conditionals"]
+    },
+    {
+      "id": "eng-q21",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nNike's strategy was the kind of strategy might appear to have few obvious benefits.",
+      "options": [
+        { "key": "A", "text": "was" },
+        { "key": "B", "text": "of" },
+        { "key": "C", "text": "might" },
+        { "key": "D", "text": "to have" }
+      ],
+      "answer": "C",
+      "explanation": "Mệnh đề sau 'the kind of strategy' đang thiếu đại từ quan hệ đóng vai trò chủ ngữ. Ta cần thêm 'that' hoặc 'which' vào trước 'might'. Sửa đúng: 'that/which might appear'.",
+      "tags": ["error correction", "relative clauses"]
+    },
+    {
+      "id": "eng-q22",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nIn last two years, Corelli's bakery has charged the same wholesale prices for its baked goods, including cakes, pies, cookies, and brownies.",
+      "options": [
+        { "key": "A", "text": "last two years" },
+        { "key": "B", "text": "has charged" },
+        { "key": "C", "text": "for" },
+        { "key": "D", "text": "its" }
+      ],
+      "answer": "A",
+      "explanation": "Cụm từ chỉ thời gian thường đi kèm thì hiện tại hoàn thành mang nghĩa 'trong suốt bao nhiêu năm vừa qua' bắt buộc phải có mạo từ 'the': 'In/Over/During the last/past + khoảng thời gian'. Sửa đúng: 'In the last two years'.",
+      "tags": ["error correction", "articles"]
+    },
+    {
+      "id": "eng-q23",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nSome of the childs don’t like singing but they are into playing the piano.",
+      "options": [
+        { "key": "A", "text": "the childs" },
+        { "key": "B", "text": "but" },
+        { "key": "C", "text": "are into" },
+        { "key": "D", "text": "the" }
+      ],
+      "answer": "A",
+      "explanation": "Danh từ 'child' (đứa trẻ) có hình thức số nhiều là bất quy tắc: 'children', không thêm 's'. Sửa đúng: 'the children'.",
+      "tags": ["error correction", "nouns"]
+    },
+    {
+      "id": "eng-q24",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nI’m walking in the garden to relax. I had been studying too long, in fact since early morning.",
+      "options": [
+        { "key": "A", "text": "I’m walking" },
+        { "key": "B", "text": "had been studying" },
+        { "key": "C", "text": "in fact" },
+        { "key": "D", "text": "early" }
+      ],
+      "answer": "B",
+      "explanation": "Hành động 'học quá lâu từ sáng sớm' kéo dài tới hiện tại (vẫn đang đi dạo thư giãn ở hiện tại - 'I'm walking'). Vì vậy hành động học phải dùng thì Hiện tại hoàn thành tiếp diễn (chỉ quá trình kéo dài đến hiện tại). Sửa đúng: 'have been studying'.",
+      "tags": ["error correction", "tenses"]
+    },
+    {
+      "id": "eng-q25",
+      "prompt": "Find the error (A, B, C, or D) in the following sentence:\nI was tempted to ask why did Hoa want to sit next to Mai so badly.",
+      "options": [
+        { "key": "A", "text": "tempted" },
+        { "key": "B", "text": "why did Hoa want" },
+        { "key": "C", "text": "to sit" },
+        { "key": "D", "text": "badly" }
+      ],
+      "answer": "B",
+      "explanation": "Đây là một câu hỏi gián tiếp lồng bên trong một câu trần thuật. Trong câu hỏi gián tiếp, trật tự từ phải ở dạng câu khẳng định bình thường (Từ để hỏi + S + V), tuyệt đối không đảo trợ động từ lên trước chủ ngữ. Sửa đúng: 'why Hoa wanted'.",
+      "tags": ["error correction", "reported speech"]
+    },
+    {
+      "id": "eng-q26",
+      "prompt": "Which of the following best restates the given sentence?\nAccording to the weather broadcast, it may rain today. I hope it doesn’t because I have the outdoor picnic.",
+      "options": [
+        { "key": "A", "text": "If it has rained today, the outdoor picnic would have been cancelled." },
+        { "key": "B", "text": "If it rains today, the outdoor picnic would be cancelled." },
+        { "key": "C", "text": "If it had rained today, the outdoor picnic would have been cancelled." },
+        { "key": "D", "text": "Should it rain, the outdoor picnic will be cancelled." }
+      ],
+      "answer": "D",
+      "explanation": "Câu gốc diễn tả một sự việc có khả năng xảy ra trong tương lai (có thể trời sẽ mưa hôm nay). Để diễn đạt điều này, ta dùng câu điều kiện loại 1 (có thực ở hiện tại/tương lai). Đáp án D sử dụng cấu trúc đảo ngữ của câu điều kiện loại 1: 'Should + S + (not) + V_nguyên thể, S + will + V', mang ý nghĩa hoàn toàn phù hợp (Nếu trời mưa, chuyến dã ngoại sẽ bị hủy).",
+      "tags": ["sentence transformation", "conditionals", "inversion"]
+    },
+    {
+      "id": "eng-q27",
+      "prompt": "Which of the following best restates the given sentence?\n“Why don’t you have your old motorbike fixed?” said Minh to Manh.",
+      "options": [
+        { "key": "A", "text": "Minh suggested having Manh’s old motorbike fixed." },
+        { "key": "B", "text": "Minh asked Manh why he didn’t fix his motorbike." },
+        { "key": "C", "text": "Minh suggested that Manh should have his motorbike fixed." },
+        { "key": "D", "text": "Minh suggested that Manh should fixed his motorbike." }
+      ],
+      "answer": "C",
+      "explanation": "Mẫu câu 'Why don't you...?' dùng để đưa ra lời gợi ý, khuyên bảo. Khi chuyển sang câu gián tiếp, ta dùng cấu trúc: S + suggest + that + S2 + (should) + V_nguyên thể. Đáp án C áp dụng chính xác. Đáp án D bị sai ngữ pháp ở cụm 'should fixed'.",
+      "tags": ["sentence transformation", "reported speech", "subjunctive"]
+    },
+    {
+      "id": "eng-q28",
+      "prompt": "Which of the following best restates the given sentence?\nSkin not only provides protection to the internal body parts, it also gives a sense of touch.",
+      "options": [
+        { "key": "A", "text": "Because of providing protection to the internal body parts, skin also gives a sense of touch." },
+        { "key": "B", "text": "Skin provides protection to the internal body parts as well as gives a sense of touch." },
+        { "key": "C", "text": "Skin not only provides protection to the internal body parts, but also doesn’t give a sense of touch." },
+        { "key": "D", "text": "To provide protection to the internal body parts, it also gives a sense of touch." }
+      ],
+      "answer": "B",
+      "explanation": "Cấu trúc 'not only... (but) also...' (không những... mà còn...) mang ý nghĩa kết nối 2 thông tin tương đương. Cấu trúc đồng nghĩa tương đương nhất là 'A as well as B' (Cũng như). 'Da cung cấp sự bảo vệ... cũng như đem lại cảm giác chạm'.",
+      "tags": ["sentence transformation", "conjunctions"]
+    },
+    {
+      "id": "eng-q29",
+      "prompt": "Which of the following best restates the given sentence?\nI’m 19 years old, my sister is 15 years old.",
+      "options": [
+        { "key": "A", "text": "My sister is four years younger than me." },
+        { "key": "B", "text": "My sister is four years so young than me." },
+        { "key": "C", "text": "My sister is four years the younger than me." },
+        { "key": "D", "text": "My sister is four years the youngest to me." }
+      ],
+      "answer": "A",
+      "explanation": "So sánh mức độ chênh lệch (nhiều hơn/ít hơn bao nhiêu tuổi): 'Số lượng/Khoảng cách + tính từ so sánh hơn + than...'. Em gái (15) ít hơn mình (19) là 4 tuổi, nên viết lại là 'My sister is four years younger than me'.",
+      "tags": ["sentence transformation", "comparisons"]
+    },
+    {
+      "id": "eng-q30",
+      "prompt": "Which of the following best restates the given sentence?\nWhile I was cooking dinner, Mai dropped by my home.",
+      "options": [
+        { "key": "A", "text": "When I cooked dinner, Mai dropped by my home." },
+        { "key": "B", "text": "When I was cooked dinner, Mai dropped by my home." },
+        { "key": "C", "text": "When Mai dropped by my home, I was cooking dinner." },
+        { "key": "D", "text": "When Mai was dropping by my home, I cooked for dinner." }
+      ],
+      "answer": "C",
+      "explanation": "Câu diễn tả một hành động đang tiếp diễn (I was cooking dinner) thì một hành động khác xen vào (Mai dropped by). Có thể viết lại bằng cách hoán đổi vị trí hai mệnh đề với từ 'When': 'Khi Mai ghé nhà tôi, tôi đang nấu bữa tối.' (When Mai dropped by my home, I was cooking dinner).",
+      "tags": ["sentence transformation", "tenses", "past continuous"]
+    }
+  ]
+}

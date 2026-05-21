@@ -31,14 +31,42 @@
     "id": "on-tap-ngu-phap-ta-1",
     "title": "Tổng ôn ngữ pháp Tiếng Anh",
     "subject": "Tiếng Anh",
-    "skill": "Reading comprehension",
-    "level": "Cơ bản - Trung bình",
-    "description": "Luyện chọn ý chính, suy luận nhanh và tránh bẫy từ khóa trong đoạn văn ngắn.",
+    "skill": "Ngữ Pháp",
+    "level": "Nâng cao",
+    "description": "Tổng ôn tất cả điểm ngữ pháp.",
     "timeMinutes": 15,
     "totalQuestions": 15,
     "isFree": true,
     "isPublished": true,
     "file": "on-tap-ngu-phap-ta-1.json",
-    "seoKeywords": ["luyện tiếng anh ĐGNL", "reading comprehension V-ACT", "main idea quiz"]
-  }
+    "seoKeywords": ["luyện tiếng anh ĐGNL", "tiếng anh ĐGNL", "ngữ pháp tiếng anh quiz"]
+  },
+  {
+    "id": "on-tap-ngu-phap-ta-2",
+    "title": "Tổng ôn ngữ pháp Tiếng Anh 2",
+    "subject": "Tiếng Anh",
+    "skill": "Ngữ pháp",
+    "level": "Nâng cao",
+    "description": "Tổng ôn tất cả điểm ngữ pháp.",
+    "timeMinutes": 30,
+    "totalQuestions": 30,
+    "isFree": false,
+    "isPublished": true,
+    "file": "on-tap-ngu-phap-ta-2.json",
+    "seoKeywords": ["luyện tiếng anh ĐGNL", "tiếng anh ĐGNL", "ngữ pháp tiếng anh quiz"]
+  },
+  {
+    "id": "on-tap-van-hoc-dan-gian-1",
+    "title": "Luyện tập phần Văn học dân gian",
+    "subject": "Tiếng Việt",
+    "skill": "Từ vựng - Ngữ nghĩa",
+    "level": "Nâng cao",
+    "description": "Luyện nhanh các câu hỏi nhận diện nghĩa của từ, sắc thái biểu đạt và cách dùng trong ngữ cảnh.",
+    "timeMinutes": 30,
+    "totalQuestions": 20,
+    "isFree": false,
+    "isPublished": true,
+    "file": "on-tap-van-hoc-dan-gian-1.json",
+    "seoKeywords": ["luyện tập tiếng việt đánh giá năng lực", "từ vựng ngữ nghĩa ĐGNL", "quiz miễn phí ĐGNL"]
+  },
 ]

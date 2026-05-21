@@ -1,0 +1,268 @@
+{
+  "id": "on-tap-van-hoc-dan-gian-1",
+  "title": "Luyện tập phần Văn học dân gian",
+  "subject": "Tiếng Việt",
+  "timeMinutes": 30,
+  "questions": [
+    {
+      "id": "lit-q01",
+      "prompt": "Dòng nào sau đây nêu đúng và đủ các thể loại chủ yếu của văn học dân gian?",
+      "options": [
+        { "key": "A", "text": "Thần thoại, sử thi, truyền thuyết, truyện ngụ ngôn, truyện cười, tục ngữ, câu đố, ca dao, dân ca, vè, truyện thơ, chèo." },
+        { "key": "B", "text": "Thần thoại, sử thi, truyền thuyết, truyện cổ tích, truyện ngụ ngôn, truyện cười, tục ngữ, câu đố, ca dao, vè, truyện thơ, chèo." },
+        { "key": "C", "text": "Thần thoại, sử thi, truyền thuyết, truyện cổ tích, truyện cười, tục ngữ, câu đố, dân ca, vè, truyện thơ, chèo." },
+        { "key": "D", "text": "Thần thoại, sử thi, truyện cổ tích, truyện ngụ ngôn, truyện cười, tục ngữ, câu đố, ca dao, dân ca, vè, truyện thơ, chèo." }
+      ],
+      "answer": "B",
+      "explanation": "Thần thoại, sử thi, truyền thuyết, truyện cổ tích, truyện ngụ ngôn, truyện cười, tục ngữ, câu đố, ca dao, vè, truyện thơ, chèo là những thể loại chủ yếu của văn học dân gian[cite: 131, 132].",
+      "tags": ["khái quát văn học dân gian", "thể loại"]
+    },
+    {
+      "id": "lit-q02",
+      "prompt": "Điểm khác biệt nổi bật giữa văn học dân gian và văn học viết là gì?",
+      "options": [
+        { "key": "A", "text": "Phản ánh tâm tư, nguyện vọng của nhân dân lao động." },
+        { "key": "B", "text": "Có nhiều thể loại đa dạng, phong phú." },
+        { "key": "C", "text": "Tồn tại và lưu hành theo phương thức truyền miệng." },
+        { "key": "D", "text": "Được sử dụng rộng rãi trong đời sống nhân dân." }
+      ],
+      "answer": "C",
+      "explanation": "Đặc điểm nổi bật của văn học dân gian so với văn học viết chính là tính tập thể và truyền miệng[cite: 143]. Đây là hai đặc trưng cơ bản, chi phối xuyên suốt quá trình sáng tạo và lưu truyền tác phẩm văn học dân gian, thể hiện sự gắn bó mật thiết của văn học dân gian với các sinh hoạt khác nhau trong đời sống cộng đồng[cite: 144, 145, 146].",
+      "tags": ["khái quát văn học dân gian", "đặc trưng"]
+    },
+    {
+      "id": "lit-q03",
+      "prompt": "Điểm khác biệt cơ bản giữa truyền thuyết và truyện cổ tích là gì?",
+      "options": [
+        { "key": "A", "text": "Có các yếu tố hoang đường, kì ảo." },
+        { "key": "B", "text": "Có cốt lõi là sự thật lịch sử." },
+        { "key": "C", "text": "Thể hiện thái độ của nhân dân." },
+        { "key": "D", "text": "Có yếu tố hiện thực." }
+      ],
+      "answer": "B",
+      "explanation": "Điểm khác biệt nổi bật giữa truyền thuyết và truyện cổ tích chính là ở: Có cốt lõi là sự thật lịch sử[cite: 154]. Truyền thuyết nào cũng đều gắn liền với cốt lõi sự thật lịch sử, còn truyện cổ tích thì không[cite: 155].",
+      "tags": ["truyền thuyết", "truyện cổ tích", "phân biệt thể loại"]
+    },
+    {
+      "id": "lit-q04",
+      "prompt": "Thạch Sanh thuộc kiểu nhân vật nào trong truyện cổ tích?",
+      "options": [
+        { "key": "A", "text": "Nhân vật bất hạnh." },
+        { "key": "B", "text": "Nhân vật thông minh." },
+        { "key": "C", "text": "Nhân vật có tài năng kì lạ." },
+        { "key": "D", "text": "Nhân vật dũng sĩ." }
+      ],
+      "answer": "D",
+      "explanation": "Trong truyện cổ tích có những kiểu nhân vật cơ bản như: nhân vật bất hạnh, nhân vật dũng sĩ, nhân vật có tài năng kì lạ, nhân vật thông minh, nhân vật ngốc nghếch, nhân vật là động vật[cite: 164]. Thạch Sanh là kiểu nhân vật dũng sĩ diệt chằn tinh, diệt đại bàng cứu người bị hại, vạch trần kẻ vong ân bội nghĩa và chống quân xâm lược[cite: 165].",
+      "tags": ["truyện cổ tích", "Thạch Sanh", "kiểu nhân vật"]
+    },
+    {
+      "id": "lit-q05",
+      "prompt": "Mtao Mxây được gọi là tù trưởng gì?",
+      "options": [
+        { "key": "A", "text": "Tù trưởng sắt" },
+        { "key": "B", "text": "Tù trưởng đồng" },
+        { "key": "C", "text": "Tù trưởng đất" },
+        { "key": "D", "text": "Tù trưởng gió" }
+      ],
+      "answer": "A",
+      "explanation": "Mtao Mxây được gọi là tù trưởng sắt vì khi giao chiến hắn thường khoác lên người một lớp giáp sắt[cite: 174].",
+      "tags": ["sử thi", "Chiến thắng Mtao Mxây", "Đăm Săn"]
+    },
+    {
+      "id": "lit-q06",
+      "prompt": "Dòng nào sau đây nêu lên nhận xét chính xác nhất về những hình ảnh: chim vàng anh, cây xoan đào, khung cửi, quả thị?",
+      "options": [
+        { "key": "A", "text": "Những vật bình dị, thân thương trong cuộc sống, nơi Tấm gửi gắm linh hồn." },
+        { "key": "B", "text": "Những vật nhỏ bé, khiêm nhường như chính số phận của Tấm." },
+        { "key": "C", "text": "Những vật hiện thân cho cuộc sống nghèo khổ hàng ngày của nhân dân lao động." },
+        { "key": "D", "text": "Những vật gắn với cuộc sống lao động hàng ngày của người nông dân." }
+      ],
+      "answer": "A",
+      "explanation": "Hình ảnh chim vàng anh, cây xoan đào, khung cửi, quả thị là những vật bình dị, thân thương trong cuộc sống, nơi Tấm gửi gắm linh hồn[cite: 188]. Mỗi lần Tấm bị mẹ con Cám hãm hại nàng lại hóa thân thành một sự vật khác nhau, đó đều là những sự vật giản dị, là nơi để Tấm gửi gắm linh hồn[cite: 189, 190].",
+      "tags": ["truyện cổ tích", "Tấm Cám", "ý nghĩa chi tiết"]
+    },
+    {
+      "id": "lit-q07",
+      "prompt": "Mục đích chủ yếu của truyện cười là gì?",
+      "options": [
+        { "key": "A", "text": "Nêu bài học kinh nghiệm trong cuộc sống." },
+        { "key": "B", "text": "Tạo ra tiếng cười giải trí hoặc phê phán xã hội." },
+        { "key": "C", "text": "Đúc kết những kinh nghiệm thực tiễn." },
+        { "key": "D", "text": "Rèn luyện trí thông minh của con người." }
+      ],
+      "answer": "B",
+      "explanation": "Mục đích chủ yếu của truyện cười là: Tạo ra tiếng cười giải trí hoặc phê phán xã hội[cite: 200].",
+      "tags": ["truyện cười", "đặc trưng"]
+    },
+    {
+      "id": "lit-q08",
+      "prompt": "Truyện thơ Tiễn dặn người yêu do dân tộc nào sáng tác và gồm bao nhiêu câu thơ?",
+      "options": [
+        { "key": "A", "text": "Dân tộc Thái, 1846 câu thơ." },
+        { "key": "B", "text": "Dân tộc Thái, 1847 câu thơ." },
+        { "key": "C", "text": "Dân tộc Mường, 1846 câu thơ." },
+        { "key": "D", "text": "Dân tộc Mường, 1847 câu thơ." }
+      ],
+      "answer": "A",
+      "explanation": "Tiễn dặn người yêu là truyện thơ nổi tiếng của dân tộc Thái, với 1846 câu thơ kể về câu chuyện tình yêu – hôn nhân[cite: 208].",
+      "tags": ["truyện thơ", "Tiễn dặn người yêu"]
+    },
+    {
+      "id": "lit-q09",
+      "prompt": "Nhóm truyện nào sau đây không cùng thể loại?",
+      "options": [
+        { "key": "A", "text": "Bánh chưng, bánh giầy; Thánh Gióng, Sơn Tinh Thủy Tinh." },
+        { "key": "B", "text": "Thầy bói xem voi; Ếch ngồi đáy giếng; Chân Tay Tai Mắt Miệng." },
+        { "key": "C", "text": "Cây bút thần; Sọ Dừa; Ông lão đánh cá và con cá vàng." },
+        { "key": "D", "text": "Sự tích Hồ Gươm; Em bé thông minh; Thạch Sanh." }
+      ],
+      "answer": "D",
+      "explanation": "Nhóm A (Bánh chưng, bánh giầy; Thánh Gióng, Sơn Tinh Thủy Tinh) là truyền thuyết[cite: 217]. Nhóm B (Thầy bói xem voi; Ếch ngồi đáy giếng; Chân Tay Tai Mắt Miệng) là truyện ngụ ngôn[cite: 218]. Nhóm C (Cây bút thần; Sọ Dừa; Ông lão đánh cá và con cá vàng) là truyện cổ tích[cite: 219]. Trong khi đó, ở nhóm D thì 'Sự tích Hồ Gươm' là truyền thuyết, còn hai tác phẩm 'Em bé thông minh', 'Thạch Sanh' là truyện cổ tích nên chúng không cùng thể loại[cite: 220, 221, 222].",
+      "tags": ["phân loại tác phẩm", "thể loại văn học dân gian"]
+    },
+    {
+      "id": "lit-q10",
+      "prompt": "Các truyện dân gian thường có mô típ về sự hóa thân sau khi chết. Trong các ví dụ sau, đâu là ví dụ về sự hóa thân, phân thân?",
+      "options": [
+        { "key": "A", "text": "Người thiếu phụ bồng con, chờ chồng đến hóa đá." },
+        { "key": "B", "text": "Người em chết hóa thành con chim đa đa." },
+        { "key": "C", "text": "Máu chảy xuống biển hóa thành ngọc trai, xác hóa thành ngọc thạch." },
+        { "key": "D", "text": "Người anh hùng cởi áo giáo, bỏ ngựa sắt bay về trời." }
+      ],
+      "answer": "C",
+      "explanation": "Sự hóa thân phân thân được thể hiện rõ rệt nhất qua chi tiết: Máu chảy xuống biển hóa thành ngọc trai, xác hóa thành ngọc thạch (trong Truyện An Dương Vương và Mị Châu - Trọng Thủy)[cite: 236].",
+      "tags": ["truyền thuyết", "mô típ dân gian"]
+    },
+    {
+      "id": "lit-q11",
+      "prompt": "Dòng nào sau đây không phải là thành ngữ?",
+      "options": [
+        { "key": "A", "text": "Vắt cổ chày ra nước." },
+        { "key": "B", "text": "Chó ăn đá, gà ăn sỏi." },
+        { "key": "C", "text": "Nhất nước, nhì phân, tam cần, tứ giống." },
+        { "key": "D", "text": "Lanh chanh như hành không muối." }
+      ],
+      "answer": "C",
+      "explanation": "Thành ngữ là cụm từ có cấu tạo cố định, biểu thị một ý nghĩa hoàn chỉnh[cite: 246]. Câu 'Nhất nước nhì phân tam cần tứ giống' đúc kết kinh nghiệm thực tiễn về trồng trọt nên nó là câu tục ngữ, không phải thành ngữ[cite: 247].",
+      "tags": ["thành ngữ", "tục ngữ", "phân biệt"]
+    },
+    {
+      "id": "lit-q12",
+      "prompt": "Câu ca dao “Thân em như giếng giữa đàng/ Người khôn rửa mặt, người phàm rửa chân” cho ta hiểu gì về thân phận của người phụ nữ xưa?",
+      "options": [
+        { "key": "A", "text": "Bị hắt hủi, trà đạp." },
+        { "key": "B", "text": "Giá trị phụ thuộc vào sự đánh giá của người khác." },
+        { "key": "C", "text": "Có vẻ đẹp, phẩm giá nhưng chỉ gặp toàn bất hạnh." },
+        { "key": "D", "text": "Không được quyền quyết định tình yêu và hạnh phúc." }
+      ],
+      "answer": "B",
+      "explanation": "Câu ca dao lấy hình ảnh so sánh là cái giếng giữa đàng vốn rất quen thuộc với làng xóm ngày xưa[cite: 257]. Vì là giữa đàng nên có nhiều người qua lại và tất nhiên có người khôn (người tốt, người có con mắt tinh đời...), có người phàm (kẻ tầm thường, bần tiện...)[cite: 258]. Cách sử dụng nước giếng hoàn toàn do mục đích, thái độ của từng người[cite: 259]. Điều này phản ánh việc giá trị của một người con gái phụ thuộc vào sự đánh giá và định đoạt của người khác[cite: 260].",
+      "tags": ["ca dao", "than thân", "hình ảnh người phụ nữ"]
+    },
+    {
+      "id": "lit-q13",
+      "prompt": "Nhân vật trữ tình thường gặp nhất trong ca dao là:",
+      "options": [
+        { "key": "A", "text": "Người dân thường." },
+        { "key": "B", "text": "Người phụ nữ." },
+        { "key": "C", "text": "Người đàn ông." },
+        { "key": "D", "text": "Em bé." }
+      ],
+      "answer": "B",
+      "explanation": "Trong ca dao hình ảnh người phụ nữ được xuất hiện nhiều nhất[cite: 268]. Người phụ nữ trong ca dao thường là những người mang thân phận bấp bênh, chìm nổi, số phận phụ thuộc vào sự sắp đặt của người khác[cite: 269].",
+      "tags": ["ca dao", "nhân vật trữ tình"]
+    },
+    {
+      "id": "lit-q14",
+      "prompt": "Cách nói trong bài ca dao “Bao giờ cho đến tháng ba - Ếch cắn cổ rắn tha ra ngoài đồng...” có gì đặc biệt?",
+      "options": [
+        { "key": "A", "text": "Nói xuôi." },
+        { "key": "B", "text": "Nói ngược." },
+        { "key": "C", "text": "Nói quá." },
+        { "key": "D", "text": "Nói quá." }
+      ],
+      "answer": "B",
+      "explanation": "Nói ngược là một cách nói được dùng phổ biến trong ca dao, dân ca[cite: 284]. Theo đó bản chất của các sự việc hiện tượng trong đời sống bị đảo lộn, trái với quy luật tự nhiên (ếch cắn cổ rắn) để tạo tính trào phúng hoặc thể hiện ước mơ[cite: 285, 286].",
+      "tags": ["ca dao", "biện pháp tu từ", "nói ngược"]
+    },
+    {
+      "id": "lit-q15",
+      "prompt": "Câu tục ngữ “Xởi lởi trời cởi cho, so đo trời co lại” không có ý nghĩa gì?",
+      "options": [
+        { "key": "A", "text": "Sống độ lượng, rộng rãi thì sẽ gặp nhiều may mắn." },
+        { "key": "B", "text": "Sống ích kỉ, nhỏ nhen thì sẽ không thuận lợi." },
+        { "key": "C", "text": "Cho người khác cái gì thì cũng sẽ nhận được cái ấy." },
+        { "key": "D", "text": "Làm việc gì mà không tính toán kĩ thì sẽ không đạt kết quả." }
+      ],
+      "answer": "D",
+      "explanation": "Câu tục ngữ “Xởi lởi trời cởi cho, so đo trời co lại” mang ý nghĩa răn dạy lối sống độ lượng, rộng rãi, phê phán lối sống nhỏ nhen ích kỉ[cite: 296]. Vì thế, phương án D ('Làm việc gì mà không tính toán kĩ thì sẽ không đạt kết quả') là không phản ánh đúng ý nghĩa của câu tục ngữ này[cite: 296].",
+      "tags": ["tục ngữ", "ý nghĩa"]
+    },
+    {
+      "id": "lit-q16",
+      "prompt": "Dòng nào sau đây không phải là nghệ thuật của ca dao châm biếm, hài hước?",
+      "options": [
+        { "key": "A", "text": "Nghệ thuật dựng cảnh và xây dựng chân dung nhân vật." },
+        { "key": "B", "text": "Nghệ thuật miêu tả nội tâm tinh tế." },
+        { "key": "C", "text": "Sử dụng nhiều lối nói phóng đại, tương phản và đối lập." },
+        { "key": "D", "text": "Ngôn ngữ đời thường mà hàm chứa ý nghĩa sâu sắc." }
+      ],
+      "answer": "B",
+      "explanation": "Ca dao hài hước châm biếm có mục đích tạo tiếng cười dân gian, vì thế loại hình này thường sử dụng nghệ thuật dựng cảnh, xây dựng chân dung nhân vật [cite: 306], sử dụng lối nói phóng đại, tương phản đối lập [cite: 307], và ngôn ngữ đời thường hàm chứa ý nghĩa sâu sắc[cite: 308]. Nghệ thuật miêu tả nội tâm tinh tế thường thuộc về ca dao than thân hoặc giao duyên, không được sử dụng trong loại hình châm biếm[cite: 309].",
+      "tags": ["ca dao", "châm biếm hài hước", "nghệ thuật"]
+    },
+    {
+      "id": "lit-q17",
+      "prompt": "Hình ảnh nào trong ca dao thường dùng để chỉ người ra đi:",
+      "options": [
+        { "key": "A", "text": "Cây đa." },
+        { "key": "B", "text": "Bến nước." },
+        { "key": "C", "text": "Con thuyền." },
+        { "key": "D", "text": "Sân đình." }
+      ],
+      "answer": "C",
+      "explanation": "Con thuyền là hình ảnh ẩn dụ thường được sử dụng trong ca dao dân ca nhằm chỉ người đi, ngược lại với 'bến' là hình ảnh chỉ người ở lại chờ đợi[cite: 318].",
+      "tags": ["ca dao", "hình ảnh ẩn dụ"]
+    },
+    {
+      "id": "lit-q18",
+      "prompt": "Thể thơ thường gặp trong ca dao, dân ca.",
+      "options": [
+        { "key": "A", "text": "Lục bát." },
+        { "key": "B", "text": "Song thất lục bát." },
+        { "key": "C", "text": "Năm chữ." },
+        { "key": "D", "text": "Bốn chữ." }
+      ],
+      "answer": "A",
+      "explanation": "Thể thơ truyền thống thường được dùng phổ biến nhất trong ca dao dân ca là thể thơ lục bát[cite: 327].",
+      "tags": ["ca dao", "thể thơ"]
+    },
+    {
+      "id": "lit-q19",
+      "prompt": "Trong các câu tục ngữ sau câu nào có ý nghĩa giống với câu: “Đói cho sạch rách cho thơm”",
+      "options": [
+        { "key": "A", "text": "Đói ăn vụng, túng làm càn." },
+        { "key": "B", "text": "Ăn trông nồi, ngồi trông hướng." },
+        { "key": "C", "text": "Ăn phải nhai, nói phải nghĩ." },
+        { "key": "D", "text": "Giấy rách phải giữ lấy lề." }
+      ],
+      "answer": "D",
+      "explanation": "Cả hai câu “Đói cho sạch, rách cho thơm” và “Giấy rách phải giữ lấy lề” đều mang ý nghĩa khuyên răn con người dẫu có rơi vào hoàn cảnh nghèo khó, cùng cực đến mấy thì cũng phải giữ cho bằng được nền nếp, gia phong, phẩm giá trong sạch[cite: 336].",
+      "tags": ["tục ngữ", "ý nghĩa", "đồng nghĩa"]
+    },
+    {
+      "id": "lit-q20",
+      "prompt": "Câu tục ngữ “Ăn quả nhớ kẻ trồng cây” dùng cách diễn đạt nào?",
+      "options": [
+        { "key": "A", "text": "Biện pháp so sánh." },
+        { "key": "B", "text": "Biện pháp ẩn dụ." },
+        { "key": "C", "text": "Biện pháp nhân hóa." },
+        { "key": "D", "text": "Biện pháp chơi chữ." }
+      ],
+      "answer": "B",
+      "explanation": "Biện pháp được sử dụng trong câu là biện pháp tu từ ẩn dụ[cite: 343]. Trong đó: 'Ăn quả' ẩn dụ cho những người được hưởng thành quả [cite: 344], và 'Kẻ trồng cây' ẩn dụ cho những người đã bỏ công sức tạo ra thành quả đó[cite: 345].",
+      "tags": ["tục ngữ", "biện pháp tu từ", "ẩn dụ"]
+    }
+  ]
+}
