@@ -9,7 +9,6 @@ import {
   HiOutlineFolderOpen,
   HiOutlineLockClosed,
   HiOutlineSearch,
-  HiOutlineShieldCheck,
   HiOutlineStar,
 } from 'react-icons/hi';
 import {
@@ -210,6 +209,101 @@ export default function OpenMaterials() {
       </section>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <section id="material-list" className="scroll-mt-24 mb-10">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Tài liệu mới nhất</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Các file công khai đều đã qua bước kiểm tra nội dung và bản quyền cơ bản.
+              </p>
+            </div>
+            <form onSubmit={handleSearch} className="flex gap-2">
+              <div className="relative flex-1 min-w-[220px]">
+                <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Tìm tài liệu..."
+                  className="w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 pl-9 pr-3 py-2.5 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+              <button className="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-sm font-bold hover:bg-primary-700">
+                Tìm
+              </button>
+            </form>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-5">
+            {CATEGORIES.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setCategory(item)}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                  category === item
+                    ? 'bg-primary-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {SUBJECTS.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setSubject(item)}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                  subject === item
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setFeaturedOnly((prev) => !prev)}
+              className={`inline-flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                featuredOnly
+                  ? 'bg-yellow-500 text-white shadow-sm'
+                  : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-yellow-200 dark:hover:border-yellow-700'
+              }`}
+            >
+              <HiOutlineStar className="h-4 w-4" /> Nổi bật
+            </button>
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {[1, 2, 3, 4].map((item) => (
+                <div key={item} className="h-64 rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 animate-pulse" />
+              ))}
+            </div>
+          ) : materials.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {materials.map((material) => <OpenMaterialCard key={material.id} material={material} />)}
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-10 text-center">
+              <HiOutlineDocumentText className="h-12 w-12 mx-auto text-gray-300 dark:text-slate-600 mb-3" />
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Chưa có tài liệu phù hợp</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+                Hãy thử bỏ bộ lọc hoặc đóng góp tài liệu đầu tiên cho chủ đề này.
+              </p>
+              <a
+                href="#contribute-material"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary-600 text-white text-sm font-bold hover:bg-primary-700"
+              >
+                Đóng góp tài liệu <HiOutlineArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          )}
+        </section>
+
         <OpenMaterialsGuide />
 
         <section className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-5 mb-10">
@@ -405,121 +499,6 @@ export default function OpenMaterials() {
             </div>
           </section>
         )}
-
-        <section id="material-list" className="scroll-mt-24">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Tài liệu mới nhất</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Các file công khai đều đã qua bước kiểm tra nội dung và bản quyền cơ bản.
-              </p>
-            </div>
-            <form onSubmit={handleSearch} className="flex gap-2">
-              <div className="relative flex-1 min-w-[220px]">
-                <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Tìm tài liệu..."
-                  className="w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 pl-9 pr-3 py-2.5 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
-              <button className="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-sm font-bold hover:bg-primary-700">
-                Tìm
-              </button>
-            </form>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-5">
-            {CATEGORIES.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setCategory(item)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                  category === item
-                    ? 'bg-primary-600 text-white shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {SUBJECTS.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setSubject(item)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                  subject === item
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700'
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => setFeaturedOnly((prev) => !prev)}
-              className={`inline-flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                featuredOnly
-                  ? 'bg-yellow-500 text-white shadow-sm'
-                  : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-yellow-200 dark:hover:border-yellow-700'
-              }`}
-            >
-              <HiOutlineStar className="h-4 w-4" /> Nổi bật
-            </button>
-          </div>
-
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="h-64 rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 animate-pulse" />
-              ))}
-            </div>
-          ) : materials.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {materials.map((material) => <OpenMaterialCard key={material.id} material={material} />)}
-            </div>
-          ) : (
-            <div className="rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-10 text-center">
-              <HiOutlineDocumentText className="h-12 w-12 mx-auto text-gray-300 dark:text-slate-600 mb-3" />
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Chưa có tài liệu phù hợp</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
-                Hãy thử bỏ bộ lọc hoặc đóng góp tài liệu đầu tiên cho chủ đề này.
-              </p>
-              <a
-                href="#contribute-material"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary-600 text-white text-sm font-bold hover:bg-primary-700"
-              >
-                Đóng góp tài liệu <HiOutlineArrowRight className="h-4 w-4" />
-              </a>
-            </div>
-          )}
-        </section>
-
-        <section className="mt-10 rounded-2xl bg-slate-900 dark:bg-slate-950 text-white p-6 sm:p-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-5 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold mb-3">
-                <HiOutlineShieldCheck className="h-4 w-4" /> COPYRIGHT-FIRST
-              </div>
-              <h2 className="text-2xl font-bold mb-2">Tài liệu bên thứ ba không tự động công khai</h2>
-              <p className="text-sm text-white/75 leading-relaxed max-w-3xl">
-                Mọi tài liệu người dùng upload sẽ ở trạng thái chờ duyệt. Admin chỉ publish khi nguồn rõ ràng, được phép chia sẻ hoặc đã thay thế bằng bản tự biên soạn/phù hợp.
-              </p>
-            </div>
-            <Link
-              to="/hoi-dap"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white text-slate-900 text-sm font-bold hover:bg-gray-50 transition-colors"
-            >
-              Cần hỏi bài? Vào Q&A <HiOutlineArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </section>
       </main>
     </div>
   );

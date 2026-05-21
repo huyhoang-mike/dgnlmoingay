@@ -143,7 +143,88 @@ export default function QA() {
       </section>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <QAGuide />
+        <section id="qa-list" className="scroll-mt-24 mb-10">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Câu hỏi mới nhất</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Câu hỏi học viên được ưu tiên; câu hỏi công khai giúp kéo thêm traffic tự nhiên từ Google.
+              </p>
+            </div>
+            <form onSubmit={handleSearch} className="flex gap-2">
+              <div className="relative flex-1 min-w-[220px]">
+                <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Tìm câu hỏi..."
+                  className="w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 pl-9 pr-3 py-2.5 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+              <button className="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-sm font-bold hover:bg-primary-700">
+                Tìm
+              </button>
+            </form>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-5">
+            {SUBJECTS.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setSubject(item)}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                  subject === item
+                    ? 'bg-primary-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+            {isAuthenticated && (
+              <button
+                type="button"
+                onClick={() => setScope(scope === 'mine' ? 'auto' : 'mine')}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                  scope === 'mine'
+                    ? 'bg-violet-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-violet-200 dark:hover:border-violet-700'
+                }`}
+              >
+                Câu hỏi của tôi
+              </button>
+            )}
+            {canUseCourseVisibility && (
+              <button
+                type="button"
+                onClick={() => setScope(scope === 'course' ? 'auto' : 'course')}
+                className={`inline-flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                  scope === 'course'
+                    ? 'bg-slate-700 text-white shadow-sm'
+                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                }`}
+              >
+                <HiOutlineLockClosed className="h-4 w-4" /> Trong khóa học
+              </button>
+            )}
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="w-8 h-8 border-4 border-primary-200 dark:border-primary-900 border-t-primary-600 rounded-full animate-spin" />
+            </div>
+          ) : questions.length === 0 ? (
+            <div className="rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-10 text-center">
+              <p className="text-4xl mb-3">💬</p>
+              <p className="text-gray-500 dark:text-gray-400">Chưa có câu hỏi phù hợp. Hãy là người đầu tiên đặt câu hỏi!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              {questions.map((question) => <QAQuestionCard key={question.id} question={question} />)}
+            </div>
+          )}
+        </section>
 
         <section id="ask-question" className="scroll-mt-24 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-5">
@@ -285,88 +366,7 @@ export default function QA() {
           </div>
         </section>
 
-        <section id="qa-list" className="scroll-mt-24">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Câu hỏi mới nhất</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Câu hỏi học viên được ưu tiên; câu hỏi công khai giúp kéo thêm traffic tự nhiên từ Google.
-              </p>
-            </div>
-            <form onSubmit={handleSearch} className="flex gap-2">
-              <div className="relative flex-1 min-w-[220px]">
-                <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Tìm câu hỏi..."
-                  className="w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 pl-9 pr-3 py-2.5 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
-              <button className="px-4 py-2.5 rounded-xl bg-primary-600 text-white text-sm font-bold hover:bg-primary-700">
-                Tìm
-              </button>
-            </form>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-5">
-            {SUBJECTS.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setSubject(item)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                  subject === item
-                    ? 'bg-primary-600 text-white shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-            {isAuthenticated && (
-              <button
-                type="button"
-                onClick={() => setScope(scope === 'mine' ? 'auto' : 'mine')}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                  scope === 'mine'
-                    ? 'bg-violet-600 text-white shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-violet-200 dark:hover:border-violet-700'
-                }`}
-              >
-                Câu hỏi của tôi
-              </button>
-            )}
-            {canUseCourseVisibility && (
-              <button
-                type="button"
-                onClick={() => setScope(scope === 'course' ? 'auto' : 'course')}
-                className={`inline-flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                  scope === 'course'
-                    ? 'bg-slate-700 text-white shadow-sm'
-                    : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
-                }`}
-              >
-                <HiOutlineLockClosed className="h-4 w-4" /> Trong khóa học
-              </button>
-            )}
-          </div>
-
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <div className="w-8 h-8 border-4 border-primary-200 dark:border-primary-900 border-t-primary-600 rounded-full animate-spin" />
-            </div>
-          ) : questions.length === 0 ? (
-            <div className="rounded-2xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 p-10 text-center">
-              <p className="text-4xl mb-3">💬</p>
-              <p className="text-gray-500 dark:text-gray-400">Chưa có câu hỏi phù hợp. Hãy là người đầu tiên đặt câu hỏi!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              {questions.map((question) => <QAQuestionCard key={question.id} question={question} />)}
-            </div>
-          )}
-        </section>
+        <QAGuide />
       </main>
     </div>
   );
