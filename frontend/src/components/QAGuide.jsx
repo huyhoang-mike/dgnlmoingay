@@ -16,12 +16,12 @@ const GUIDE_ITEMS = [
   {
     icon: HiOutlineCamera,
     title: 'Đính kèm ảnh đề bài',
-    desc: 'Có thể upload ảnh chụp câu hỏi, biểu đồ hoặc lời giải nháp. Ảnh được lưu trên VPS để tải nhanh.',
+    desc: 'Có thể upload ảnh chụp câu hỏi, biểu đồ hoặc lời giải nháp.',
   },
   {
     icon: HiOutlineShieldCheck,
     title: 'Chọn phạm vi phù hợp',
-    desc: 'Học viên có thể hỏi công khai hoặc chỉ trong khóa học; câu hỏi học viên được ưu tiên trả lời.',
+    desc: 'Học viên có thể hỏi công khai hoặc chỉ trong khóa học. âu hỏi học viên được ưu tiên trả lời.',
   },
 ];
 

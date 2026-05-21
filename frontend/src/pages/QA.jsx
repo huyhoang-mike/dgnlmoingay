@@ -137,12 +137,6 @@ export default function QA() {
                   <p className="text-xs text-white/70">{item.label}</p>
                 </div>
               ))}
-              <div className="col-span-3 rounded-2xl bg-white/10 border border-white/15 backdrop-blur p-5">
-                <p className="text-sm font-bold text-white mb-2">Tối ưu chuyển đổi</p>
-                <p className="text-sm text-white/75 leading-relaxed">
-                  Người chưa đăng ký vẫn có thể hỏi công khai; học viên được hỏi riêng trong khóa học và được ưu tiên xử lý.
-                </p>
-              </div>
             </div>
           </div>
         </div>

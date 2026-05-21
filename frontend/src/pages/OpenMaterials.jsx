@@ -204,12 +204,6 @@ export default function OpenMaterials() {
                   <p className="text-xs text-white/70">{item.label}</p>
                 </div>
               ))}
-              <div className="col-span-3 rounded-2xl bg-white/10 border border-white/15 backdrop-blur p-5">
-                <p className="text-sm font-bold text-white mb-2">Hạ tầng tiết kiệm</p>
-                <p className="text-sm text-white/75 leading-relaxed">
-                  Catalog lưu trong database, file công khai trên Google Drive, file đóng góp lưu tạm trên VPS để kiểm duyệt bản quyền.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -375,7 +369,7 @@ export default function OpenMaterials() {
                 className="mt-1"
               />
               <span className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                Tôi xác nhận tài liệu có quyền chia sẻ công khai hoặc đã ghi rõ nguồn/giấy phép để admin kiểm tra trước khi publish.
+                Xác nhận tài liệu có quyền chia sẻ công khai cho tài liệu trên.
               </span>
             </label>
             <button
