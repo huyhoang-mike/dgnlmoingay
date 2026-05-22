@@ -364,7 +364,17 @@ export default function AdminPanel() {
   const handleExamToggle = async (examId, field, currentValue) => {
     try {
       setExamActionLoading(examId);
-      const res = await updateExamSetting(examId, { [field]: !currentValue });
+      const existing = examSettings[examId];
+      const indexExam = exams.find((e) => e.id === examId);
+      const effectiveIsFree = existing ? existing.is_free : (indexExam?.isFree ?? false);
+      const effectiveIsPublished = existing ? existing.is_published : true;
+
+      const payload = {
+        is_free: field === 'is_free' ? !currentValue : effectiveIsFree,
+        is_published: field === 'is_published' ? !currentValue : effectiveIsPublished,
+      };
+
+      const res = await updateExamSetting(examId, payload);
       setExamSettings((prev) => ({ ...prev, [examId]: res.data }));
       showToast(`✅ Đã cập nhật đề thi`);
     } catch (err) {
