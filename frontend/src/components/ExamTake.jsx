@@ -78,6 +78,27 @@ function formatTime(seconds) {
 }
 
 // ── MathJax-aware HTML renderer ──
+// Replaces \n → <br/> only OUTSIDE $...$ and $$...$$ math blocks
+// so that MathJax LaTeX parsing is not broken by injected <br/> tags.
+function mathAwareNewlines(text) {
+  const segments = [];
+  let lastIndex = 0;
+  // Match $$...$$ (display) or $...$ (inline) math blocks
+  const mathRegex = /\$\$[\s\S]*?\$\$|\$[^$]*?\$/g;
+  let match;
+  while ((match = mathRegex.exec(text)) !== null) {
+    // Non-math text before this match: convert newlines
+    const before = text.slice(lastIndex, match.index);
+    segments.push(before.replace(/\n/g, '<br/>'));
+    // Math block: keep as-is
+    segments.push(match[0]);
+    lastIndex = match.index + match[0].length;
+  }
+  // Remaining non-math text after the last match
+  segments.push(text.slice(lastIndex).replace(/\n/g, '<br/>'));
+  return segments.join('');
+}
+
 function MathContent({ text }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -87,8 +108,7 @@ function MathContent({ text }) {
   }, [text]);
 
   if (!text) return null;
-  // Convert newlines to <br>, preserve whitespace
-  const html = text.replace(/\n/g, '<br/>');
+  const html = mathAwareNewlines(text);
   return <span ref={ref} dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
@@ -587,7 +607,10 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved, r
                       {/* Options */}
                       <div className="space-y-2 ml-11">
                         {(q.options || []).map((opt, oi) => {
-                          const letter = opt.charAt(0);
+                          // Robust option parsing: detect "A. " prefix or fall back to index
+                          const prefixMatch = opt.match(/^([A-D])\.\s*/);
+                          const letter = prefixMatch ? prefixMatch[1] : String.fromCharCode(65 + oi);
+                          const optContent = prefixMatch ? opt.slice(prefixMatch[0].length) : opt.trim();
                           const isSelected = userAnswer === letter;
                           const isCorrectOpt = phase === 'submitted' && letter === q.answer;
                           const isWrongOpt = phase === 'submitted' && isSelected && letter !== q.answer;
@@ -624,7 +647,7 @@ export default function ExamTake({ examData, examMeta, onBack, onAttemptSaved, r
                                 {letter}
                               </span>
                               <span className="flex-1 text-gray-700 dark:text-gray-300">
-                                <MathContent text={opt.substring(3).trim()} />
+                                <MathContent text={optContent} />
                               </span>
                             </label>
                           );

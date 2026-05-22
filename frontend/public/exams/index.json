@@ -26,7 +26,7 @@
     "timeMinutes": 150,
     "maxScore": 1200,
     "pointsPerQuestion": 10,
-    "isFree": false,
+    "isFree": true,
     "tags": ["V-ACT", "2025", "Đợt 1", "Chính thức"],
     "sections": {
       "Tiếng Việt": { "count": 30, "label": "Sử dụng Ngôn ngữ" },
