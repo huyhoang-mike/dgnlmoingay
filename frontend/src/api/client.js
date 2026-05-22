@@ -111,6 +111,7 @@ export const bindPaymentOrderEmail = (orderCode, data) =>
 // ── Q&A Community ───────────────────────────
 export const listQAQuestions = (params = {}) => client.get('/qa/questions', { params });
 export const getQAQuestion = (questionId) => client.get(`/qa/questions/${questionId}`);
+export const deleteQAQuestion = (questionId) => client.delete(`/qa/questions/${questionId}`);
 export const createQAQuestion = (formData) =>
   client.post('/qa/questions/form', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },

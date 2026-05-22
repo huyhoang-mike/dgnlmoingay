@@ -8,12 +8,13 @@ import os
 import re
 import uuid
 from pathlib import Path
+from urllib.parse import urlparse
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, UploadFile, status
 from sqlalchemy import or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.auth import get_current_user, require_auth
+from app.auth import get_current_user, require_admin, require_auth
 from app.database import get_db
 from app.models.notification import Notification
 from app.models.qa import QAAnswer, QAQuestion
@@ -67,6 +68,41 @@ def _normalize_tags(raw_tags: str | list[str] | None) -> list[str]:
             seen.add(normalized)
             clean_tags.append(normalized)
     return clean_tags[:8]
+
+
+def _iter_upload_paths_from_urls(urls: list[str]) -> list[Path]:
+    prefix_path = urlparse(UPLOAD_URL_PREFIX).path.rstrip("/")
+    upload_root = UPLOAD_DIR.resolve()
+    paths: list[Path] = []
+    for url in urls:
+        if not url or not isinstance(url, str):
+            continue
+        if not prefix_path:
+            continue
+        url_path = urlparse(url).path
+        if not url_path.startswith(prefix_path + "/"):
+            continue
+        relative = url_path[len(prefix_path) + 1 :]
+        relative_path = Path(relative)
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            continue
+        resolved = (UPLOAD_DIR / relative_path).resolve()
+        try:
+            resolved.relative_to(upload_root)
+        except ValueError:
+            continue
+        paths.append(resolved)
+    return paths
+
+
+def _cleanup_upload_files(urls: list[str]) -> None:
+    for path in set(_iter_upload_paths_from_urls(urls)):
+        try:
+            if path.exists() and path.is_file():
+                path.unlink()
+        except Exception:
+            # Best-effort cleanup; do not fail the request.
+            continue
 
 
 def _author_out(user: User) -> QAAuthorOut:
@@ -393,3 +429,34 @@ async def toggle_question_pin(
     await db.refresh(question)
     users_by_id = await _load_users(db, {question.author_id})
     return _question_summary(question, users_by_id)
+
+
+@router.delete("/questions/{question_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_question(
+    question_id: int,
+    background_tasks: BackgroundTasks,
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+):
+    """Admin deletes a Q&A question (and cascaded answers)."""
+    result = await db.execute(select(QAQuestion).where(QAQuestion.id == question_id))
+    question = result.scalar_one_or_none()
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+
+    answer_result = await db.execute(select(QAAnswer.images).where(QAAnswer.question_id == question_id))
+    answer_images: list[str] = []
+    for images in answer_result.scalars().all():
+        if images:
+            answer_images.extend(images)
+
+    urls_to_cleanup = list(question.images or [])
+    urls_to_cleanup.extend(answer_images)
+
+    await db.delete(question)
+    await db.flush()
+
+    if urls_to_cleanup:
+        background_tasks.add_task(_cleanup_upload_files, urls_to_cleanup)
+
+    return None
