@@ -32,8 +32,10 @@ import {
   HiOutlineTrash,
   HiOutlineUserAdd,
   HiOutlineAcademicCap,
+  HiOutlineFolderOpen,
 } from 'react-icons/hi';
 import { useAuth } from '../contexts/AuthContext';
+import AdminMaterialsPanel from '../components/AdminMaterialsPanel';
 import {
   listUsers, createUser, updateUser, deleteUser,
   enrollUser, unenrollUser, toggleAdmin,
@@ -61,6 +63,7 @@ const TABS = [
   { key: 'users', label: 'Học viên', icon: HiOutlineUsers },
   { key: 'exams', label: 'Đề thi', icon: HiOutlineLightningBolt },
   { key: 'content', label: 'Nội dung', icon: HiOutlineBookOpen },
+  { key: 'materials', label: 'Tài liệu', icon: HiOutlineFolderOpen },
   { key: 'notifications', label: 'Thông báo', icon: HiOutlineBell },
 ];
 
@@ -1232,7 +1235,14 @@ export default function AdminPanel() {
         )}
 
         {/* ══════════════════════════════════════ */}
-        {/* TAB 4: NOTIFICATIONS                  */}
+        {/* TAB 4: MATERIALS (Open Materials)     */}
+        {/* ══════════════════════════════════════ */}
+        {activeTab === 'materials' && (
+          <AdminMaterialsPanel showToast={showToast} />
+        )}
+
+        {/* ══════════════════════════════════════ */}
+        {/* TAB 5: NOTIFICATIONS                  */}
         {/* ══════════════════════════════════════ */}
         {activeTab === 'notifications' && (
           <>

@@ -82,3 +82,50 @@
     @apply m-0 inline;
   }
 }
+
+/* ── Landing page animations ───────────────── */
+@layer utilities {
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    50%      { transform: translateY(-18px) translateX(8px); }
+  }
+  @keyframes float-slower {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    50%      { transform: translateY(14px) translateX(-10px); }
+  }
+  @keyframes blob {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    33%      { transform: translate(40px, -30px) scale(1.1); }
+    66%      { transform: translate(-30px, 30px) scale(0.95); }
+  }
+  @keyframes fade-up {
+    0%   { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @keyframes shine {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+  @keyframes pulse-ring {
+    0%   { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(2);  opacity: 0; }
+  }
+
+  .animate-float-slow   { animation: float-slow   6s ease-in-out infinite; }
+  .animate-float-slower { animation: float-slower 9s ease-in-out infinite; }
+  .animate-blob         { animation: blob 14s ease-in-out infinite; }
+  .animate-fade-up      { animation: fade-up 0.8s ease-out both; }
+  .animate-marquee      { animation: marquee 35s linear infinite; }
+  .animate-shine        { animation: shine 2.5s ease-in-out infinite; }
+  .animate-pulse-ring   { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+
+  .animation-delay-200  { animation-delay: 0.2s; }
+  .animation-delay-400  { animation-delay: 0.4s; }
+  .animation-delay-600  { animation-delay: 0.6s; }
+  .animation-delay-2000 { animation-delay: 2s; }
+  .animation-delay-4000 { animation-delay: 4s; }
+}

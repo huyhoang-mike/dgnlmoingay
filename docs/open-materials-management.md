@@ -24,6 +24,9 @@ Luồng này hạn chế chi phí vì file công khai lớn nằm trên Google D
 | `GET /api/open-materials/submissions/me` | Đăng nhập | Xem đóng góp của chính mình |
 | `GET /api/open-materials/submissions` | Admin | Xem hàng chờ duyệt |
 | `PATCH /api/open-materials/submissions/{id}/review` | Admin | Approve/reject và tùy chọn publish vào catalog |
+| `DELETE /api/open-materials/submissions/{id}` | Admin | Xóa submission (đã review xong / spam) |
+| `PATCH /api/open-materials/materials/{id}` | Admin | Cập nhật metadata, ẩn/hiện, đánh dấu nổi bật |
+| `DELETE /api/open-materials/materials/{id}` | Admin | Gỡ tài liệu khỏi catalog |
 
 ## Quy trình vận hành đề xuất
 
@@ -82,3 +85,47 @@ Nếu biến này chưa có, trang vẫn hoạt động; học viên sẽ thấy
 - Cho học viên truy cập thư mục Drive gốc đầy đủ hơn catalog public.
 - Ưu tiên duyệt đóng góp của học viên để tăng cảm giác quyền lợi.
 - Gắn CTA từ tài liệu miễn phí sang `/dang-ky`, Q&A và quiz chuyên sâu.
+
+## Admin Dashboard — tab "Tài liệu"
+
+Trang `/admin` có tab **Tài liệu** với 4 sub-tab:
+
+| Sub-tab | Mục đích | Thao tác chính |
+|---|---|---|
+| **Chờ duyệt** | Hàng đợi pending realtime với badge số lượng | Duyệt & publish, Từ chối, Xóa |
+| **Tất cả gửi lên** | Lịch sử mọi submission (pending/approved/rejected) | Xem lại quyết định, xóa spam |
+| **Kho công khai** | Bảng quản lý catalog, có search + bộ lọc (đang hiện/đang ẩn/nổi bật) | Toggle nhanh `is_published` / `is_featured`, chỉnh sửa metadata, xóa |
+| **Thêm tài liệu mới** | Form admin tự thêm Drive URL không qua submission | Tạo entry catalog trực tiếp |
+
+### Quy trình "Duyệt & Publish"
+
+1. Vào sub-tab **Chờ duyệt**, mở file người dùng upload (link `/uploads/materials/...`).
+2. Đảm bảo bản quyền và chất lượng đạt checklist ở trên.
+3. Tải file đó lên Drive admin (thư mục công khai theo môn/chuyên đề).
+4. Bấm **Duyệt & Publish** → modal mở:
+   - **Drive URL công khai**: dán link Drive vừa upload. Mặc định prefill URL upload trên VPS — nên thay bằng Drive URL.
+   - **Publish luôn vào catalog**: bật để tạo entry trong `open_materials` và hiển thị công khai ngay.
+   - **Đánh dấu nổi bật**: gắn badge "⭐ Nổi bật".
+   - **Ghi chú cho người gửi**: viết lời cảm ơn / hướng dẫn (sẽ hiện ở trang Đóng góp của họ).
+5. Submission được cập nhật `status = approved`, gắn `published_material_id` trỏ sang record vừa tạo trong catalog.
+
+### Quy trình "Từ chối"
+
+- Luôn ghi rõ lý do trong **Ghi chú cho người gửi** để học viên có cơ hội chỉnh sửa rồi gửi lại.
+- Lý do thường gặp: trùng tài liệu đã có, ảnh mờ, bản quyền không rõ, sai môn/chuyên đề.
+
+### Quản lý catalog
+
+- **Toggle "Hiển thị"**: ẩn tạm một tài liệu mà không xóa (vd: cần update Drive URL mới).
+- **Toggle "Nổi bật"**: chỉ giữ tối đa 6–10 tài liệu nổi bật để giữ giá trị bộ sưu tập.
+- **Chỉnh sửa**: dùng khi đổi link Drive, cập nhật tag/mô tả cho SEO tốt hơn, đổi category.
+- **Xóa**: dành cho tài liệu vi phạm bản quyền hoặc lỗi thời. Hành động không reversible.
+
+### Tự thêm tài liệu (không qua submission)
+
+Dùng tab **Thêm tài liệu mới** khi admin muốn đẩy nhanh nội dung do team biên soạn:
+
+- Upload file lên Drive admin trước, lấy URL "Anyone with the link can view".
+- Điền tiêu đề + mô tả tối ưu SEO (chứa từ khóa "đánh giá năng lực", "đề thi", môn học, năm).
+- Tag dạng kebab-case (`dgnl`, `tieng-viet`, `lop-12`, `de-thi-thu`) — giúp filter trang public.
+- Bật **Hiển thị công khai** và **Đánh dấu nổi bật** nếu là tài liệu trọng tâm.

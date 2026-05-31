@@ -12,6 +12,7 @@ import {
   HiOutlineTrash,
 } from 'react-icons/hi';
 import { createQAAnswer, deleteQAQuestion, getQAQuestion } from '../api/client';
+import JsonLd, { qaPageSchema } from '../components/JsonLd';
 import { useAuth } from '../contexts/AuthContext';
 
 function renderTextWithLinks(text) {
@@ -172,6 +173,9 @@ export default function QADetail() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+      {question.visibility === 'public' && (
+        <JsonLd id="ld-qa" data={qaPageSchema({ question, answers: question.answers || [] })} />
+      )}
       <div className="bg-gradient-to-r from-violet-600 to-indigo-700 dark:from-violet-950 dark:to-indigo-950">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <button onClick={() => navigate('/hoi-dap')} className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white mb-6">

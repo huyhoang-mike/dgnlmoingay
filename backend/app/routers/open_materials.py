@@ -22,6 +22,7 @@ from app.schemas.open_material import (
     MaterialSubmissionOut,
     OpenMaterialCreate,
     OpenMaterialOut,
+    OpenMaterialUpdate,
 )
 from app.schemas.qa import QAAuthorOut
 
@@ -210,6 +211,48 @@ async def create_material(
     return _material_out(material)
 
 
+@router.patch("/materials/{material_id}", response_model=OpenMaterialOut)
+async def update_material(
+    material_id: int,
+    data: OpenMaterialUpdate,
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+):
+    """Admin updates metadata, drive_url or visibility flags of a catalog item."""
+    result = await db.execute(select(OpenMaterial).where(OpenMaterial.id == material_id))
+    material = result.scalar_one_or_none()
+    if not material:
+        raise HTTPException(status_code=404, detail="Material not found")
+
+    payload = data.model_dump(exclude_unset=True)
+    if "tags" in payload:
+        payload["tags"] = _normalize_tags(payload["tags"])
+
+    for field, value in payload.items():
+        setattr(material, field, value)
+
+    material.updated_at = datetime.datetime.utcnow()
+    await db.flush()
+    await db.refresh(material)
+    return _material_out(material)
+
+
+@router.delete("/materials/{material_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_material(
+    material_id: int,
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+):
+    """Admin deletes a catalog item permanently."""
+    result = await db.execute(select(OpenMaterial).where(OpenMaterial.id == material_id))
+    material = result.scalar_one_or_none()
+    if not material:
+        raise HTTPException(status_code=404, detail="Material not found")
+    await db.delete(material)
+    await db.flush()
+    return None
+
+
 @router.post("/materials/{material_id}/download", response_model=OpenMaterialOut)
 async def track_material_download(
     material_id: int,
@@ -350,3 +393,19 @@ async def review_submission(
     await db.refresh(submission)
     users_by_id = await _load_users(db, {submission.contributor_id})
     return _submission_out(submission, users_by_id)
+
+
+@router.delete("/submissions/{submission_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_submission(
+    submission_id: int,
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db),
+):
+    """Admin permanently removes a submission (e.g. spam or duplicate)."""
+    result = await db.execute(select(MaterialSubmission).where(MaterialSubmission.id == submission_id))
+    submission = result.scalar_one_or_none()
+    if not submission:
+        raise HTTPException(status_code=404, detail="Submission not found")
+    await db.delete(submission)
+    await db.flush()
+    return None

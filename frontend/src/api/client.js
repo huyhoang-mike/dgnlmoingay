@@ -131,6 +131,10 @@ export const uploadQAImages = (files) => {
 // ── Open Materials ──────────────────────────
 export const listOpenMaterials = (params = {}) => client.get('/open-materials/materials', { params });
 export const createOpenMaterial = (data) => client.post('/open-materials/materials', data);
+export const updateOpenMaterial = (materialId, data) =>
+  client.patch(`/open-materials/materials/${materialId}`, data);
+export const deleteOpenMaterial = (materialId) =>
+  client.delete(`/open-materials/materials/${materialId}`);
 export const trackOpenMaterialDownload = (materialId) =>
   client.post(`/open-materials/materials/${materialId}/download`);
 export const submitOpenMaterial = (formData) =>
@@ -142,6 +146,8 @@ export const listMaterialSubmissionsAdmin = (params = {}) =>
   client.get('/open-materials/submissions', { params });
 export const reviewMaterialSubmission = (submissionId, data) =>
   client.patch(`/open-materials/submissions/${submissionId}/review`, data);
+export const deleteMaterialSubmission = (submissionId) =>
+  client.delete(`/open-materials/submissions/${submissionId}`);
 
 // ── Notifications ───────────────────────────
 export const listNotifications = (params = {}) => client.get('/notifications/', { params });

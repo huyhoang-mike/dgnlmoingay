@@ -15,6 +15,16 @@ import {
   HiOutlineRefresh,
   HiOutlineUserGroup,
   HiOutlinePhone,
+  HiOutlineSparkles,
+  HiOutlineShieldCheck,
+  HiOutlineLightningBolt,
+  HiOutlineAcademicCap,
+  HiOutlineChatAlt2,
+  HiOutlineDocumentText,
+  HiOutlineClipboardCheck,
+  HiOutlineStar,
+  HiOutlineGift,
+  HiOutlineFire,
   HiX,
 } from 'react-icons/hi';
 import {
@@ -43,6 +53,58 @@ const STEPS = [
     title: 'Học ngay lập tức',
     desc: 'Truy cập khóa học, nhóm Zalo ôn tập ĐGNL cùng với video hướng dẫn sử dụng.',
   },
+];
+
+const BENEFITS = [
+  {
+    icon: HiOutlineAcademicCap,
+    title: 'Toàn bộ bài giảng Nền tảng & Luyện đề',
+    desc: '100+ video bài giảng theo lộ trình 2 giai đoạn cho 10 môn học. Truy cập trọn đời, học không giới hạn.',
+    highlight: true,
+  },
+  {
+    icon: HiOutlineClipboardCheck,
+    title: '100+ đề thi thử chuẩn cấu trúc 2026',
+    desc: 'Đề chính thức ĐHQG-HCM các năm + đề thi thử theo cấu trúc V-ACT mới. Có chấm điểm và đáp án video.',
+    highlight: true,
+  },
+  {
+    icon: HiOutlineLightningBolt,
+    title: 'Quiz luyện chuyên sâu theo dạng bài',
+    desc: 'Toàn bộ quiz Tiếng Việt, Tiếng Anh, Toán, phân tích số liệu, logic — luyện đến khi nào thuần thục.',
+  },
+  {
+    icon: HiOutlineDocumentText,
+    title: 'Kho Drive tài liệu mở "VIP"',
+    desc: 'Tài liệu chuyên đề, ebook, đề lẻ tích lũy 6+ năm. Học viên được link Drive đầy đủ hơn so với bản công khai.',
+  },
+  {
+    icon: HiOutlineChatAlt2,
+    title: 'Ưu tiên hỏi đáp 1-1 với admin',
+    desc: 'Câu hỏi trong khu vực hỏi đáp được admin trả lời sớm hơn cộng đồng. Hỗ trợ qua Zalo riêng tư.',
+  },
+  {
+    icon: HiOutlineUserGroup,
+    title: 'Tổng ôn live qua Google Meet',
+    desc: 'Buổi tổng ôn hàng tuần về Tiếng Việt, Tiếng Anh, Toán, Logic... Học viên có thể xem lại video sau.',
+  },
+  {
+    icon: HiOutlineSparkles,
+    title: 'Tư vấn ngành & du học',
+    desc: 'Hỗ trợ chọn ngành, chọn trường, kinh nghiệm xét tuyển ĐHQG-HCM, tư vấn du học (kèm kinh nghiệm Đức).',
+  },
+  {
+    icon: HiOutlineGift,
+    title: 'Cập nhật nội dung miễn phí',
+    desc: 'Mọi đề thi thử, tài liệu, quiz mới đều được cập nhật liên tục mà không tốn thêm bất kỳ chi phí nào.',
+  },
+];
+
+const GUARANTEES = [
+  { icon: HiOutlineShieldCheck, label: 'Thanh toán bảo mật qua SePay' },
+  { icon: HiOutlineCheckCircle, label: 'Tự động kích hoạt khi nhận tiền' },
+  { icon: HiOutlineRefresh, label: 'Hoàn tiền nếu hệ thống lỗi không truy cập được' },
+  { icon: HiOutlineStar, label: 'Đánh giá 4.9/5 từ học viên Đợt 1' },
 ];
 
 const STATUS_META = {
@@ -290,17 +352,99 @@ export default function Register() {
       {/* Hero */}
       <div className="bg-gradient-to-r from-primary-600 to-indigo-700 dark:from-primary-800 dark:to-indigo-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-xs font-bold text-white/90 mb-4">
+            <HiOutlineFire className="h-4 w-4 text-yellow-300" />
+            ƯU ĐÃI ĐỢT 2 - 2026
+          </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-            Đăng ký khóa học
+            Đăng ký khóa học ĐGNL
           </h1>
-          <p className="text-lg text-white/80 max-w-xl mx-auto">
-            Làm các bước bên dưới để đăng ký khóa học và đạt 900+ ngay hôm nay.
+          <p className="text-lg text-white/85 max-w-xl mx-auto">
+            Trọn bộ lộ trình ôn ĐGNL chỉ với <strong className="text-yellow-300">599,000đ</strong> —
+            truy cập trọn đời, hỗ trợ 1-1, đảm bảo hài lòng.
           </p>
+
+          {/* Quick trust strip */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/80">
+            {GUARANTEES.map((g, i) => (
+              <div key={i} className="inline-flex items-center gap-1.5">
+                <g.icon className="h-4 w-4 text-green-300" />
+                <span>{g.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* ── Course Benefits Value Stack ─────────────── */}
+        <section className="mb-12">
+          <div className="text-center mb-8">
+            <span className="inline-block px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 text-xs font-bold tracking-wide mb-3">
+              💎 BẠN SẼ NHẬN ĐƯỢC GÌ?
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+              Tất cả quyền lợi gói gọn trong một học phí
+            </h2>
+            <p className="mt-2 text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+              Không có gói "Cơ bản/Premium" phức tạp. Một mức giá duy nhất, đầy đủ tất cả.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {BENEFITS.map((b, i) => (
+              <div
+                key={i}
+                className={`relative flex items-start gap-4 p-5 rounded-2xl border transition-all ${
+                  b.highlight
+                    ? 'bg-gradient-to-br from-primary-50 to-indigo-50 dark:from-primary-900/30 dark:to-indigo-900/30 border-primary-200 dark:border-primary-700 shadow-sm'
+                    : 'bg-white dark:bg-slate-800 border-gray-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-700'
+                }`}
+              >
+                {b.highlight && (
+                  <span className="absolute -top-2 right-3 px-2 py-0.5 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 text-white text-[10px] font-bold">
+                    GIÁ TRỊ CỐT LÕI
+                  </span>
+                )}
+                <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-white dark:bg-slate-700 border border-primary-100 dark:border-primary-800 flex items-center justify-center shadow-sm">
+                  <b.icon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">{b.title}</h3>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{b.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Value vs price */}
+          <div className="mt-6 rounded-2xl p-5 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200 dark:border-emerald-800">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-2xl">💸</div>
+                <div>
+                  <p className="text-sm font-bold text-emerald-900 dark:text-emerald-200">
+                    So sánh: Học trung tâm offline 8-15 triệu / khóa ĐGNL
+                  </p>
+                  <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">
+                    Tại đây bạn nhận tất cả với <strong>599,000đ</strong> — tiết kiệm hơn <strong>90%</strong> mà nội dung không thua kém.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Steps */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            3 bước để bắt đầu học
+          </h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Toàn bộ quá trình diễn ra trong vòng 2 phút.
+          </p>
+        </div>
+
         <div className="space-y-6 mb-12">
           {STEPS.map((s) => (
             <div
@@ -559,6 +703,56 @@ export default function Register() {
             )}
           </div>
         )}
+
+        {/* ── FAQ Section ─────────────────────────────── */}
+        <section className="mb-8">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Các câu hỏi thường gặp
+            </h2>
+          </div>
+          <div className="space-y-3">
+            {[
+              {
+                q: 'Sau khi thanh toán bao lâu thì được học?',
+                a: 'Ngay lập tức! SePay sẽ gửi webhook về hệ thống ngay khi bạn chuyển khoản thành công và tài khoản Google của bạn được kích hoạt tự động trong vòng vài giây.',
+              },
+              {
+                q: 'Em đã có tài khoản miễn phí rồi, có cần tạo lại không?',
+                a: 'Không cần. Chỉ cần nhập đúng email Google đang dùng vào form đăng ký, hệ thống sẽ tự động nâng cấp quyền truy cập đầy đủ.',
+              },
+              {
+                q: 'Khóa học có thời hạn truy cập không?',
+                a: 'Không. Học phí chỉ trả 1 lần, bạn được truy cập trọn đời tất cả nội dung hiện tại và các nội dung sẽ cập nhật trong tương lai.',
+              },
+              {
+                q: 'Em ở tỉnh, có học được không?',
+                a: 'Có. Toàn bộ khóa học là online qua website + nhóm Zalo + Google Meet. Bạn chỉ cần điện thoại hoặc máy tính có mạng là học được.',
+              },
+              {
+                q: 'Nếu có vấn đề về thanh toán thì sao?',
+                a: 'Liên hệ Zalo hỗ trợ phía dưới hoặc hotline 0355 912 940. Trong trường hợp lỗi từ hệ thống mà không truy cập được, anh sẽ hoàn 100% học phí.',
+              },
+            ].map((item, i) => (
+              <details
+                key={i}
+                className="group bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 overflow-hidden"
+              >
+                <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700/50 list-none">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white pr-4">
+                    {item.q}
+                  </span>
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center text-sm font-bold group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <div className="px-5 pb-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {item.a}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
 
         {/* Contact */}
         <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-800/50 rounded-2xl p-8 border border-gray-200 dark:border-slate-700 text-center">

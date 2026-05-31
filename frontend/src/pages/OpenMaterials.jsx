@@ -19,6 +19,7 @@ import {
 import OpenMaterialCard from '../components/OpenMaterialCard';
 import OpenMaterialsGuide from '../components/OpenMaterialsGuide';
 import { useAuth } from '../contexts/AuthContext';
+import JsonLd, { learningResourceSchema } from '../components/JsonLd';
 
 const SUBJECTS = ['Tất cả', 'Tiếng Việt', 'Tiếng Anh', 'Toán', 'Phân tích số liệu', 'Tư duy logic', 'Hóa học', 'Vật lý', 'Sinh học', 'Lịch sử', 'Địa lý', 'Khác'];
 const CATEGORIES = ['Tất cả', 'Đề thi thử', 'Đề thi chính thức', 'Tài liệu chuyên đề', 'Tổng hợp kiến thức', 'Ghi chú (Notes)', 'Thông tin kỳ thi', 'Khác'];
@@ -162,6 +163,22 @@ export default function OpenMaterials() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
+      {materials.length > 0 && (
+        <JsonLd
+          id="ld-materials"
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Kho tài liệu ĐGNL miễn phí',
+            numberOfItems: materials.length,
+            itemListElement: materials.slice(0, 30).map((m, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              item: learningResourceSchema(m),
+            })),
+          }}
+        />
+      )}
       <section className="bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800 dark:from-slate-950 dark:via-emerald-950 dark:to-cyan-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 items-center">

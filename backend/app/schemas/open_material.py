@@ -23,6 +23,21 @@ class OpenMaterialCreate(BaseModel):
     is_featured: bool = False
 
 
+class OpenMaterialUpdate(BaseModel):
+    title: str | None = Field(default=None, min_length=5, max_length=255)
+    description: str | None = Field(default=None, max_length=5000)
+    category: str | None = Field(default=None, max_length=100)
+    subject: str | None = Field(default=None, max_length=100)
+    tags: list[str] | None = Field(default=None, max_length=10)
+    file_type: str | None = None
+    drive_url: str | None = Field(default=None, min_length=10, max_length=1000)
+    preview_image_url: str | None = Field(default=None, max_length=1000)
+    source_name: str | None = Field(default=None, max_length=255)
+    copyright_note: str | None = Field(default=None, max_length=5000)
+    is_published: bool | None = None
+    is_featured: bool | None = None
+
+
 class OpenMaterialOut(BaseModel):
     id: int
     title: str
