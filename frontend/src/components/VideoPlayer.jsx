@@ -31,8 +31,32 @@ export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
         </a>
       </div>
 
-      {/* 16:9 responsive iframe container */}
-      <div className="relative w-full aspect-video min-h-[220px] sm:min-h-0 overflow-hidden rounded-2xl bg-gray-900 dark:bg-slate-800 shadow-lg ring-1 ring-gray-200 dark:ring-slate-700">
+      {/* Fallback for small mobile screens (< sm) */}
+      <div className="block sm:hidden w-full p-6 text-center rounded-2xl bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-755/50 shadow-sm">
+        <div className="flex flex-col items-center gap-3">
+          <div className="p-3 bg-primary-50 dark:bg-primary-950/30 rounded-full text-primary-600 dark:text-primary-400">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h4 className="font-semibold text-gray-900 dark:text-white text-base">Xem video bài giảng</h4>
+          <p className="text-xs text-gray-500 dark:text-gray-400 max-w-xs">
+            Trình xem video trực tiếp có thể không tối ưu trên điện thoại. Hãy bấm nút bên dưới để mở trong ứng dụng Drive hoặc trình duyệt mới để xem mượt mà nhất.
+          </p>
+          <a
+            href={viewUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary-600 text-white font-semibold shadow-sm hover:bg-primary-700 transition-colors"
+          >
+            Mở video trong tab mới ↗
+          </a>
+        </div>
+      </div>
+
+      {/* 16:9 responsive iframe container for larger screens */}
+      <div className="hidden sm:block relative w-full aspect-video min-h-[220px] sm:min-h-0 overflow-hidden rounded-2xl bg-gray-900 dark:bg-slate-800 shadow-lg ring-1 ring-gray-200 dark:ring-slate-700">
         <iframe
           src={previewUrl}
           title={title}
@@ -47,7 +71,7 @@ export default function VideoPlayer({ driveFileId, title = 'Lesson Video' }) {
 
       {/* Caption */}
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 text-center">
-        Nếu trình duyệt chặn cookie hoặc player hiển thị không tốt trên điện thoại, hãy bấm “Mở bằng Google Drive” để xem trong tab riêng.
+        Nếu trình duyệt chặn cookie, bạn có thể hãy bấm “Mở bằng Google Drive” để xem trong tab riêng.
       </p>
     </div>
   );

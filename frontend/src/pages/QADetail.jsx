@@ -14,6 +14,28 @@ import {
 import { createQAAnswer, deleteQAQuestion, getQAQuestion } from '../api/client';
 import { useAuth } from '../contexts/AuthContext';
 
+function renderTextWithLinks(text) {
+  if (!text) return null;
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-600 dark:text-primary-400 hover:underline break-all"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 function ImageGrid({ images = [] }) {
   if (!images.length) return null;
   return (
@@ -182,7 +204,7 @@ export default function QADetail() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <article className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 mb-6">
           <div className="prose prose-gray dark:prose-invert max-w-none">
-            <p className="whitespace-pre-line text-gray-700 dark:text-gray-200 leading-relaxed">{question.body}</p>
+            <p className="whitespace-pre-line text-gray-700 dark:text-gray-200 leading-relaxed">{renderTextWithLinks(question.body)}</p>
           </div>
           <ImageGrid images={question.images} />
           <div className="flex flex-wrap gap-2 mt-5">
@@ -239,7 +261,7 @@ export default function QADetail() {
                       </span>
                     )}
                   </div>
-                  <p className="whitespace-pre-line text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{answer.body}</p>
+                  <p className="whitespace-pre-line text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{renderTextWithLinks(answer.body)}</p>
                   <ImageGrid images={answer.images} />
                 </article>
               ))}

@@ -229,10 +229,10 @@ export default function LessonView() {
       )}
 
       {/* Two-Column: Content + PDF */}
-      <div className={`grid grid-cols-1 gap-8 ${hasVideo ? 'lg:grid-cols-3' : ''}`}>
+      <div className={`grid grid-cols-1 gap-8 ${hasVideo && lesson.content ? 'lg:grid-cols-3' : ''}`}>
         {/* Main Content */}
-        <div className={hasVideo ? 'lg:col-span-2' : ''}>
-          {!isLocked && lesson.content ? (
+        {!isLocked && lesson.content ? (
+          <div className={hasVideo ? 'lg:col-span-2' : ''}>
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-slate-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                 📝 Nội dung bài học
@@ -241,12 +241,8 @@ export default function LessonView() {
                 {lesson.content}
               </div>
             </div>
-          ) : !isLocked ? (
-            <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-slate-700">
-              <p className="text-gray-400 dark:text-gray-500">Nội dung đang được cập nhật...</p>
-            </div>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
 
         {/* Sidebar: PDF + Actions */}
         {hasVideo && !isLocked && (

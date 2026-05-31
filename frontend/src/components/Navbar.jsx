@@ -23,19 +23,20 @@ import { listNotifications, markAllNotificationsRead, markNotificationRead } fro
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 
-const NAV_LINKS = [
-  { to: '/', label: 'Trang chủ' },
-  { to: '/nen-tang', label: 'Nền tảng' },
-  { to: '/luyen-de', label: 'Luyện đề' },
-  { to: '/luyen-tap-chuyen-sau', label: 'Quiz' },
-  { to: '/thuc-chien', label: 'Thực chiến' },
-  { to: '/hoc-thu', label: 'Học thử' },
-  { to: '/hoi-dap', label: 'Hỏi đáp' },
-];
-
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const { user, isAuthenticated, isAdmin, isEnrolled, login, logout } = useAuth();
+
+  const navLinks = [
+    { to: '/', label: 'Trang chủ' },
+    ...(!isEnrolled ? [{ to: '/dang-ky', label: 'Đăng ký' }] : []),
+    { to: '/nen-tang', label: 'Nền tảng' },
+    { to: '/luyen-de', label: 'Luyện đề' },
+    { to: '/luyen-tap-chuyen-sau', label: 'Quiz' },
+    { to: '/thuc-chien', label: 'Thực chiến' },
+    ...(!isEnrolled ? [{ to: '/hoc-thu', label: 'Học thử' }] : []),
+    { to: '/hoi-dap', label: 'Hỏi đáp' },
+  ];
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -123,7 +124,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <NavLink key={link.to} to={link.to} className={navLinkClass} end={link.to === '/'}>
                 {link.label}
               </NavLink>
@@ -335,7 +336,7 @@ export default function Navbar() {
         {/* Mobile Navigation */}
         {mobileOpen && (
           <div className="md:hidden border-t border-gray-100 dark:border-slate-700 py-4 space-y-1">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
