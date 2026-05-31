@@ -14,6 +14,20 @@ from app.routers import auth, lessons, progress, exams, import_lessons, payments
 # ── Production: tắt Swagger docs ─────────────
 _is_production = os.getenv("ENVIRONMENT", "development") == "production"
 
+# ── Fail-fast: refuse to boot with default secret in production ──
+# Defense against accidental deploys with the placeholder JWT key.
+_INSECURE_SECRETS = {"change-me-in-production", "", "secret", "changeme"}
+if _is_production and (
+    settings.SECRET_KEY in _INSECURE_SECRETS or len(settings.SECRET_KEY) < 32
+):
+    raise RuntimeError(
+        "SECRET_KEY is missing, default, or too short for production. "
+        "Generate one with `python -c 'import secrets; print(secrets.token_urlsafe(64))'` "
+        "and set it via the SECRET_KEY env var."
+    )
+if _is_production and not settings.ALLOWED_ORIGINS.strip():
+    raise RuntimeError("ALLOWED_ORIGINS must be set explicitly in production.")
+
 
 # ── Lifespan ──────────────────────────────────
 @asynccontextmanager
@@ -34,14 +48,18 @@ app = FastAPI(
 )
 
 # ── CORS Middleware ───────────────────────────
-origins = [o.strip() for o in settings.ALLOWED_ORIGINS.split(",")]
+origins = [o.strip() for o in settings.ALLOWED_ORIGINS.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    # Restrict to methods we actually serve; "*" + allow_credentials is risky if an
+    # unexpected verb is added later.
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept", "X-Requested-With"],
+    expose_headers=["Content-Disposition"],
+    max_age=600,
 )
 
 # ── Routers ───────────────────────────────────

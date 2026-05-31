@@ -19,6 +19,15 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # App source
 COPY . .
 
+# Create non-root user. /app and /app/uploads need to be writable for migrations
+# and Q&A / materials file uploads. Drop privileges before runtime.
+RUN groupadd --system --gid 1001 dgnl \
+    && useradd --system --uid 1001 --gid dgnl --home /app --shell /usr/sbin/nologin dgnl \
+    && mkdir -p /app/uploads \
+    && chown -R dgnl:dgnl /app
+
+USER dgnl
+
 EXPOSE 8000
 
 # Run migrations then start server

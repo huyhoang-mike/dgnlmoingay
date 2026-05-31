@@ -3,9 +3,28 @@
 """
 
 from datetime import datetime
-from pydantic import BaseModel, Field
+from urllib.parse import urlparse
+
+from pydantic import BaseModel, Field, field_validator
 
 from app.schemas.qa import QAAuthorOut
+
+
+def _validate_http_url(value: str | None) -> str | None:
+    """Reject non-http(s) URLs to prevent javascript:/data: smuggling into admin UI/JSON-LD.
+
+    Even though only admins can set URLs, this enforces defense-in-depth so a compromised
+    admin account or a misclick cannot inject an XSS vector via stored URL fields.
+    """
+    if value is None:
+        return None
+    cleaned = value.strip()
+    if not cleaned:
+        return None
+    parsed = urlparse(cleaned)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError("URL must start with http:// or https:// and include a host")
+    return cleaned
 
 
 class OpenMaterialCreate(BaseModel):
@@ -22,6 +41,11 @@ class OpenMaterialCreate(BaseModel):
     is_published: bool = True
     is_featured: bool = False
 
+    @field_validator("drive_url", "preview_image_url", mode="before")
+    @classmethod
+    def _check_url(cls, value):
+        return _validate_http_url(value)
+
 
 class OpenMaterialUpdate(BaseModel):
     title: str | None = Field(default=None, min_length=5, max_length=255)
@@ -36,6 +60,11 @@ class OpenMaterialUpdate(BaseModel):
     copyright_note: str | None = Field(default=None, max_length=5000)
     is_published: bool | None = None
     is_featured: bool | None = None
+
+    @field_validator("drive_url", "preview_image_url", mode="before")
+    @classmethod
+    def _check_url(cls, value):
+        return _validate_http_url(value)
 
 
 class OpenMaterialOut(BaseModel):
@@ -86,3 +115,8 @@ class MaterialReviewRequest(BaseModel):
     publish_to_catalog: bool = False
     drive_url: str | None = Field(default=None, max_length=1000)
     is_featured: bool = False
+
+    @field_validator("drive_url", mode="before")
+    @classmethod
+    def _check_url(cls, value):
+        return _validate_http_url(value)

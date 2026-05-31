@@ -8,8 +8,9 @@ import os
 import re
 import uuid
 from pathlib import Path
+from urllib.parse import urlparse
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, UploadFile, status
 from sqlalchemy import or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -38,6 +39,48 @@ ALLOWED_FILE_TYPES = {
     "image/png": (".png", "image"),
     "image/webp": (".webp", "image"),
 }
+
+
+def _iter_upload_paths_from_urls(urls: list[str] | None) -> list[Path]:
+    """Translate `/uploads/materials/...` URLs back to safe filesystem paths.
+
+    Mirrors qa._iter_upload_paths_from_urls: rejects absolute paths, `..` traversal,
+    or any path that escapes UPLOAD_DIR after resolution.
+    """
+    if not urls:
+        return []
+    prefix_path = urlparse(UPLOAD_URL_PREFIX).path.rstrip("/")
+    if not prefix_path:
+        return []
+    upload_root = UPLOAD_DIR.resolve()
+    paths: list[Path] = []
+    for url in urls:
+        if not url or not isinstance(url, str):
+            continue
+        url_path = urlparse(url).path
+        if not url_path.startswith(prefix_path + "/"):
+            continue
+        relative = url_path[len(prefix_path) + 1:]
+        relative_path = Path(relative)
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            continue
+        resolved = (UPLOAD_DIR / relative_path).resolve()
+        try:
+            resolved.relative_to(upload_root)
+        except ValueError:
+            continue
+        paths.append(resolved)
+    return paths
+
+
+def _cleanup_upload_files(urls: list[str] | None) -> None:
+    """Best-effort delete of orphaned upload files. Never raises."""
+    for path in set(_iter_upload_paths_from_urls(urls)):
+        try:
+            if path.exists() and path.is_file():
+                path.unlink()
+        except Exception:
+            continue
 
 
 def _is_enrolled(user: User | None) -> bool:
@@ -398,14 +441,29 @@ async def review_submission(
 @router.delete("/submissions/{submission_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_submission(
     submission_id: int,
+    background_tasks: BackgroundTasks,
     admin: User = Depends(require_admin),
     db: AsyncSession = Depends(get_db),
 ):
-    """Admin permanently removes a submission (e.g. spam or duplicate)."""
+    """Admin permanently removes a submission (e.g. spam or duplicate).
+
+    Also schedules best-effort cleanup of the uploaded files on the VPS volume
+    to prevent orphaned blobs from filling disk.
+    """
     result = await db.execute(select(MaterialSubmission).where(MaterialSubmission.id == submission_id))
     submission = result.scalar_one_or_none()
     if not submission:
         raise HTTPException(status_code=404, detail="Submission not found")
+
+    # Only delete files that were NOT promoted into the published catalog.
+    # (When promoted, the same URL might be reused as drive_url — keep the file.)
+    safe_to_delete: list[str] = []
+    if not submission.published_material_id and submission.file_urls:
+        safe_to_delete.extend(submission.file_urls)
+
     await db.delete(submission)
     await db.flush()
+
+    if safe_to_delete:
+        background_tasks.add_task(_cleanup_upload_files, safe_to_delete)
     return None
