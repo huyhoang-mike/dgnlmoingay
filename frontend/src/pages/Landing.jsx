@@ -127,6 +127,9 @@ const TRUST_LOGOS = [
   'KHTN', 'Sư phạm Kỹ thuật', 'Tài chính - Marketing', 'Công nghệ Thông tin',
 ];
 
+const SHOW_STUDENT_RESULTS_SECTION = false;
+const SHOW_TESTIMONIALS_SECTION = false;
+
 /* ── Helpers ──────────────────────────────── */
 
 function useInView(options = {}) {
@@ -322,10 +325,6 @@ export default function Landing() {
                   <div className="flex items-center gap-2">
                     <div className="w-9 h-9 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
                       <HiOutlineCheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-gray-900 dark:text-white">Đậu BK!</div>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-400">Khoa CNTT</div>
                     </div>
                   </div>
                 </div>
@@ -529,6 +528,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════
           STUDENT RESULTS
       ═══════════════════════════════════════════ */}
+      {SHOW_STUDENT_RESULTS_SECTION && (
       <section className="py-20 bg-white dark:bg-slate-950 relative overflow-hidden">
         <div className="absolute top-20 right-0 w-72 h-72 bg-yellow-200/30 dark:bg-yellow-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-0 w-72 h-72 bg-pink-200/30 dark:bg-pink-500/10 rounded-full blur-3xl" />
@@ -585,6 +585,7 @@ export default function Landing() {
           </Reveal>
         </div>
       </section>
+      )}
 
       {/* ═══════════════════════════════════════════
           TEACHER (image + achievements)
@@ -616,7 +617,6 @@ export default function Landing() {
                 </div>
 
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-4 py-3 border border-gray-100 dark:border-slate-700 flex items-center gap-3 whitespace-nowrap animate-float-slow">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white text-lg">🇩🇪</div>
                 </div>
               </div>
             </Reveal>
@@ -669,6 +669,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════
           TESTIMONIALS
       ═══════════════════════════════════════════ */}
+      {SHOW_TESTIMONIALS_SECTION && (
       <section className="py-20 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal className="text-center mb-14">
@@ -721,6 +722,7 @@ export default function Landing() {
           </Reveal>
         </div>
       </section>
+      )}
 
       {/* ═══════════════════════════════════════════
           BENEFITS
