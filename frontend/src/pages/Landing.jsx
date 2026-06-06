@@ -60,18 +60,18 @@ const STATS = [
 ];
 
 const STUDENT_RESULTS = [
-  { name: 'Bạn N.M.A', school: 'THPT Lê Hồng Phong', score: '1052', subject: 'ĐGNL HCM 2025', color: 'from-amber-400 to-orange-500' },
-  { name: 'Bạn T.H.P', school: 'THPT Nguyễn Thượng Hiền', score: '1018', subject: 'ĐGNL HCM 2025', color: 'from-rose-400 to-pink-500' },
-  { name: 'Bạn L.K.D', school: 'THPT Bùi Thị Xuân', score: '987', subject: 'ĐGNL HCM 2025', color: 'from-sky-400 to-blue-500' },
-  { name: 'Bạn P.A.T', school: 'THPT Gia Định', score: '965', subject: 'ĐGNL HCM 2025', color: 'from-emerald-400 to-green-500' },
-  { name: 'Bạn V.M.H', school: 'THPT Trần Đại Nghĩa', score: '952', subject: 'ĐGNL HCM 2025', color: 'from-violet-400 to-purple-500' },
-  { name: 'Bạn N.T.K', school: 'THPT Nguyễn Du', score: '930', subject: 'ĐGNL HCM 2025', color: 'from-cyan-400 to-teal-500' },
+  { name: 'Bạn N.M.A', school: 'THPT Lê Hồng Phong', score: '1052', subject: 'ĐGNL HCM 2026', color: 'from-amber-400 to-orange-500' },
+  { name: 'Bạn T.H.P', school: 'THPT Nguyễn Thượng Hiền', score: '1018', subject: 'ĐGNL HCM 2026', color: 'from-rose-400 to-pink-500' },
+  { name: 'Bạn L.K.D', school: 'THPT Bùi Thị Xuân', score: '987', subject: 'ĐGNL HCM 2026', color: 'from-sky-400 to-blue-500' },
+  { name: 'Bạn P.A.T', school: 'THPT Gia Định', score: '965', subject: 'ĐGNL HCM 2026', color: 'from-emerald-400 to-green-500' },
+  { name: 'Bạn V.M.H', school: 'THPT Trần Đại Nghĩa', score: '952', subject: 'ĐGNL HCM 2026', color: 'from-violet-400 to-purple-500' },
+  { name: 'Bạn N.T.K', school: 'THPT Nguyễn Du', score: '930', subject: 'ĐGNL HCM 2026', color: 'from-cyan-400 to-teal-500' },
 ];
 
 const TESTIMONIALS = [
   {
     name: 'Minh Anh',
-    role: 'Học viên Đợt 1 - 2025',
+    role: 'Học viên Đợt 1 - 2026',
     avatar: '👩‍🎓',
     rating: 5,
     text: 'Khóa học cực kỳ chi tiết, bài giảng dễ hiểu. Anh hỗ trợ tận tình kể cả lúc khuya. Em từ 700 lên 1052 điểm chỉ sau 3 tháng ôn cùng anh!',
@@ -260,13 +260,12 @@ export default function Landing() {
                       </div>
                     ))}
                   </div>
-                  <span>1000+ học viên</span>
+                  <span>500+ học viên</span>
                 </div>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <HiOutlineStar key={i} className="h-4 w-4 text-yellow-300 fill-yellow-300" />
                   ))}
-                  <span className="ml-1">4.9/5</span>
                 </div>
               </div>
             </div>
@@ -281,8 +280,8 @@ export default function Landing() {
                     <div className="flex items-center gap-2">
                       <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-white text-lg font-bold">📊</div>
                       <div>
-                        <div className="text-sm font-bold text-gray-900 dark:text-white">Kết quả ĐGNL 2025</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Học viên khóa Đợt 1</div>
+                        <div className="text-sm font-bold text-gray-900 dark:text-white">Kết quả ĐGNL 2026</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Học viên khóa ĐGNL năm 2026</div>
                       </div>
                     </div>
                     <span className="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-[10px] font-bold">LIVE</span>
@@ -337,7 +336,7 @@ export default function Landing() {
                     <div className="w-9 h-9 rounded-full bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center text-lg">🏆</div>
                     <div>
                       <div className="text-xs font-bold text-gray-900 dark:text-white">Top 1% ĐGNL</div>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-400">2025</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">2026</div>
                     </div>
                   </div>
                 </div>
@@ -540,11 +539,11 @@ export default function Landing() {
               🏆 KẾT QUẢ HỌC VIÊN
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              Học viên của chúng tôi đạt điểm cao
+              Bảng vinh danh học viên
             </h2>
             <p className="mt-3 text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-              Hàng trăm học viên đã đạt mức điểm{' '}
-              <strong className="text-primary-600 dark:text-primary-400">900+</strong> và đậu vào các trường đại học top đầu Việt Nam.
+              Nhiều học viên đã đạt mức điểm{' '}
+              <strong className="text-primary-600 dark:text-primary-400">900+</strong> và đậu vào các trường đại học top đầu.
             </p>
           </Reveal>
 
@@ -618,10 +617,6 @@ export default function Landing() {
 
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-4 py-3 border border-gray-100 dark:border-slate-700 flex items-center gap-3 whitespace-nowrap animate-float-slow">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white text-lg">🇩🇪</div>
-                  <div>
-                    <div className="text-xs font-bold text-gray-900 dark:text-white">Master AI in Germany</div>
-                    <div className="text-[10px] text-gray-500 dark:text-gray-400">Học bổng toàn phần</div>
-                  </div>
                 </div>
               </div>
             </Reveal>
@@ -640,7 +635,7 @@ export default function Landing() {
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                   Anh là <strong>cử nhân Đại học Bách Khoa TP.HCM</strong>, hiện đang theo học chương trình{' '}
-                  <strong>Thạc sĩ Applied Artificial Intelligence tại Đức</strong> với học bổng toàn phần.
+                  <strong>Applied Artificial Intelligence tại Đức</strong> với học bổng toàn phần.
                   Với hơn <strong>6 năm kinh nghiệm</strong> giảng dạy ĐGNL HCM, anh đã đồng hành cùng{' '}
                   hàng nghìn học sinh đạt mức điểm 900+ và đậu vào các trường top đầu.
                 </p>
@@ -684,7 +679,7 @@ export default function Landing() {
               Học viên nói gì về khóa học?
             </h2>
             <p className="mt-3 text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-              Cảm nhận thật từ các bạn đã đồng hành cùng ĐGNL Mỗi Ngày.
+              Chia sẻ từ các bạn học viên đã đồng hành cùng khóa ĐGNL Mỗi Ngày.
             </p>
           </Reveal>
 
@@ -789,7 +784,7 @@ export default function Landing() {
               <div className="relative">
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Học phí trọn khóa</p>
                 <p className="text-5xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-indigo-600">
-                  599,000
+                  699,000
                   <span className="text-xl font-normal text-gray-500 dark:text-gray-400 ml-1">VNĐ</span>
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 mb-6">
@@ -806,8 +801,8 @@ export default function Landing() {
                 </Link>
 
                 <div className="flex items-center justify-center gap-4 mt-6 text-xs text-gray-500 dark:text-gray-400">
-                  <span className="flex items-center gap-1"><HiOutlineShieldCheck className="h-4 w-4 text-green-500" /> Bảo mật thanh toán</span>
-                  <span className="flex items-center gap-1"><HiOutlineCheckCircle className="h-4 w-4 text-green-500" /> Kích hoạt tức thì</span>
+                  <span className="flex items-center gap-1"><HiOutlineShieldCheck className="h-4 w-4 text-green-500" /> Đăng ký một lần</span>
+                  <span className="flex items-center gap-1"><HiOutlineCheckCircle className="h-4 w-4 text-green-500" /> Học ngay lập tức</span>
                 </div>
               </div>
             </div>

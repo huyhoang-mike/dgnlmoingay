@@ -101,10 +101,9 @@ const BENEFITS = [
 ];
 
 const GUARANTEES = [
-  { icon: HiOutlineShieldCheck, label: 'Thanh toán bảo mật qua SePay' },
-  { icon: HiOutlineCheckCircle, label: 'Tự động kích hoạt khi nhận tiền' },
-  { icon: HiOutlineRefresh, label: 'Hoàn tiền nếu hệ thống lỗi không truy cập được' },
-  { icon: HiOutlineStar, label: 'Đánh giá 4.9/5 từ học viên Đợt 1' },
+  { icon: HiOutlineCheckCircle, label: 'Tự động kích hoạt' },
+  { icon: HiOutlineRefresh, label: 'Hỗ trợ nếu gặp trục trặc' },
+  { icon: HiOutlineStar, label: 'Đánh giá tích cực từ học viên' },
 ];
 
 const STATUS_META = {
@@ -360,7 +359,7 @@ export default function Register() {
             Đăng ký khóa học ĐGNL
           </h1>
           <p className="text-lg text-white/85 max-w-xl mx-auto">
-            Trọn bộ lộ trình ôn ĐGNL chỉ với <strong className="text-yellow-300">599,000đ</strong> —
+            Trọn bộ lộ trình ôn ĐGNL chỉ với <strong className="text-yellow-300">699,000đ</strong> —
             truy cập trọn đời, hỗ trợ 1-1, đảm bảo hài lòng.
           </p>
 
@@ -427,7 +426,7 @@ export default function Register() {
                     So sánh: Học trung tâm offline 8-15 triệu / khóa ĐGNL
                   </p>
                   <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">
-                    Tại đây bạn nhận tất cả với <strong>599,000đ</strong> — tiết kiệm hơn <strong>90%</strong> mà nội dung không thua kém.
+                    Tại đây bạn nhận tất cả với <strong>699,000đ</strong> — tiết kiệm hơn <strong>90%</strong> mà nội dung không thua kém.
                   </p>
                 </div>
               </div>
