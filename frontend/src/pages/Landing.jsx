@@ -129,7 +129,7 @@ const TRUST_LOGOS = [
 
 const SHOW_STUDENT_RESULTS_SECTION = false;
 const SHOW_TESTIMONIALS_SECTION = false;
-const SHOW_HERO_PREVIEW_CARD = false;
+const SHOW_HERO_PREVIEW = false;
 
 /* ── Helpers ──────────────────────────────── */
 
@@ -276,75 +276,73 @@ export default function Landing() {
 
             {/* Right: floating preview card */}
             <div className="lg:col-span-5 relative animate-fade-up animation-delay-200">
+              {SHOW_HERO_PREVIEW && (
               <div className="relative max-w-md mx-auto">
                 <div className="absolute -inset-4 bg-gradient-to-r from-yellow-300/40 via-orange-300/40 to-pink-300/40 rounded-3xl blur-2xl" />
 
-                {SHOW_HERO_PREVIEW_CARD && (
-                <div>
-                  <div className="relative bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/30">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-white text-lg font-bold">📊</div>
-                        <div>
-                          <div className="text-sm font-bold text-gray-900 dark:text-white">Kết quả ĐGNL 2026</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Học viên khóa ĐGNL năm 2026</div>
-                        </div>
-                      </div>
-                      <span className="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-[10px] font-bold">LIVE</span>
-                    </div>
-
-                    <div className="space-y-3">
-                      {[
-                        { label: 'Bạn N.M.A', score: 1052, w: '98%', clr: 'from-amber-400 to-orange-500' },
-                        { label: 'Bạn T.H.P', score: 1018, w: '94%', clr: 'from-rose-400 to-pink-500' },
-                        { label: 'Bạn L.K.D', score: 987,  w: '90%', clr: 'from-sky-400 to-blue-500' },
-                        { label: 'Bạn P.A.T', score: 965,  w: '88%', clr: 'from-emerald-400 to-green-500' },
-                      ].map((r, i) => (
-                        <div key={i}>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="font-medium text-gray-700 dark:text-gray-300">{r.label}</span>
-                            <span className="font-bold text-gray-900 dark:text-white">{r.score}</span>
-                          </div>
-                          <div className="h-2 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden">
-                            <div
-                              className={`h-full bg-gradient-to-r ${r.clr} rounded-full transition-all duration-1000`}
-                              style={{ width: r.w }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-5 p-3 rounded-xl bg-gradient-to-r from-primary-50 to-indigo-50 dark:from-primary-900/30 dark:to-indigo-900/30 border border-primary-100 dark:border-primary-800">
-                      <div className="flex items-center gap-2 text-xs text-primary-700 dark:text-primary-300">
-                        <HiOutlineSparkles className="h-4 w-4" />
-                        <span className="font-semibold">Học viên trung bình tăng +180 điểm sau khóa học</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Floating badge 1 */}
-                  <div className="absolute -top-4 -left-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-3 border border-gray-100 dark:border-slate-700 animate-float-slow">
+                <div className="relative bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl p-6 shadow-2xl border border-white/30">
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-9 h-9 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
-                        <HiOutlineCheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Floating badge 2 */}
-                  <div className="absolute -bottom-4 -right-4 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-3 border border-gray-100 dark:border-slate-700 animate-float-slower">
-                    <div className="flex items-center gap-2">
-                      <div className="w-9 h-9 rounded-full bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center text-lg">🏆</div>
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center text-white text-lg font-bold">📊</div>
                       <div>
-                        <div className="text-xs font-bold text-gray-900 dark:text-white">Top 1% ĐGNL</div>
-                        <div className="text-[10px] text-gray-500 dark:text-gray-400">2026</div>
+                        <div className="text-sm font-bold text-gray-900 dark:text-white">Kết quả ĐGNL 2026</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Học viên khóa ĐGNL năm 2026</div>
                       </div>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-[10px] font-bold">LIVE</span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      { label: 'Bạn N.M.A', score: 1052, w: '98%', clr: 'from-amber-400 to-orange-500' },
+                      { label: 'Bạn T.H.P', score: 1018, w: '94%', clr: 'from-rose-400 to-pink-500' },
+                      { label: 'Bạn L.K.D', score: 987,  w: '90%', clr: 'from-sky-400 to-blue-500' },
+                      { label: 'Bạn P.A.T', score: 965,  w: '88%', clr: 'from-emerald-400 to-green-500' },
+                    ].map((r, i) => (
+                      <div key={i}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="font-medium text-gray-700 dark:text-gray-300">{r.label}</span>
+                          <span className="font-bold text-gray-900 dark:text-white">{r.score}</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden">
+                          <div
+                            className={`h-full bg-gradient-to-r ${r.clr} rounded-full transition-all duration-1000`}
+                            style={{ width: r.w }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-5 p-3 rounded-xl bg-gradient-to-r from-primary-50 to-indigo-50 dark:from-primary-900/30 dark:to-indigo-900/30 border border-primary-100 dark:border-primary-800">
+                    <div className="flex items-center gap-2 text-xs text-primary-700 dark:text-primary-300">
+                      <HiOutlineSparkles className="h-4 w-4" />
+                      <span className="font-semibold">Học viên trung bình tăng +180 điểm sau khóa học</span>
                     </div>
                   </div>
                 </div>
-                )}
+
+                {/* Floating badge 1 */}
+                <div className="absolute -top-4 -left-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-3 border border-gray-100 dark:border-slate-700 animate-float-slow">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
+                      <HiOutlineCheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating badge 2 */}
+                <div className="absolute -bottom-4 -right-4 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-3 border border-gray-100 dark:border-slate-700 animate-float-slower">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-full bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center text-lg">🏆</div>
+                    <div>
+                      <div className="text-xs font-bold text-gray-900 dark:text-white">Top 1% ĐGNL</div>
+                      <div className="text-[10px] text-gray-500 dark:text-gray-400">2026</div>
+                    </div>
+                  </div>
+                </div>
               </div>
+              )}
             </div>
           </div>
         </div>
