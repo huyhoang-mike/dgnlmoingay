@@ -34,3 +34,6 @@ docs/note.md
 
 # Nginx
 nginx/ssl/
+
+# Logs
+logs/
