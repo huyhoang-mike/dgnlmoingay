@@ -181,7 +181,7 @@ Cấu hình trong file `.env`:
 PAYMENT_PROVIDER=sepay
 PAYMENT_ORDER_PREFIX=DGNL
 PAYMENT_ORDER_EXPIRY_MINUTES=60
-COURSE_PRICE_VND=599000
+COURSE_PRICE_VND=699000
 
 SEPAY_WEBHOOK_HEADER=x-sepay-token
 SEPAY_WEBHOOK_SECRET=CHANGE_ME_SEPAY_WEBHOOK_SECRET
@@ -241,7 +241,7 @@ Authorization: Apikey <SEPAY_WEBHOOK_SECRET>
 ```json
 {
    "content": "DK DGNL260420120000ABCD",
-   "amount": 599000,
+   "amount": 699000,
    "transactionId": "SPY_123456"
 }
 ```
@@ -308,7 +308,7 @@ curl -X POST https://dgnlmoingay.com/api/payments/sepay/webhook \
    -H "Authorization: Apikey <SEPAY_WEBHOOK_SECRET>" \
    -d '{
       "content": "DK DGNL260420120000ABCD",
-      "amount": 599000,
+      "amount": 699000,
       "transactionId": "TXN_TEST_PROD_001"
    }'
 ```
@@ -370,7 +370,7 @@ curl -X POST http://localhost/api/payments/sepay/webhook \
   -H "x-sepay-token: <SEPAY_WEBHOOK_SECRET>" \
   -d '{
     "content": "DK DGNL260420120000ABCD",
-    "amount": 599000,
+    "amount": 699000,
     "transactionId": "TXN_TEST_001"
   }'
 ```

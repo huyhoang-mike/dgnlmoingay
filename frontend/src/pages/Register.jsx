@@ -155,7 +155,7 @@ const DEFAULT_BANK_INFO = {
   bank_name: 'TP BANK',
   bank_account_number: '04351047435',
   bank_account_name: 'NGUYEN HUY HOANG',
-  expected_amount: 599000,
+  expected_amount: 699000,
 };
 
 const POLL_INTERVAL_MS = 6000;

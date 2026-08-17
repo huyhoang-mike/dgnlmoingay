@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     PAYMENT_PROVIDER: str = "sepay"
     PAYMENT_ORDER_PREFIX: str = "DGNL"
     PAYMENT_ORDER_EXPIRY_MINUTES: int = 60
-    COURSE_PRICE_VND: int = 599000
+    COURSE_PRICE_VND: int = 699000
     SEPAY_WEBHOOK_SECRET: str = ""
     SEPAY_WEBHOOK_HEADER: str = "x-sepay-token"
 
