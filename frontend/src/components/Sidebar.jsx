@@ -34,14 +34,11 @@ export default function Sidebar() {
       {/* Logo / Brand */}
       <div className="px-6 py-5 border-b border-gray-100 dark:border-slate-700">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700
-                          flex items-center justify-center shadow-md">
-            <img
-              src="/favicon.svg"
-              alt="ĐGNL Mỗi Ngày"
-              className="h-6 w-6 brightness-0 invert"
-            />
-          </div>
+          <img
+            src="/favicon.svg"
+            alt="ĐGNL Mỗi Ngày"
+            className="h-10 w-10 rounded-xl shadow-md"
+          />
           <div>
             <h1 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">ĐGNL Mỗi Ngày</h1>
             <p className="text-xs text-gray-400 dark:text-gray-500">Học mỗi ngày, tiến mỗi ngày</p>

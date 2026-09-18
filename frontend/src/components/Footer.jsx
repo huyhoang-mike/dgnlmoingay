@@ -19,13 +19,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-md">
-                <img
-                  src="/favicon.svg"
-                  alt="ĐGNL Mỗi Ngày"
-                  className="h-5 w-5 brightness-0 invert"
-                />
-              </div>
+              <img
+                src="/favicon.svg"
+                alt="ĐGNL Mỗi Ngày"
+                className="h-9 w-9 rounded-xl shadow-md"
+              />
               <span className="text-lg font-bold text-gray-900 dark:text-white">
                 ĐGNL Mỗi Ngày
               </span>
