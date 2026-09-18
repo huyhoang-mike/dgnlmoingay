@@ -789,7 +789,7 @@ export default function Landing() {
               <div className="relative">
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Học phí trọn khóa</p>
                 <p className="text-5xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-indigo-600">
-                  699,000
+                  599,000
                   <span className="text-xl font-normal text-gray-500 dark:text-gray-400 ml-1">VNĐ</span>
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 mb-6">
