@@ -19,4 +19,5 @@ jobs:
             cd dgnlmoingay/
             git pull origin main
             docker compose up --build -d
+            docker compose restart nginx
             docker image prune -f
