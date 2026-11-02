@@ -157,4 +157,4 @@ Sau khi đăng nhập admin → Click avatar → **Quản lý học viên** (ho�
 ---
 
 ## 📝 License
-MIT
+Mọi quyền được bảo lưu. Xem [LICENSE](LICENSE).
