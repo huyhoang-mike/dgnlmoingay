@@ -49,7 +49,7 @@ sequenceDiagram
 - **Vai trò**: Giống như danh bạ điện thoại của Internet. Nó dịch tên miền (dễ nhớ cho người) thành địa chỉ IP (dễ hiểu cho máy).
 - **Nameservers**: Khi bạn mua domain ở TinoHost, bạn phải "chỉ" nó vào nameserver của Cloudflare. Hành động này có nghĩa là: "Kể từ giờ, mọi thông tin về domain này, hãy hỏi Cloudflare".
 - **DNS Records (tại Cloudflare)**:
-  - **`A` record**: Trỏ một tên miền (vd: `dgnlmoingay.com`) đến một địa chỉ IPv4 (vd: `178.104.169.255`).
+  - **`A` record**: Trỏ một tên miền (vd: `example.com`) đến một địa chỉ IPv4 (vd: `203.0.113.10`).
   - **Proxy Status (Đám mây màu cam)**: Đây là tính năng cốt lõi của Cloudflare. Khi bật, Cloudflare sẽ "che" đi IP thật của bạn. Người dùng sẽ thấy IP của Cloudflare, không phải IP của VPS.
 
 ### b. Cloudflare
