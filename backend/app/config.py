@@ -38,8 +38,8 @@ class Settings(BaseSettings):
     BANK_ACCOUNT_NAME: str = "NGUYEN HUY HOANG"
 
     # Post-payment links
-    COURSE_ZALO_GROUP_URL: str = ""
-    COURSE_YOUTUBE_GUIDE_URL: str = ""
+    COURSE_ZALO_GROUP_URL: str = "https://zalo.me/g/zkgnfw9s85asjxbts9r3"
+    COURSE_YOUTUBE_GUIDE_URL: str = "https://www.youtube.com/watch?v=x6CtM5kEecY"
     SUPPORT_ZALO_URL: str = "https://zalo.me/0355912940"
 
     # CORS
