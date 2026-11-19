@@ -53,7 +53,7 @@ const BENEFITS = [
 ];
 
 const STATS = [
-  { value: '900+', label: 'Điểm cao nhất của học viên', icon: HiOutlineTrendingUp },
+  { value: '1000+', label: 'Điểm cao nhất của học viên', icon: HiOutlineTrendingUp },
   { value: '7+', label: 'Năm kinh nghiệm giảng dạy', icon: HiOutlineAcademicCap },
   { value: '500+', label: 'Học viên đã đồng hành', icon: HiOutlineUserGroup },
   { value: '100+', label: 'Đề thi thử & tài liệu', icon: HiOutlineDocumentText },
@@ -604,7 +604,7 @@ export default function Landing() {
 
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-700 bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-900 dark:to-indigo-900 aspect-[3/4]">
                   <img
-                    src="/teacher.jpg"
+                    src="/teacher.png"
                     alt="Giảng viên ĐGNL Mỗi Ngày"
                     className="w-full h-full object-cover"
                     onError={(e) => {
