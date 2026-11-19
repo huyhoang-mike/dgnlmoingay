@@ -54,7 +54,7 @@ const BENEFITS = [
 
 const STATS = [
   { value: '900+', label: 'Điểm cao nhất của học viên', icon: HiOutlineTrendingUp },
-  { value: '6+', label: 'Năm kinh nghiệm giảng dạy', icon: HiOutlineAcademicCap },
+  { value: '7+', label: 'Năm kinh nghiệm giảng dạy', icon: HiOutlineAcademicCap },
   { value: '500+', label: 'Học viên đã đồng hành', icon: HiOutlineUserGroup },
   { value: '100+', label: 'Đề thi thử & tài liệu', icon: HiOutlineDocumentText },
 ];
@@ -119,12 +119,12 @@ const TEACHER_ACHIEVEMENTS = [
   { icon: '💯', title: '10 điểm Tiếng Anh THPTQG', desc: 'Kỳ thi tốt nghiệp THPT' },
   { icon: '🏆', title: 'Học sinh giỏi môn Toán', desc: 'Cấp thành phố TP.HCM' },
   { icon: '⭐', title: '6+ năm giảng dạy ĐGNL', desc: 'Đồng hành cùng hàng nghìn học sinh' },
-  { icon: '📈', title: 'Học viên đạt điểm cao 900+', desc: 'Đậu BK, Y Dược, KHTN, Ngoại Thương...' },
+  { icon: '📈', title: 'Học viên đạt điểm cao 900+', desc: 'Đậu Bách Khoa, Y Dược, Khoa học Tự nhiên, Ngoại Thương...' },
 ];
 
 const TRUST_LOGOS = [
   'Đại học Bách Khoa', 'Y Dược TP.HCM', 'Kinh tế TP.HCM', 'Ngoại Thương',
-  'KHTN', 'Sư phạm Kỹ thuật', 'Tài chính - Marketing', 'Công nghệ Thông tin',
+  'Khoa học Tự nhiên', 'Sư phạm Kỹ thuật', 'Tài chính - Marketing', 'Công nghệ Thông tin',
 ];
 
 const SHOW_STUDENT_RESULTS_SECTION = false;
@@ -206,7 +206,7 @@ export default function Landing() {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 animate-pulse-ring" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
                 </span>
-                Đang mở đăng ký khóa ĐGNL V-ACT 2026 - Đợt 2
+                Đang mở đăng ký khóa ĐGNL V-ACT 2027 cho 2K9
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05] tracking-tight">
@@ -225,14 +225,14 @@ export default function Landing() {
                     </defs>
                   </svg>
                 </span>{' '}
-                2026
+                2027
               </h1>
 
               <p className="mt-6 text-lg sm:text-xl text-white/85 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                 Lộ trình toàn diện qua 2 giai đoạn:{' '}
                 <strong className="text-white">Nền tảng</strong> &{' '}
                 <strong className="text-white">Luyện đề</strong>. Hơn{' '}
-                <strong className="text-white">1000 học viên</strong> đã đồng hành và đạt kết quả vượt mong đợi.
+                <strong className="text-white">500 học viên</strong> đã tham gia khóa học qua các năm và cải thiện điểm số rõ rệt.
               </p>
 
               <div className="mt-10 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4">
@@ -456,7 +456,7 @@ export default function Landing() {
                   Luyện tập với kho 100+ đề thi thử chuẩn cấu trúc, quản lý thời gian, kiểm tra lỗ hổng kiến thức. Mỗi đề sẽ đi kèm hướng dẫn giải dễ hiểu và video giải thích chi tiết.
                 </p>
                 <ul className="space-y-2">
-                  {['Đề chính thức và minh học ĐHQG-HCM các năm', '100+ đề theo cấu trúc mới 2026', 'Ebook luyện đề bổ trợ'].map((item) => (
+                  {['Đề chính thức và minh học ĐHQG-HCM các năm', '100+ đề theo cấu trúc mới 2027', 'Ebook luyện đề bổ trợ'].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
                       <HiOutlineCheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
                       {item}
@@ -639,7 +639,7 @@ export default function Landing() {
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                   Anh là <strong>cử nhân Đại học Bách Khoa TP.HCM</strong>, hiện đang theo học chương trình{' '}
                   <strong>Applied Artificial Intelligence tại Đức</strong> với học bổng toàn phần.
-                  Với hơn <strong>6 năm kinh nghiệm</strong> giảng dạy ĐGNL HCM, anh đã đồng hành cùng{' '}
+                  Với hơn <strong>7 năm kinh nghiệm</strong> giảng dạy ĐGNL HCM, anh đã đồng hành cùng{' '}
                   hàng nghìn học sinh đạt mức điểm 900+ và đậu vào các trường top đầu.
                 </p>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
