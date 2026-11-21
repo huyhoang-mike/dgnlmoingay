@@ -74,7 +74,7 @@ export const courseSchema = () => ({
   },
   offers: {
     '@type': 'Offer',
-    price: '699000',
+    price: '599000',
     priceCurrency: 'VND',
     availability: 'https://schema.org/InStock',
     url: `${SITE_URL}/dang-ky`,
